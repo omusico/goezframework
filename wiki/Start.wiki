@@ -1,8 +1,8 @@
 #介紹如何開始使用 GoEz Framewrok
 
-= 開始使用 GoEz Framework =
+= 開始使用 !GoEz Framework =
 
-GoEz Framework 主要是 MVC 架構，所以入門也相當容易。
+!GoEz Framework 主要是 MVC 架構，所以入門也相當容易。
 
 == 系統需求 ==
 
@@ -19,18 +19,32 @@ GoEz Framework 主要是 MVC 架構，所以入門也相當容易。
 
 例如：
 
+{{{
 http://localhost/goez
+}}}
 
 當然，你可以把 goez 改成你的專案名稱。
 
 == 從修改程式開始 ==
 
-程式：
+如何修改預設的首頁呢？可以分成以下四個部份：
 
-# 打開 /goez/lib/My/IndexController.php ，
-# 修改 indexAction() 的內容。
+=== 程式 ===
 
-樣版
+ # 打開 "/goez/lib/My/!IndexController.php" ，
+ # 修改 indexAction() 的內容。
 
-# 打開 /goez/tpl/template.tpl.htm ，
-# 修改 <body>...</body> 之間的內容。
+=== 樣版 ===
+
+ # 打開 "/goez/tpl/template.tpl.htm" ，
+ # 修改 <body>...</body> 之間的內容。
+
+=== JavaScript ===
+
+ # 打開 "/goez/pub/js/default.js" ，
+ # 修改內容。
+
+=== CSS ===
+
+ # 打開 "/goez/pub/css/style.js" ，
+ # 修改內容。
