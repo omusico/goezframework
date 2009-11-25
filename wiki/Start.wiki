@@ -6,12 +6,14 @@
 
 == 系統需求 ==
 
-* Apache + mod_rewrite
-* PHP 5.2 以上版本
+ * Apache + mod_rewrite
+ * PHP 5.2 以上版本
 
 == 下載 ==
 
+在 [http://code.google.com/p/goezframework/downloads/list 下載頁]，下載最新的版本。
 
+然後在網站根目錄解開，這時會得到一個 goez 資料夾，這就是我們需要的所有程式碼。
 
 == 安裝 ==
 
@@ -48,3 +50,12 @@ http://localhost/goez
 
  # 打開 "/goez/pub/css/style.js" ，
  # 修改內容。
+
+== 資料夾結構說明 ==
+|| *目錄名稱* || *存放內容* ||
+|| doc || 說明檔案 ||
+|| etc || 設定檔 ||
+|| lib || 類別或套件 ||
+|| pub || 公開資源，例如 JavaScript, CSS 等 ||
+|| tpl || 樣版 ||
+|| tpl_c || Smarty 編譯後的樣版 ||
