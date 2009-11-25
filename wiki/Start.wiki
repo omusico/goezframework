@@ -1,11 +1,13 @@
-#summary One-sentence summary of this page.
+#介紹如何開始使用 GoEz Framewrok
 
 = 開始使用 GoEz Framework =
 
+GoEz Framework 主要是 MVC 架構，所以入門也相當容易。
 
 == 系統需求 ==
 
-
+* Apache + mod_rewrite
+* PHP 5.2 以上版本
 
 == 下載 ==
 
@@ -13,6 +15,22 @@
 
 == 安裝 ==
 
+將取出後的檔案放在網站根目錄即可開始使用。
 
+例如：
+
+http://localhost/goez
+
+當然，你可以把 goez 改成你的專案名稱。
 
 == 從修改程式開始 ==
+
+程式：
+
+# 打開 /goez/lib/My/IndexController.php ，
+# 修改 indexAction() 的內容。
+
+樣版
+
+# 打開 /goez/tpl/template.tpl.htm ，
+# 修改 <body>...</body> 之間的內容。
