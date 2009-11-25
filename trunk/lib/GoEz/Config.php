@@ -52,6 +52,7 @@ class GoEz_Config
      * @param string $key
      * @param string $value
      * @return array
+     * @throws Excetion
      */
     protected function _processKey($config, $key, $value)
     {
