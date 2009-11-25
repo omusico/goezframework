@@ -1,34 +1,1 @@
-<?php
-/**
- * 預設的路由器
- *
- */
-class GoEz_Router
-{
-    /**
-     * 預設的動作
-     *
-     * @var string
-     */
-    protected $_action = 'index';
-
-    /**
-     * 在建構函式中解析 GET 變數
-     *
-     */
-    public function __construct()
-    {
-        $this->_action = isset($_GET['act']) ? strtolower(trim(strip_tags($_GET['act']))) : 'index';
-    }
-
-    /**
-     * 取得解析後的動作名稱
-     *
-     * @return string
-     */
-    public function getAction()
-    {
-        return $this->_action;
-    }
-
-}
+<?php/** * 預設的路由器 * */class GoEz_Router{    /**     * 預設的控制器     *     * @var string     */    protected $_controller = 'index';    /**     * 預設的動作     *     * @var string     */    protected $_action = 'index';    /**     * 在建構函式中解析 GET 變數     *     */    public function __construct()    {        $this->_parseUrl();    }    /**     * 解析網址     *     */    protected function _parseUrl()    {        $this->_controller = $this->_getQuery('controller', 'index');        $this->_action = $this->_getQuery('action', 'index');    }    /**     * 取得 Query 參數值     *     * @param string $name     * @param string $default     * @return string     */    private function _getQuery($name, $default)    {        return isset($_GET[$name]) ? strtolower(trim(strip_tags($_GET[$name]))) : $default;    }    /**     * 取得解析後的控制器名稱     *     */    public function getController()    {        return $this->_controller;    }    /**     * 取得解析後的動作名稱     *     * @return string     */    public function getAction()    {        return $this->_action;    }}
