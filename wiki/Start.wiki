@@ -1,4 +1,4 @@
-#介紹如何開始使用 GoEz Framewrok
+#介紹如何開始使用 !GoEz Framewrok
 
 = 開始使用 !GoEz Framework =
 
@@ -25,7 +25,7 @@ http://localhost/goez
 
 當然，你可以把 goez 改成你的專案名稱。
 
-== 從修改程式開始 ==
+== 從修改首頁開始 ==
 
 如何修改預設的首頁呢？可以分成以下四個部份：
 
