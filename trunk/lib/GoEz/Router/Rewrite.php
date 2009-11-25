@@ -30,7 +30,7 @@ class GoEz_Router_Rewrite extends GoEz_Router
 	protected function _parseUrl()
 	{
         $baseDir = basename(APP_ROOT_PATH);
-        $currDir = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
+        $currDir = str_replace('index.php', '', $_SERVER['REQUEST_URI']);
         $pattern = '/^\/' . $baseDir . '\/*(.*)$/';
         preg_match($pattern, $currDir, $matches);
         $tickets = isset($matches[1]) ? explode('/', $matches[1]) : array ('', '');
