@@ -35,6 +35,6 @@ class GoEz_Router_Rewrite extends GoEz_Router
         preg_match($pattern, $currDir, $matches);
         $tickets = isset($matches[1]) ? explode('/', $matches[1]) : array ('', '');
         $this->_controller = ($tickets[0]) ? strtolower($tickets[0]) : 'index';
-        $this->_action = isset($tickets[1]) ? strtolower($tickets[1]) : 'index';
+        $this->_action = (isset($tickets[1]) && $tickets[1]) ? strtolower($tickets[1]) : 'index';
     }
 }
