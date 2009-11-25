@@ -221,9 +221,9 @@ var $frontendVars = <% $frontendVars|@json_encode %>;
 <% if count($messageList) %>
 <% foreach from=$messageList item=message %>
 <div class="messageBlock">
-<h2><% $message.title %></h2>
+<h2><% $message.title|htmlspecialchars %></h2>
 <p><% $message.body|htmlspecialchars|nl2br %></p>
-<p class="messageBlockFunctions">By <% $message.author %></p>
+<p class="messageBlockFunctions">By <% $message.author|htmlspecialchars %></p>
 </div>
 <% /foreach %>
 <% else %>
