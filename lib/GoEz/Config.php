@@ -1,12 +1,24 @@
 <?php
 /**
- * Ini 設定
+ * GoEz
  *
+ * @package    GoEz
+ * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
+ * @license    New BSD License
+ * @version    $Id$
+ */
+
+/**
+ * Ini 設定類別
+ *
+ * @package    GoEz
+ * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
+ * @license    New BSD License
  */
 class GoEz_Config
 {
     /**
-     * 設定
+     * 存放設定的陣列
      *
      * @var array
      */
@@ -15,7 +27,10 @@ class GoEz_Config
     /**
      * 解析
      *
-     * @param string $configFile
+     * 使用 PHP 原生的 parse_ini_file 來解析 INI 檔，
+     * 並且再做一些特別的處理
+     *
+     * @param string $configFile 外部檔案路徑
      */
     public function __construct($configFile)
     {
@@ -47,6 +62,22 @@ class GoEz_Config
 
     /**
      * 處理每個設定
+     *
+     * 將：
+     *
+     * <code>
+     * xxx.yyy = 123
+     * xxx.zzz = 456
+     * </code>
+     *
+     * 轉換為：
+     *
+     * <code>
+     * [xxx] => array(
+     *     [yyy] => 123,
+     *     [zzz] => 456,
+     * );
+     * </code>
      *
      * @param array $config
      * @param string $key
@@ -81,6 +112,8 @@ class GoEz_Config
 
     /**
      * 處理繼承關係
+     *
+     * 解析 [xxx : yyy] 的繼承關係
      *
      * @param array $oldConfig
      * @return array
