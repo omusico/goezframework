@@ -2,7 +2,7 @@
 
 = 建立一個留言板 =
 
-接下來，我們用一個簡易留言板來展示 GoEz Framework 的基本功能。
+接下來，我們用一個簡易留言板來展示 !GoEz Framework 的基本功能。
 
 == 資料表 ==
 
@@ -353,3 +353,7 @@ http://localhost/goez/sample
 }}}
 
 即可看到成果。
+
+== 下載 ==
+
+你也可以[http://goezframework.googlecode.com/files/guestbook_sample.zip 直接下載]，解開後覆蓋即可。
