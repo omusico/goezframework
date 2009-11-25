@@ -1,4 +1,4 @@
-#summary 介紹如何開始使用 !GoEz Framework
+#summary 介紹如何開始使用 GoEz Framework
 
 = 開始使用 !GoEz Framework =
 
