@@ -87,7 +87,8 @@ class GoEz_Request
      */
     public function isAjax()
     {
-        return (bool) ('XMLHttpRequest' == $_SERVER['HTTP_X_REQUESTED_WITH']);
+        $flag = isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? $_SERVER['HTTP_X_REQUESTED_WITH'] : false;
+        return (bool) ('XMLHttpRequest' == $flag);
     }
 
     /**
