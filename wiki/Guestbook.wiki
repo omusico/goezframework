@@ -3,3 +3,353 @@
 = 建立一個留言板 =
 
 接下來，我們用一個簡易留言板來展示 GoEz Framework 的基本功能。
+
+== 資料表 ==
+
+請在資料庫中執行以下 SQL 語法：
+
+{{{
+CREATE DATABASE `guestbook` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `guestbook`;
+
+CREATE TABLE `posts` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT '自動編號',
+  `title` varchar(100) default NULL COMMENT '主題',
+  `author` varchar(100) default NULL COMMENT '作者',
+  `body` text COMMENT '內容',
+  `createDateTime` datetime default NULL COMMENT '建立時間',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+}}}
+
+== 設定檔 ==
+
+請在 /goez/etc/etc/config.ini 的 [production] 區段下，插入以下內容：
+
+{{{
+; 資料庫設定
+db.dsn = "mysql:dbname=guestbook;host=127.0.0.1"
+db.user = "www"
+db.pass = "123456"
+}}}
+
+當然請依照您本身的環境自行修改成正確值。
+
+== Controller ==
+
+請在 /goez/lib/My 之下建立一個 SampleController.php ，內容如下：
+
+{{{
+<?php
+/**
+ * 留言板
+ *
+ */
+class My_SampleController extends GoEz_Controller
+{
+    /**
+     * 留言板物件
+     *
+     * @var My_GuestBook
+     */
+    private $_guestBook = null;
+
+    /**
+     * 預先載入留言板
+     *
+     */
+    public function beforeDispatch()
+    {
+        $this->_guestBook = new My_GuestBook($this->_config['db']);
+    }
+
+    /**
+     * 留言板列表
+     *
+     */
+    public function indexAction()
+    {
+        $this->_view->messageList = $this->_guestBook->getAllMessages();
+        $this->_view->renderTemplate('list.tpl.htm');
+    }
+
+    public function addAction()
+    {
+        $error = false;
+        $message = '';
+
+        if ($this->_request->isPost()) {
+
+            $title  = $this->_request->getPost('title');
+            $author = $this->_request->getPost('author');
+            $body   = $this->_request->getPost('body');
+
+            if (!$error && !$title) {
+                $error = true;
+                $message = '請輸入主題';
+            }
+
+            if (!$error && !$author) {
+                $error = true;
+                $message = '請輸入張貼者';
+            }
+
+            if (!$error && !$body) {
+                $error = true;
+                $message = '請輸入內容';
+            }
+
+            if (!$error && !$this->_guestBook->addMessage($title, $author, $body)) {
+                $error = true;
+                $message = '無法寫入留言';
+            }
+
+            if (!$error) {
+                $this->redirect('/sample');
+            }
+
+            $this->_view->error = $error;
+            $this->_view->message = $message;
+        }
+
+        if ($this->_request->isAjax()) {
+            $this->_view->renderJson();
+        } else {
+            $this->_view->renderTemplate('add.tpl.htm');
+        }
+    }
+}
+}}}
+
+== Model ==
+
+請在 /goez/lib/My 之下建立一個 GuestBook.php ，內容如下：
+
+{{{
+<?php
+/**
+ * 留言版類別
+ *
+ */
+class My_Guestbook
+{
+    /**
+     * 資料庫連線物件
+     *
+     * @var PDO
+     */
+    private $_db = null;
+
+    /**
+     * 預先從檔案中取得所有留言
+     *
+     */
+    public function __construct($config)
+    {
+        $this->_db = new PDO($config['dsn'], $config['user'], $config['pass']);
+    }
+
+    /**
+     * 取得所有留言
+     *
+     * @return array
+     */
+    public function getAllMessages()
+    {
+        $sth = $this->_db->prepare('SELECT * FROM posts ORDER BY createDateTime DESC');
+        $sth->execute();
+        return $sth->fetchAll();
+    }
+
+    /**
+     * 新增留言
+     *
+     * @param string $title
+     * @param string $author
+     * @param string $body
+     */
+    public function addMessage($title, $author, $body)
+    {
+        $sth = $this->_db->prepare('INSERT INTO posts (title, author, body, createDateTime) VALUES (?, ?, ?, ?)');
+        return $sth->execute(array(
+            $title,
+            $author,
+            $body,
+            date('Y-m-d H:i:s'),
+        ));
+    }
+
+    /**
+     * 解構函式
+     *
+     */
+    public function __destruct()
+    {
+        $this->_db = null;
+    }
+}
+}}}
+
+== View ==
+
+請在 /goez/tpl 下建立 list.tpl.htm ，內容如下：
+
+{{{
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的留言板</title>
+<link rel="stylesheet" type="text/css" href="<% $frontendVars.baseUrl %>/pub/css/style.css" media="all" />
+<link rel="stylesheet" type="text/css" href="<% $frontendVars.baseUrl %>/pub/css/guestbook.css" media="all" />
+<script type="text/javascript">
+var $frontendVars = <% $frontendVars|@json_encode %>;
+</script>
+</head>
+
+<body>
+<div id="wrapper">
+<div id="header">
+<h1>我的留言板</h1>
+</div>
+<div id="functions">
+<ul>
+<li><a href="<% $frontendVars.baseUrl %>/sample/add">新增留言</a></li>
+</ul>
+</div>
+<div id="content">
+<% if count($messageList) %>
+<% foreach from=$messageList item=message %>
+<div class="messageBlock">
+<h2><% $message.title %></h2>
+<p><% $message.body|htmlspecialchars|nl2br %></p>
+<p class="messageBlockFunctions">By <% $message.author %></p>
+</div>
+<% /foreach %>
+<% else %>
+<p>沒有任何文章</p>
+<% /if %>
+</div>
+<div id="footer">
+<p>Powered by <a href="http://code.google.com/p/goezframework/" target="_blank">GoEz Framework</a></p>
+</div>
+</div>
+</body>
+</html>
+}}}
+
+請在 /goez/tpl 下建立 add.tpl.htm ，內容如下：
+
+{{{
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的留言板</title>
+<link rel="stylesheet" type="text/css" href="<% $frontendVars.baseUrl %>/pub/css/style.css" media="all" />
+<link rel="stylesheet" type="text/css" href="<% $frontendVars.baseUrl %>/pub/css/guestbook.css" media="all" />
+<script type="text/javascript">
+var $frontendVars = <% $frontendVars|@json_encode %>;
+</script>
+<script type="text/javascript" src="<% $frontendVars.baseUrl %>/pub/lib/jquery/latest.js"></script>
+<script type="text/javascript" src="<% $frontendVars.baseUrl %>/pub/lib/jquery/form.js"></script>
+<script type="text/javascript" src="<% $frontendVars.baseUrl %>/pub/lib/jquery/blockUI.js"></script>
+<script type="text/javascript" src="<% $frontendVars.baseUrl %>/pub/js/guestbook.js"></script>
+</head>
+
+<body>
+<div id="wrapper">
+<div id="header">
+<h1>我的留言板</h1>
+</div>
+<div id="functions">
+<ul>
+<li><a href="<% $frontendVars.baseUrl %>/sample">首頁</a></li>
+</ul>
+</div>
+<div id="content">
+<% if $error %><p class="error"><% $message %></p><% /if %>
+<form name="addForm" id="addForm" method="post" action="<% $frontendVars.baseUrl %>/sample/add">
+<h2>新增留言</h2>
+<p>
+<label for="title">標題</label>
+<input type="text" name="title" id="title" value="<% $smarty.post.title %>" />
+</p>
+<p>
+<label for="title">作者</label>
+<input type="text" name="author" id="author" value="<% $smarty.post.author %>" />
+</p>
+<p>
+<label for="title">內容</label>
+<textarea name="body" id="body" rows="10" cols="50"><% $smarty.post.body %></textarea>
+</p>
+<p><input type="submit" value="送出" /><label><input type="checkbox" id="useAjax" value="1" />使用 Ajax</label></p>
+</form>
+</div>
+<div id="footer">
+<p>Powered by <a href="http://code.google.com/p/goezframework/" target="_blank">GoEz Framework</a></p>
+</div>
+</div>
+</body>
+</html>
+}}}
+
+== CSS ==
+
+請在 /goez/pub/css 下，建立 guestbook.css ，內容如下：
+
+{{{
+p.error {
+padding:10px;
+color:#F33;
+background:#FCC;
+-moz-border-radius:10px;
+-webkit-border-radius:10px;
+}
+}}}
+
+== JavaScript ==
+
+請在 /goez/pub/js 下，建立 guestbook.js ，內容如下：
+
+{{{
+var useAjax = false;
+
+var showMessage = function (message) {
+    $('p.error').remove();
+    $error = $('<p class="error">' + message + '</p>');
+    $error.insertBefore('#addForm');
+};
+
+$(function () {
+    $('#useAjax').click(function () {
+        useAjax = $(this).attr('checked');
+    });
+
+    $('#addForm').submit(function () {
+        if (useAjax) {
+            $(this).ajaxSubmit({
+                success: function (json) {
+                    if (json.error) {
+                        showMessage(json.message);
+                    } else {
+                        location.href = $frontendVars.baseUrl + '/sample';
+                    }
+                },
+                dataType: 'json'
+            });
+        }
+        return !useAjax;
+    });
+});
+}}}
+
+== 測試 ==
+
+開始瀏覽器，輸入以下網址：
+
+{{{
+http://localhost/goez/sample
+}}}
+
+即可看到成果。
