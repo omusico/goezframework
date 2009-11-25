@@ -1,6 +1,5 @@
-#summary One-sentence summary of this page.
+#summary 從建立一個留言板來介紹如何使用 GoEz Framework
 
 = 建立一個留言板 =
 
 接下來，我們用一個簡易留言板來展示 GoEz Framework 的基本功能。
-
