@@ -1,7 +1,19 @@
 <?php
 /**
+ * GoEz
+ *
+ * @package    GoEz
+ * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
+ * @license    New BSD License
+ * @version    $Id$
+ */
+
+/**
  * 自動載入類別
  *
+ * @package    GoEz
+ * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
+ * @license    New BSD License
  */
 class GoEz_Loader
 {
@@ -14,6 +26,7 @@ class GoEz_Loader
     /**
      * 自動載入
      *
+     * 自動載入類別檔案
      */
     public function autoload()
     {
@@ -23,6 +36,8 @@ class GoEz_Loader
 
     /**
      * 載入類別
+     *
+     * 將類別名稱 Xx_Yyy_Zzz 轉為 Xx/Yyy/Zzz.php 後載入
      *
      * @param string $className
      * @throws Excetion
