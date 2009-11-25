@@ -71,46 +71,13 @@ class GoEz_Request
     }
 
     /**
-     * 取得 Http 標頭
-     *
-     * 改自 Zend_Controller_Request_Http 的 getHeader() 方法
-     *
-     * @param string $header Http 標頭名稱
-     * @return string|false Http 標頭值，找不到會回傳 false
-     * @throws Exception
-     */
-    public function getHeader($header)
-    {
-        if (empty($header)) {
-            throw new Exception('需要 HTTP 標頭名稱');
-        }
-
-        // Try to get it from the $_SERVER array first
-        $temp = 'HTTP_' . strtoupper(str_replace('-', '_', $header));
-        if (!empty($_SERVER[$temp])) {
-            return $_SERVER[$temp];
-        }
-
-        // This seems to be the only way to get the Authorization header on
-        // Apache
-        if (function_exists('apache_request_headers')) {
-            $headers = apache_request_headers();
-            if (!empty($headers[$header])) {
-                return $headers[$header];
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * 是否為 POST 要求
      *
      * @return bool
      */
-    public static function isPost()
+    public function isPost()
     {
-        return (bool) ('POST' == $this->getHeader('REQUEST_METHOD'));
+        return (bool) ('POST' == $_SERVER['REQUEST_METHOD']);
     }
 
     /**
@@ -118,9 +85,9 @@ class GoEz_Request
      *
      * @return bool
      */
-    public static function isAjax()
+    public function isAjax()
     {
-        return (bool) ('XMLHttpRequest' == $this->getHeader('X_REQUESTED_WITH'));
+        return (bool) ('XMLHttpRequest' == $_SERVER['HTTP_X_REQUESTED_WITH']);
     }
 
     /**
@@ -130,7 +97,7 @@ class GoEz_Request
      * @param bool $stripTags 設為 false 時會回傳原始的 POST 值，不會把 html tag 去掉
      * @return string
      */
-    public static function getPost($key, $stripTags = true)
+    public function getPost($key, $stripTags = true)
     {
         return isset($_POST[$key]) ? ($stripTags ? strip_tags(trim($_POST[$key])) : trim($_POST[$key])) : null;
     }
@@ -142,7 +109,7 @@ class GoEz_Request
      * @param bool $stripTags 設為 false 時會回傳原始的 POST 值，不會把 html tag 去掉
      * @return string
      */
-    public static function getQuery($key, $stripTags = true)
+    public function getQuery($key, $stripTags = true)
     {
         return isset($_GET[$key]) ? ($stripTags ? strip_tags(trim($_GET[$key])) : trim($_GET[$key])) : null;
     }

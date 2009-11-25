@@ -132,9 +132,12 @@ abstract class GoEz_Controller
      */
     public function redirect($url)
     {
-        if (!preg_match('/^[a-z]+?:\/\//i', $url)) {
-            $url = $this->_request->getBaseUrl() . '/' . ltrim($url, '/');
+        if (!$this->_request->isAjax()) {
+            if (!preg_match('/^[a-z]+?:\/\//i', $url)) {
+                $url = $this->_request->getBaseUrl() . '/' . ltrim($url, '/');
+            }
+            header('Location: ' . $url);
+            exit;
         }
-        header('Location: ' . $url);
     }
 }
