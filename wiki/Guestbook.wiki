@@ -273,15 +273,15 @@ var $frontendVars = <% $frontendVars|@json_encode %>;
 <h2>新增留言</h2>
 <p>
 <label for="title">標題</label>
-<input type="text" name="title" id="title" value="<% $smarty.post.title %>" />
+<input type="text" name="title" id="title" value="<% $smarty.post.title|htmlspecialchars %>" />
 </p>
 <p>
 <label for="title">作者</label>
-<input type="text" name="author" id="author" value="<% $smarty.post.author %>" />
+<input type="text" name="author" id="author" value="<% $smarty.post.author|htmlspecialchars %>" />
 </p>
 <p>
 <label for="title">內容</label>
-<textarea name="body" id="body" rows="10" cols="50"><% $smarty.post.body %></textarea>
+<textarea name="body" id="body" rows="10" cols="50"><% $smarty.post.body|htmlspecialchars %></textarea>
 </p>
 <p><input type="submit" value="送出" /><label><input type="checkbox" id="useAjax" value="1" />使用 Ajax</label></p>
 </form>
