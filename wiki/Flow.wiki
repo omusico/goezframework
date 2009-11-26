@@ -2,6 +2,6 @@
 
 = 運作原理 =
 
-基本上 GoEz 採用的是基本的 MVC 架構，其流程圖如下：
+基本上 !GoEz Framework 採用的是基本的 MVC 架構，其流程圖如下：
 
 http://goezframework.googlecode.com/svn/wiki/Flow.attach/goez_flow.png
