@@ -1,6 +1,6 @@
-#summary GoEz Framework 的運作原理
+#summary GoEz Framework 的運作流程
 
-= 運作原理 =
+= 運作流程 =
 
 基本上 !GoEz Framework 採用的是基本的 MVC 架構，其流程圖如下：
 
