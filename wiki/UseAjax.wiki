@@ -1,0 +1,29 @@
+#summary 使用 Ajax
+
+= 使用 Ajax =
+
+雖然 !GoEz Framework 沒有提供 Ajax 自動化的機制，但它還是儘可能將幾個可以處理 Ajax 方式整合了進來。
+
+== 判斷 request 是不是 Ajax ==
+
+我們在 action 中用以下方法判斷目前的 Http Request 是不是以 Ajax 方式傳送的：
+
+{{{
+if ($this->_request->isAjax()) {
+    // ... 處理
+}
+}}}
+
+這個功能支援目前主流瀏覽器以 !XmlHttpRequest 丟給 PHP 的 Ajax Request 。
+
+== 輸出 JSON ==
+
+一般 Ajax 回傳常用 JSON 格式輸出，我們也可以在 action 中將 View 用 JSON 格式回傳：
+
+{{{
+$this->_view->abc = 123;
+$this->_view->def = 456;
+$this->_view->renderJson();
+}}}
+
+特別注意，如果要讓某個樣版變數以 Smarty 輸出，而不要輸出為 JSON 格式時，要改用 View 的 setFrontendVars 方法來指定樣版變數。
