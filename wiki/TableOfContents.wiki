@@ -6,7 +6,7 @@
   * [Overview 概觀]
   * [Installation 下載與安裝]
  * 架構
-  * [DictoryStruct 目錄結構]
+  * [DictoryStructure 目錄結構]
   * [Flow 流程]
  * 應用
   * [CustomController 自訂 Controller]
