@@ -1,5 +1,9 @@
 #summary 建立一個留言板
 
+[TableOfContents 回目錄]
+
+----
+
 = 建立一個留言板 =
 
 接下來，我們用一個簡易留言板來展示 !GoEz Framework 的基本功能。
@@ -308,7 +312,7 @@ background:#FCC;
 }
 }}}
 
-== JavaScript ==
+== !JavaScript ==
 
 請在 /goez/pub/js 下，建立 guestbook.js ，內容如下：
 
@@ -357,3 +361,7 @@ http://localhost/goez/sample
 == 下載 ==
 
 你也可以[http://goezframework.googlecode.com/files/guestbook_sample.zip 直接下載]，解開後覆蓋即可。
+
+----
+
+[TableOfContents 回目錄]
