@@ -30,7 +30,7 @@ Bootstrap 在載入設定檔後，會利用 !GoEz_Config 轉換成陣列；然�
 
 == 初始化 Router ==
 
-預設用 GoEz_Router_Rewrite 來解析網址，我們也可以在 "/goez/etc/config.ini" 中用以下設定來改變它：
+預設用 !GoEz_Router_Rewrite 來解析網址，我們也可以在 "/goez/etc/config.ini" 中用以下設定來改變它：
 
 {{{
 bootstrap.router = "GoEz_Router"
