@@ -18,12 +18,50 @@ if ($this->_request->isAjax()) {
 
 == 輸出 JSON ==
 
-一般 Ajax 回傳常用 JSON 格式輸出，我們也可以在 action 中將 View 用 JSON 格式回傳：
+一般 Ajax 回傳常用 JSON 格式輸出，我們也可以在 action 中將 View 用 JSON 格式回傳。
+
+特別注意，如果要讓某個樣版變數以 Smarty 輸出，而不要輸出為 JSON 格式時，要改用 View 的 setFrontendVars 方法來指定樣版變數。
+
+範例：
 
 {{{
 $this->_view->abc = 123;
 $this->_view->def = 456;
+$this->_view->setFrontendVars('ghi', 789);
 $this->_view->renderJson();
+
+/*
+
+輸出：
+{"abc":123,"def":456}
+
+*/
 }}}
 
-特別注意，如果要讓某個樣版變數以 Smarty 輸出，而不要輸出為 JSON 格式時，要改用 View 的 setFrontendVars 方法來指定樣版變數。
+== 讓 Ajax 頁面在關閉 JavaScript 時也能運作 ==
+
+下面的範例示範了如何加入處理 AJAX 需求，以及關閉 JavaScript 後，頁面還是能夠正常運行的方法：
+
+{{{
+public function testAction()
+{
+    $error = false;
+    $message = '';
+
+    // 透過 isPost 來讓 action 可以自己處理 POST 回來的資訊
+    if ($this->_request->isPost()) {
+        // ...處理 POST 資訊，有錯誤就設定 $error 及 $message
+
+        $this->_view->error = $error;
+        $this->_view->message = $message;
+    }
+
+    if ($this->_request->isAjax()) { // 如果是 AJAX 要求，就丟出 JSON
+        $this->_view->renderJson();
+    } else { // 否則還是輸出原頁面
+        $this->_view->renderTemplate('test.tpl.htm');
+    }
+}
+}}}
+
+當然，前端的 HTML 一開始就要先完成不用 Ajax 的版本，然後再外加 Ajax 機制。
