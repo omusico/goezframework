@@ -1,5 +1,9 @@
 #summary 如何開始使用 GoEz Framework
 
+[TableOfContents 回目錄]
+
+----
+
 == 從修改首頁開始 ==
 
 如何修改預設的首頁呢？可以分成以下四個部份：
@@ -24,4 +28,6 @@
  # 打開 "/goez/pub/css/style.js" ，
  # 修改內容。
 
-當然 !GoEz Framework 還可以讓使用者自行定義 Controller ，進階用法請參考[Toc 使用者手冊]。
+----
+
+[TableOfContents 回目錄]
