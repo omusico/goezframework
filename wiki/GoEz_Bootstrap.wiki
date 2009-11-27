@@ -1,6 +1,6 @@
 #summary GoEz_Bootstrap 啟動器
 
-= GoEz_Bootstrap 啟動器 =
+= !GoEz_Bootstrap 啟動器 =
 
 Bootstrap 主要的用途是初始化相關資源，並將要求派送給 Controller 。
 
