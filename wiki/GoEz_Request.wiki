@@ -6,6 +6,40 @@
 
 = !GoEz_Request HTTP 要求處理類別 =
 
+Request 類別主要把 Http Request 包裝起來，讓開發者能安心使用 $_POST 或是 $_GET 。
+
+== 取得 baseUrl ==
+
+Request 類別也會幫開發者取得目前的 BaseUrl ，也就是從網址根目錄開始算起，對應到 "/goez/index.php" 的相對路徑。用法如下：
+
+{{{
+$this->_request->getBaseUrl();
+}}}
+
+== 取得安裝的 $_POST 及 $_GET ==
+
+預設的 Request 會把瀏覽器傳回來的 $_POST 及 $_GET 裡的 html tags 全部濾掉。
+
+如果需要原始的 Request Data ，那麼就在第二個參數加上 false 即可。例如：
+
+{{{
+$name = $this->_request->getPost('name'); // 自動過濾掉 html tags
+$html = $this->_request->getPost('html', false); // 取得 $_POST 原始資料
+}}}
+
+使用 Request 要注意以下幾點：
+
+ # !GoEz Framework 預設是把 magic_quotes_gpc 關閉的，所以要小心 SQL Injection 的問題。
+ # Request 自動過濾是使用 PHP 原生的 strip_tags 。
+
+== 使用自訂的 Request ==
+
+開發者可以在 "/goez/etc/config.ini" 中加入以下設定，來使用自己的 Request 類別：
+
+{{{
+bootstrap.request = "My_Request"
+}}}
+
 ----
 
 [TableOfContents 回目錄]
