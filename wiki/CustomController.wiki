@@ -1,0 +1,19 @@
+#summary 自訂 Controller
+
+= 自訂 Controller =
+
+除了預設的 My_IndexController 之外，開發者也可以自行加入新的 Controller 。
+
+== Controller 存放位置 ==
+
+預設的 Controller 存放位置是 "/goez/lib/My" 這個目錄下。
+
+不過我們可以藉由修改 config.ini 來更改 My 這個前置：
+
+{{{
+bootstrap.userNamespace = "My_"
+}}}
+
+== Controller 的命名 ==
+
+== Controller 對應的網址 ==
