@@ -5,3 +5,16 @@
  * !GoEz Framework 簡介
   * [Overview 概觀]
   * [Installation 下載與安裝]
+ * 架構
+  * [DictoryStruct 目錄結構]
+  * [Flow 流程]
+ * 應用
+  * [CustomController 自訂 Controller]
+  * [UseAjax 使用 Ajax]
+ * 元件
+  * [GoEz_Bootstrap GoEz_Bootstrap]
+  * [GoEz_Config GoEz_Config]
+  * [GoEz_Router GoEz_Router]
+  * [GoEz_Request GoEz_Request]
+  * [GoEz_View GoEz_View]
+  * [GoEz_Controller GoEz_Controller]
