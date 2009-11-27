@@ -1,4 +1,4 @@
-#summary 從建立一個留言板來介紹如何使用 GoEz Framework
+#summary 建立一個留言板
 
 = 建立一個留言板 =
 
