@@ -1,4 +1,4 @@
-#summary GoEz Framework 的運作流程
+#summary 運作流程
 
 [TableOfContents 回目錄]
 
