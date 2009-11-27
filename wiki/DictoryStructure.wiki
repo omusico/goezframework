@@ -1,10 +1,10 @@
-#summary 介紹 GoEz Framework 的目錄結構
+#summary 目錄結構
 
 [TableOfContents 回目錄]
 
 ----
 
-= 目錄結構說明 =
+= 目錄結構 =
 
 !GoEz Framework 預設有以下幾個目錄：
 
