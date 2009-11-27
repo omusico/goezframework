@@ -1,5 +1,9 @@
 #summary 使用 Ajax
 
+[TableOfContents 回目錄]
+
+----
+
 = 使用 Ajax =
 
 雖然 !GoEz Framework 沒有提供 Ajax 自動化的機制，但它還是儘可能將幾個可以處理 Ajax 方式整合了進來。
@@ -65,3 +69,7 @@ public function testAction()
 }}}
 
 當然，前端的 HTML 一開始就要先完成不用 Ajax 的版本，然後再外加 Ajax 機制。
+
+----
+
+[TableOfContents 回目錄]
