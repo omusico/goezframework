@@ -16,4 +16,18 @@ bootstrap.userNamespace = "My_"
 
 == Controller 的命名 ==
 
+預設的 Controller 檔名是 *"Controller 名稱"*，加上 *"Controller"* 的 PHP 檔案，例如：
+
+{{{
+SampleController.php
+}}}
+
+*注意： Controller 名稱是首字大寫，其他部份小寫的英文字。*
+
+Controller 的類別命名則是 userNamespace (含底線) 加上 PHP 主檔名，例如：
+
+{{{
+class My_SampleController {}
+}}}
+
 == Controller 對應的網址 ==
