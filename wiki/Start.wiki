@@ -2,8 +2,6 @@
 
 = 開始使用 !GoEz Framework =
 
-本文將介紹如何開始使用 !GoEz Framework 。
-
 == 系統需求 ==
 
  * Apache + mod_rewrite
