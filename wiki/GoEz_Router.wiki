@@ -6,6 +6,48 @@
 
 = !GoEz_Router 網址轉換類別 =
 
+Router 主要目的是取得目前網址上的 controller 和 action 。
+
+== 一般 Router ==
+
+這個類別可以在沒有 mod_rewrite 下的環境使用，它預設解析的網址格式為：
+
+{{{
+http://server-name/base-url/?controller=controller-name&action=action-name
+}}}
+
+== GoEz_Router_Rewrite ==
+
+這是預設的 Router ，它可以解析的網址格式為：
+
+{{{
+http://server-name/base-url/controller-name/action-name
+}}}
+
+== 自訂 Router ==
+
+如果 !GoEz Framework 提供的 Router 都不是開發者想要的，那麼開發者也可以透過繼承 GoEz_Router ，並覆寫 _parseUrl() 方法來達成目的。例如：
+
+{{{
+<?php
+class My_Router extends GoEz_Router
+{
+    protected function _parseUrl()
+    {
+        $this->_controller = $this->_getQuery('ctl', 'index');
+        $this->_action = $this->_getQuery('act', 'index');
+    }
+}
+}}}
+
+然後在 "/goez/etc/config.ini" 加入：
+
+{{{
+bootstrap.router = "My_Router"
+}}}
+
+即可。
+
 ----
 
 [TableOfContents 回目錄]
