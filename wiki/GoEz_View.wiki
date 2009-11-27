@@ -6,6 +6,52 @@
 
 = !GoEz_View 資料呈現類別 =
 
+View 主要的目的是用來處理樣版，它也可以輸出為 JSON 格式。
+
+!GoEz_View 主要是採用 Smarty 當作 Render Engine ，而 Smarty 本身也是 !GoEz Framework 的核心之一。
+
+== 指定樣版變數 ==
+
+!GoEz_View 有兩種方式可以指定樣版變數：
+
+=== __set 魔術方法 ===
+
+透過 PHP 5 的 __set 魔術方法，我們可以像指定物件屬性的值一樣，來指定樣版變數：
+
+{{{
+$this->_view->name = 'John';
+$this->_view->age = 25;
+}}}
+
+=== setFrontendVars 方法 ===
+
+如果不想讓樣板變數輸出為 JSON 內容的一部份，可以改用這個方法來指定樣版變數：
+
+{{{
+$this->_view->setFrontendVars('htmlOnly', $data);
+$this->_view->renderTemplate('layout.tpl.htm');
+}}}
+
+== 輸出 ==
+
+View 輸出的方式有兩種，一種是透過 Smarty 輸出樣版，一種是輸出 JSON 。
+
+=== 輸出樣版 ===
+
+因為 !GoEz Framework 的核心 Render Engine 是 Smarty ，所以 View 也只是將 Smarty 的方法做個轉換而已：
+
+ * !GoEz_View::fetchTemplate() 會回傳 Smarty::fetch() 產生的結果，不會直接送給瀏覽器。
+ * !GoEz_View::renderTemplate() 會將 !GoEz_View::fetchTemplate() 得到的結果輸出給瀏覽器。
+
+== 輸出 JSON ==
+
+View 在處理 JSON 的部份有以下兩個方法：
+
+ * !GoEz_View::fetchJson() 會利用 PHP 原生的 json_encode 來取得轉換後的 JSON 內容。
+ * !GoEz_View::renderJson() 會將 !GoEz_View::fetchJson() 得到的結果輸出給瀏覽器。
+
+這裡要注意 View 輸出 JSON 時，不會轉換 setFrontendVars 所指定的變數。
+
 ----
 
 [TableOfContents 回目錄]
