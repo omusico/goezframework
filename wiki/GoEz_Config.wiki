@@ -6,6 +6,8 @@
 
 = !GoEz_Config 設定檔處理類別 =
 
+== INI 格式說明 ==
+
 ----
 
 [TableOfContents 回目錄]
