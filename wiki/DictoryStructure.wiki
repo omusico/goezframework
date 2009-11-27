@@ -1,0 +1,13 @@
+#summary 介紹 GoEz Framework 的資料夾結構
+
+= 資料夾結構說明 =
+
+!GoEz Framework 預設有以下幾個資料夾：
+
+|| *目錄名稱* || *存放內容* ||
+|| doc || 說明檔案 ||
+|| etc || 設定檔 ||
+|| lib || 類別或套件 ||
+|| pub || 公開資源，例如 !JavaScript, CSS 等 ||
+|| tpl || 樣版 ||
+|| tpl_c || Smarty 編譯後的樣版 ||
