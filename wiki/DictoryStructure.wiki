@@ -1,5 +1,9 @@
 #summary 介紹 GoEz Framework 的目錄結構
 
+[TableOfContents 回目錄]
+
+----
+
 = 目錄結構說明 =
 
 !GoEz Framework 預設有以下幾個目錄：
@@ -11,3 +15,7 @@
 || pub || 公開資源，例如 !JavaScript, CSS 等 ||
 || tpl || 樣版 ||
 || tpl_c || Smarty 編譯後的樣版 ||
+
+----
+
+[TableOfContents 回目錄]
