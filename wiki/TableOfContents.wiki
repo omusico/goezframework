@@ -8,7 +8,8 @@
  * 架構
   * [DictoryStructure 目錄結構]
   * [Flow 流程]
- * 應用
+ * 開發
+  * [EditStartPage 從修改首頁開始]
   * [CustomController 自訂 Controller]
   * [UseAjax 使用 Ajax]
  * 元件
