@@ -1,5 +1,9 @@
 #summary 下載與安裝
 
+[TableOfContents 回目錄]
+
+----
+
 = 系統需求 =
 
  * Apache + mod_rewrite
@@ -22,3 +26,7 @@ http://localhost/goez
 }}}
 
 出現預設首頁後，即完成安裝。
+
+----
+
+[TableOfContents 回目錄]
