@@ -1,0 +1,11 @@
+#summary GoEz_Config 設定檔處理類別
+
+[TableOfContents 回目錄]
+
+----
+
+= !GoEz_Config 設定檔處理類別 =
+
+----
+
+[TableOfContents 回目錄]
