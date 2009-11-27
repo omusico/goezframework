@@ -6,6 +6,27 @@
 
 = !GoEz_Controller 流程控制類別 =
 
+Controller 主要的目的是流程的控制，它不能直接被實體化，一定要被繼承。
+
+== 可覆寫的方法 ==
+
+!GoEz_Controller 提供以下方法供子類別覆寫：
+
+|| *方法名稱* || *作用* ||
+|| init || Controller 的初始化 ||
+|| beforeDispatch || 呼叫 action 之前會被執行 ||
+|| afterDispatch || 呼叫 action 之後會被執行 ||
+
+== 可存取的屬性 ==
+
+Controller 裡有三個屬性可供 action 存取
+
+|| *屬性名稱* || *作用* ||
+|| _config || 由 Bootstrap 解析後的設定陣列 ||
+|| _request || 包裝好 Http Request 的 !GoEz_Request 物件 ||
+|| _view || !GoEz_View 物件，用來接收樣版變數及呈現 Template 或 JSON ||
+
+
 ----
 
 [TableOfContents 回目錄]
