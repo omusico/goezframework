@@ -12,6 +12,8 @@
   * [EditStartPage 從修改首頁開始]
   * [CustomController 自訂 Controller]
   * [UseAjax 使用 Ajax]
+ * 範例
+  * [Guestbook 建立一個留言板]
  * 元件
   * [GoEz_Bootstrap GoEz_Bootstrap]
   * [GoEz_Config GoEz_Config]
@@ -19,5 +21,3 @@
   * [GoEz_Request GoEz_Request]
   * [GoEz_View GoEz_View]
   * [GoEz_Controller GoEz_Controller]
- * 範例
-  * [Guestbook 建立一個留言板]
