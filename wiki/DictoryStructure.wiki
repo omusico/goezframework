@@ -1,8 +1,8 @@
-#summary 介紹 GoEz Framework 的資料夾結構
+#summary 介紹 GoEz Framework 的目錄結構
 
-= 資料夾結構說明 =
+= 目錄結構說明 =
 
-!GoEz Framework 預設有以下幾個資料夾：
+!GoEz Framework 預設有以下幾個目錄：
 
 || *目錄名稱* || *存放內容* ||
 || doc || 說明檔案 ||
