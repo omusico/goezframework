@@ -2,7 +2,7 @@
 
 = 開始使用 !GoEz Framework =
 
-!GoEz Framework 主要是 MVC 架構，所以入門也相當容易。
+本文將介紹如何開始使用 !GoEz Framework 。
 
 == 系統需求 ==
 
