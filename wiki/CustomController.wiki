@@ -2,7 +2,7 @@
 
 = 自訂 Controller =
 
-除了預設的 My_IndexController 之外，開發者也可以自行加入新的 Controller 。
+除了預設的 !My_IndexController 之外，開發者也可以自行加入新的 Controller 。
 
 == Controller 存放位置 ==
 
