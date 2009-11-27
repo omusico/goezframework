@@ -1,0 +1,11 @@
+#summary GoEz_View 資料呈現類別
+
+[TableOfContents 回目錄]
+
+----
+
+= !GoEz_View 資料呈現類別 =
+
+----
+
+[TableOfContents 回目錄]
