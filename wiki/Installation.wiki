@@ -4,16 +4,18 @@
 
 ----
 
-= 系統需求 =
+= 下載與安裝 =
+
+== 系統需求 ==
 
  * Apache + mod_rewrite
  * PHP 5.2 以上版本
 
-= 下載 =
+== 下載 ==
 
 在 [http://code.google.com/p/goezframework/downloads/list 下載頁]，下載最新的版本。
 
-= 安裝 =
+== 安裝 ==
 
 將下載回來的檔案在網站根目錄解開，這時會得到一個 goez 資料夾，這就是我們需要的所有程式碼。
 
