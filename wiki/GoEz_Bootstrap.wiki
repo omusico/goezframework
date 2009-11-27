@@ -8,15 +8,56 @@
 
 Bootstrap 主要的用途是初始化相關資源，並將要求派送給 Controller 。
 
+Bootstrap 的 run 方法提供了兩個參數：
+
+{{{
+GoEz_Bootstrap::run("INI 設定檔絕對路徑", "執行環境");
+}}}
+
+其中 INI 設定檔預設為 "/goez/etc/config.ini"
+
+執行環境則可以在 "/goez/.htaccess" 中設定 APP_ENV 的值：
+
+{{{
+SetEnv APP_ENV development
+}}}
+
+換句話說，線上環境就可以改為 "prodution" 。
+
 == 載入設定檔 ==
+
+Bootstrap 在載入設定檔後，會利用 !GoEz_Config 轉換成陣列；然後會依照開發者代入的 APP_ENV ，來選擇要使用的環境設定。
 
 == 初始化 Router ==
 
+預設用 GoEz_Router_Rewrite 來解析網址，我們也可以在 "/goez/etc/config.ini" 中用以下設定來改變它：
+
+{{{
+bootstrap.router = "GoEz_Router"
+}}}
+
 == 初始化 Request ==
+
+預設用 GoEz_Request 來包裝 Http Request 。
 
 == 初始化 View ==
 
+GoEz_View 採用 Smarty 2.6 當做 Render engine 。
+
+在這裡初始化時，會預先把 baseUrl 放在 $frontendVars 這個樣版陣列變數裡
+
 == 派送至 Controller ==
+
+Dispatch 執行流程如下：
+
+ # 找出目前網址選擇的 controller
+ # 將 config 轉交給 controller
+ # 將 request 轉交給 controller
+ # 將 view 轉交給 controller
+ # 執行 controller 的 init()
+ # 執行 controller 的 beforeDispatch()
+ # 執行目前網址選擇的 action
+ # 執行 controller 的 afterDispatch()
 
 ----
 
