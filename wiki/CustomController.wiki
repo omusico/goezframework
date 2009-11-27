@@ -1,5 +1,9 @@
 #summary 自訂 Controller
 
+[TableOfContents 回目錄]
+
+----
+
 = 自訂 Controller =
 
 除了預設的 !My_IndexController 之外，開發者也可以自行加入新的 Controller 。
@@ -51,3 +55,7 @@ http://server-name/base-dir/controller-name/action-name/
  * controller-name 不為 index ，但 action-name 為 index 時， controller-name 不可省略，但 action-name 可以省略。
  * controller-name 為 index ，但 action-name 不為 index 時， controller-name 不可省略。
  * 其他狀況皆不可省略。
+
+----
+
+[TableOfContents 回目錄]
