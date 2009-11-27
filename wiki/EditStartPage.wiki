@@ -1,0 +1,33 @@
+#summary 從修改首頁開始
+
+[TableOfContents 回目錄]
+
+----
+
+= 從修改首頁開始 =
+
+如何修改預設的首頁呢？可以分成以下四個部份：
+
+== 程式 ==
+
+ # 打開 "/goez/lib/My/!IndexController.php" ，
+ # 修改 indexAction() 的內容。
+
+== 樣版 ==
+
+ # 打開 "/goez/tpl/template.tpl.htm" ，
+ # 修改 <body>...</body> 之間的內容。
+
+== JavaScript ==
+
+ # 打開 "/goez/pub/js/default.js" ，
+ # 修改內容。
+
+== CSS ==
+
+ # 打開 "/goez/pub/css/style.js" ，
+ # 修改內容。
+
+----
+
+[TableOfContents 回目錄]
