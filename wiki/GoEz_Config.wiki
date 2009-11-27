@@ -6,7 +6,56 @@
 
 = !GoEz_Config 設定檔處理類別 =
 
+!GoEz_Config 主要是用來處理 INI 設定檔，它使用 PHP 原生的 parse_ini_file 來解析 INI 檔， 並且再做一些特別的處理。
+
 == INI 格式說明 ==
+
+假設我們有個 test.ini ，內容如下：
+
+{{{
+[xxx]
+v.abc = 123
+v.def = 456
+
+[yyy : xxx]
+v.def = 789
+}}}
+
+透過以下程式解析：
+
+{{{
+<?php
+$config = new GoEz_Config('test.ini');
+var_export($config->toArray());
+}}}
+
+會得到：
+
+{{{
+array (
+  'xxx' =>
+  array (
+    'v' =>
+    array (
+      'abc' => '123',
+      'def' => '456',
+    ),
+  ),
+  'yyy' =>
+  array (
+    'v' =>
+    array (
+      'abc' => '123',
+      'def' => '789',
+    ),
+  ),
+)
+}}}
+
+這裡主要有兩個特點： 
+
+ * 區段可以繼承，例如 [yyy] 區段可以用 [yyy : xxx] 語法來繼承 [xxx] 區段，並覆寫新的值。
+ * v.abc 及 v.def 會被合併起來變成一個索引為 "v" 的陣列。如果需要多階陣列，可以用 a.b.c 這樣的格式來撰寫， !GoEz_Config 會自動轉換。
 
 ----
 
