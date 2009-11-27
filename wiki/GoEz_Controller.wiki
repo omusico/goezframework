@@ -1,0 +1,11 @@
+#summary GoEz_Controller 流程控制類別
+
+[TableOfContents 回目錄]
+
+----
+
+= !GoEz_Controller 流程控制類別 =
+
+----
+
+[TableOfContents 回目錄]
