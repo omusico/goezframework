@@ -67,7 +67,7 @@ public function testAction()
 
 當然，前端的 HTML 一開始就要先完成不用 Ajax 的版本，然後再外加 Ajax 機制。
 
-== 使用 FrontendVars 來取得 PHP 變數 ==
+== 使用 $frontendVars 來取得 PHP 變數 ==
 
 如果要讓某個樣版變數以 Smarty 輸出，而不要輸出為 JSON 格式時，可以用 View 的 setFrontendVars 方法來指定。
 
