@@ -40,7 +40,7 @@ $this->_view->renderJson();
 
 == 讓 Ajax 頁面在關閉 !JavaScript 時也能運作 ==
 
-下面的範例示範了如何加入處理 AJAX 需求，以及關閉 JavaScript 後，頁面還是能夠正常運行的方法：
+下面的範例示範了如何加入處理 AJAX 需求，以及關閉 !JavaScript 後，頁面還是能夠正常運行的方法：
 
 {{{
 public function testAction()
