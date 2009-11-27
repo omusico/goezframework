@@ -1,38 +1,4 @@
-#summary 介紹如何開始使用 GoEz Framework
-
-= 開始使用 !GoEz Framework =
-
-== 系統需求 ==
-
- * Apache + mod_rewrite
- * PHP 5.2 以上版本
-
-== 下載 ==
-
-在 [http://code.google.com/p/goezframework/downloads/list 下載頁]，下載最新的版本。
-
-然後在網站根目錄解開，這時會得到一個 goez 資料夾，這就是我們需要的所有程式碼。
-
-== 安裝 ==
-
-將取出後的檔案放在網站根目錄即可開始使用。
-
-例如：
-
-{{{
-http://localhost/goez
-}}}
-
-當然，你可以把 goez 改成你的專案名稱。
-
-== 資料夾結構說明 ==
-|| *目錄名稱* || *存放內容* ||
-|| doc || 說明檔案 ||
-|| etc || 設定檔 ||
-|| lib || 類別或套件 ||
-|| pub || 公開資源，例如 !JavaScript, CSS 等 ||
-|| tpl || 樣版 ||
-|| tpl_c || Smarty 編譯後的樣版 ||
+#summary 如何開始使用 GoEz Framework
 
 == 從修改首頁開始 ==
 
@@ -57,3 +23,5 @@ http://localhost/goez
 
  # 打開 "/goez/pub/css/style.js" ，
  # 修改內容。
+
+當然 !GoEz Framework 還可以讓使用者自行定義 Controller ，進階用法請參考[Toc 使用者手冊]。
