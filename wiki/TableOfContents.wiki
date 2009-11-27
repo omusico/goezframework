@@ -19,3 +19,5 @@
   * [GoEz_Request GoEz_Request]
   * [GoEz_View GoEz_View]
   * [GoEz_Controller GoEz_Controller]
+ * 範例
+  * [Guestbook 建立一個留言板]
