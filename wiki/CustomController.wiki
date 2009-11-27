@@ -30,4 +30,24 @@ Controller 的類別命名則是 userNamespace (含底線) 加上 PHP 主檔名�
 class My_SampleController {}
 }}}
 
+另外 Controller 內的 action 則是 *"Action 名稱"*加上 *"Action"* 的類別*公開方法*，例如：
+
+{{{
+public function addAction() {} // Action 名稱為 add
+}}}
+
 == Controller 對應的網址 ==
+
+預設的網址格式如下：
+
+{{{
+http://server-name/base-dir/controller-name/action-name/
+}}}
+
+要注意以下幾點：
+
+ * controller-name 不用加上 My_ 前置字元。
+ * controller-name 及 action-name 皆為 index 時，兩者都可以省略不寫。
+ * controller-name 不為 index ，但 action-name 為 index 時， controller-name 不可省略，但 action-name 可以省略。
+ * controller-name 為 index ，但 action-name 不為 index 時， controller-name 不可省略。
+ * 其他狀況皆不可省略。
