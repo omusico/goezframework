@@ -24,14 +24,11 @@ if ($this->_request->isAjax()) {
 
 一般 Ajax 回傳常用 JSON 格式輸出，我們也可以在 action 中將 View 用 JSON 格式回傳。
 
-特別注意，如果要讓某個樣版變數以 Smarty 輸出，而不要輸出為 JSON 格式時，要改用 View 的 setFrontendVars 方法來指定樣版變數。
-
 範例：
 
 {{{
 $this->_view->abc = 123;
 $this->_view->def = 456;
-$this->_view->setFrontendVars('ghi', 789);
 $this->_view->renderJson();
 
 /*
@@ -69,6 +66,32 @@ public function testAction()
 }}}
 
 當然，前端的 HTML 一開始就要先完成不用 Ajax 的版本，然後再外加 Ajax 機制。
+
+== 使用 FrontendVars 來取得 PHP 變數 ==
+
+如果要讓某個樣版變數以 Smarty 輸出，而不要輸出為 JSON 格式時，可以用 View 的 setFrontendVars 方法來指定。
+
+而 setFrontendVars 方法指定的變數，我們可以將它放在 Template 中，讓 !JavaScript 可以取它的內容：
+
+{{{
+// 在某 action 中
+$this->_view->setFrontendVars('abc', 123);
+$this->_view->setFrontendVars('def', 456);
+$this->_view->renderTemplate('test.tpl.htm');
+}}}
+
+然後在 test.tpl.htm 裡，我們可以在 <head> 區段內加入：
+
+{{{
+<script type="text/javascript">
+var $frontendVars = <% $frontendVars|@json_encode %>;
+</script>
+<script type="text/javascript" src="開發者自訂的 JavaScript 檔案"></script>
+}}}
+
+這樣一來，開發者自訂的 !JavaScript 就可以使用 $frontendVars.abc 及 $frontendVars.def 兩個變數了。
+
+*而 $frontendVars.baseUrl 是 !GoEz Framework 預設提供的，不能更改。*
 
 ----
 
