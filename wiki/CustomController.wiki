@@ -46,7 +46,7 @@ http://server-name/base-dir/controller-name/action-name/
 
 要注意以下幾點：
 
- * controller-name 不用加上 My_ 前置字元。
+ * controller-name 不用加上 My 前置字元。
  * controller-name 及 action-name 皆為 index 時，兩者都可以省略不寫。
  * controller-name 不為 index ，但 action-name 為 index 時， controller-name 不可省略，但 action-name 可以省略。
  * controller-name 為 index ，但 action-name 不為 index 時， controller-name 不可省略。
