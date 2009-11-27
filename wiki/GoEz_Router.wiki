@@ -1,0 +1,11 @@
+#summary GoEz_Router 網址轉換類別
+
+[TableOfContents 回目錄]
+
+----
+
+= !GoEz_Router 網址轉換類別 =
+
+----
+
+[TableOfContents 回目錄]
