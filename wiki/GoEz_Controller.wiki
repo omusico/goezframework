@@ -17,7 +17,7 @@ Controller 主要的目的是流程的控制，它不能直接被實體化，一
 || beforeDispatch || 呼叫 action 之前會被執行 ||
 || afterDispatch || 呼叫 action 之後會被執行 ||
 
-== 可存取的屬性 ==
+== action 可存取的屬性 ==
 
 Controller 裡有三個屬性可供 action 存取
 
@@ -26,6 +26,23 @@ Controller 裡有三個屬性可供 action 存取
 || _request || 包裝好 Http Request 的 !GoEz_Request 物件 ||
 || _view || !GoEz_View 物件，用來接收樣版變數及呈現 Template 或 JSON ||
 
+另外這些屬性也提供了對應的 setter/getter ，方便開發者取用
+
+== action 可存取的方法 ==
+
+Controller 裡提供了一個 redirect 方法，讓瀏覽器頁面可以導向別的網址，用法同 `header('Location: url')`。
+
+要注意的是，如果導向的網址是內部路徑，那麼可以不用加上 baseUrl ，例如：
+
+{{{
+$this->redirect('/index/add');
+}}}
+
+就會將頁面導向：
+
+{{{
+http://server-name/base-url/index/add
+}}}
 
 ----
 
