@@ -11,6 +11,7 @@
  * 開發
   * [EditStartPage 從修改首頁開始]
   * [CustomController 自訂 Controller]
+  * [Template 自訂樣版]
   * [UseAjax 使用 Ajax]
  * 範例
   * [Guestbook 建立一個留言板]
