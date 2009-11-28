@@ -1,0 +1,23 @@
+#summary 自訂樣版
+
+[TableOfContents 回目錄]
+
+----
+
+= 自訂樣版 =
+
+因為 !GoEz Framework 是以 Smarty 為主要呈現引擎，所以 Smarty 所有特色都是可以使用的。
+
+== 樣版引擎設定 ==
+
+== 輸出方法 ==
+
+== 樣版語法 ==
+
+[http://www.smarty.net/manual/en/smarty.for.designers.php 直接參考 Smarty 語法]
+
+== 特別注意事項 ==
+
+----
+
+[TableOfContents 回目錄]
