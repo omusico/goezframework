@@ -6,17 +6,52 @@
 
 = 自訂樣版 =
 
-因為 !GoEz Framework 是以 Smarty 為主要呈現引擎，所以 Smarty 所有特色都是可以使用的。
+!GoEz Framework 是以 Smarty 為核心呈現引擎，主要的考量是因為 Smarty 在實際 Web 開發上有它一定的便利性。
 
 == 樣版引擎設定 ==
 
+在 "/goez/etc/config.ini" 裡，我們可以修改以下設定來配置 Smarty ：
+
+{{{
+view.template_dir = APP_ROOT_PATH "/tpl"
+view.compile_dir = APP_ROOT_PATH "/tpl_c"
+view.left_delimiter = "<%"
+view.right_delimiter = "%>"
+view.plugins_dir[] = "path-to-plugins"
+}}}
+
+除了上面的基本設定外，只要是 Smarty 的公開屬性，都可以在這裡設定。
+
+*注意，屬性前要加上 "view." 的前置字串。*
+
 == 輸出方法 ==
+
+假設我們在 "/goez/tpl" 目錄下放了以下兩個檔案：
+
+{{{
+/goez/tpl/layout.tpl.htm
+/goez/tpl/sub/custom.tpl.htm
+}}}
+
+在 controller 的 action 中，我們可以用以下方法來取得樣板套用後的結果：
+
+{{{
+$subHtml = $this->_view->fetchTemplate('sub/custom.tpl.htm'); // 取得套用結果，但不輸出
+$this->_view->subHtml = $subHtml;
+$this->_view->renderTemplate('layout.tpl.htm'); // 直接輸出套用結果
+}}}
+
+從上面的例子可以看出， fetchTemplate 及 renderTemplate 的檔案路徑是相對於 "/goez/tpl" 這個目錄。
+
+*注意，樣版的副檔名並不一定要是 ".tpl.htm" 。*
 
 == 樣版語法 ==
 
-[http://www.smarty.net/manual/en/smarty.for.designers.php 直接參考 Smarty 語法]
+Smarty 所有樣版語法，都可以在 !GoEz Framework 的樣版裡使用。
 
-== 特別注意事項 ==
+因此，開發者可以直接參考 [http://www.smarty.net/manual/en/smarty.for.designers.php Smarty 語法]來開發自己的樣版。
+
+*要特別注意的是 !GoEz Framework 預設的 delimiter 分別是 '<%' 及 '%>' 。*
 
 ----
 
