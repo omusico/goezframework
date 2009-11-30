@@ -10,13 +10,13 @@ Request 類別主要把 Http Request 包裝起來，讓開發者能安心使用 
 
 == 取得 baseUrl ==
 
-Request 類別也會幫開發者取得目前的 BaseUrl ，也就是從網址根目錄開始算起，對應到 "/goez/index.php" 的相對路徑。用法如下：
+Request 類別也會幫開發者取得目前的 !BaseUrl ，也就是從網址根目錄開始算起，對應到 "/goez/index.php" 的相對路徑。用法如下：
 
 {{{
 $this->_request->getBaseUrl();
 }}}
 
-== 取得安裝的 $_POST 及 $_GET ==
+== 取得安裝的 `$_POST` 及 `$_GET` ==
 
 預設的 Request 會把瀏覽器傳回來的 $_POST 及 $_GET 裡的 html tags 全部濾掉。
 
