@@ -48,7 +48,7 @@ class GoEz_Loader
         @include_once $fileName;
         if (!class_exists($className, false)) {
             eval('class ' . $className . ' {}');
-            throw new Exception("Class \"$className\" does not exist.");
+            throw new Exception("類別 \"$className\" 不存在");
         }
     }
 }
