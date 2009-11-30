@@ -16,7 +16,7 @@ Router 主要目的是取得目前網址上的 controller 和 action 。
 http://server-name/base-url/?controller=controller-name&action=action-name
 }}}
 
-== GoEz_Router_Rewrite ==
+== !GoEz_Router_Rewrite ==
 
 這是預設的 Router ，它可以解析的網址格式為：
 
