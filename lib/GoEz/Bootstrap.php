@@ -61,30 +61,20 @@ class GoEz_Bootstrap
      * @param $configFile 外部 INI 檔案路徑
      * @param $env 應用程式執行環境
      */
-    public final function run($configFile, $env)
+    public final function run($configFile, $env = null)
     {
-        $bootstrap = new self($configFile, $env);
+        $config = self::_loadConfig($configFile, $env);
+        $bootstrapClass = 'GoEz_Bootstrap';
+        if (isset($config['bootstrap']['class'])) {
+            $tempClass = trim($config['bootstrap']['class']);
+            $classExists = class_exists($tempClass, true);
+            $isSubClass = is_subclass_of($tempClass, $bootstrapClass);
+            if ($classExists && $isSubClass) {
+                $bootstrapClass = $tempClass;
+            }
+        }
+        $bootstrap = new $bootstrapClass($config);
         $bootstrap->_dispatch();
-    }
-
-    /**
-     * 不可初始化
-     *
-     * 主要進行以下動作：
-     * 1. 從 INI 檔裡載入設定
-     * 2. 初始化 Router 以解析網址
-     * 3. 初始化 Request
-     * 4. 初始化 View
-     *
-     * @param $configFile 外部 INI 檔案路徑
-     * @param $env 應用程式執行環境
-     */
-    private function __construct($configFile, $env)
-    {
-        $this->_loadConfig($configFile, $env);
-        $this->_initRouter();
-        $this->_initRequest();
-        $this->_initView();
     }
 
     /**
@@ -92,17 +82,44 @@ class GoEz_Bootstrap
      *
      * @param string $configFile 外部檔案路徑
      */
-    protected function _loadConfig($configFile, $env)
+    protected static function _loadConfig($configFile, $env)
     {
-        $ini = new GoEz_Config($configFile);
-        $config = $ini->toArray();
-        $this->_config = $config[$env];
-        if (!isset($this->_config['bootstrap'])) {
-            $this->_config['bootstrap'] = array();
+        $resultConfig = array();
+        if (is_array($configFile)) {
+            $resultConfig = $configFile;
+        } elseif (file_exists((string) $configFile)) {
+            $ini = new GoEz_Config($configFile);
+            $config = $ini->toArray();
+            $resultConfig = $config[$env];
+        } else {
+            throw new Exception("無法正確讀取設定檔");
         }
-        if (!isset($this->_config['view'])) {
-            $this->_config['view'] = array();
+        if (!isset($resultConfig['bootstrap'])) {
+            $resultConfig['bootstrap'] = array();
         }
+        if (!isset($resultConfig['view'])) {
+            $resultConfig['view'] = array();
+        }
+        return $resultConfig;
+    }
+
+    /**
+     * 不可初始化
+     *
+     * 主要進行以下動作：
+     * 1. 取得設定
+     * 2. 初始化 Router 以解析網址
+     * 3. 初始化 Request
+     * 4. 初始化 View
+     *
+     * @param $config 外部 INI 檔案路徑
+     */
+    protected function __construct($config)
+    {
+        $this->_config = $config;
+        $this->_initRouter();
+        $this->_initRequest();
+        $this->_initView();
     }
 
     /**
@@ -249,5 +266,36 @@ class GoEz_Bootstrap
             }
         }
         return $className;
+    }
+
+    /**
+     * 顯示異常
+     *
+     * @param Exception $e
+     */
+    public static function displayException(Exception $e)
+    {
+        header('Content-Type: text/html; charset=utf-8');
+        echo '<h1>程式發生錯誤</h1>';
+        echo '<p>', $e->getMessage(), '</p>';
+        echo self::displayTrace($e->getTrace());
+    }
+
+    /**
+     * 顯示錯誤流程
+     *
+     * @param array $traceList
+     * @return string
+     */
+    protected static function displayTrace($traceList)
+    {
+        $result = '<hr />';
+        foreach ($traceList as $trace) {
+            foreach ($trace as $col => $value) {
+                $result .= '<strong>' . $col . '</strong>: ' . htmlspecialchars(print_r($value, true)) . "\n";
+            }
+            $result .= '<hr />';
+        }
+        return '<pre>' . $result . '</pre>';
     }
 }

@@ -29,6 +29,5 @@ GoEz_Loader::autoload();
 try {
     GoEz_Bootstrap::run(APP_ETC_PATH . '/config.ini', APP_ENV);
 } catch (Exception $e) {
-    header('Content-Type: text/plain; charset=utf-8');
-    echo $e->getMessage();
+    GoEz_Bootstrap::displayException($e);
 }
