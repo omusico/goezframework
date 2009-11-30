@@ -6,7 +6,7 @@
 
 = !GoEz_Request HTTP 要求處理類別 =
 
-Request 類別主要把 Http Request 包裝起來，讓開發者能安心使用 $_POST 或是 $_GET 。
+Request 類別主要把 Http Request 包裝起來，讓開發者能安心使用 `$_POST` 或是 `$_GET` 。
 
 == 取得 baseUrl ==
 
@@ -18,7 +18,7 @@ $this->_request->getBaseUrl();
 
 == 取得安裝的 `$_POST` 及 `$_GET` ==
 
-預設的 Request 會把瀏覽器傳回來的 $_POST 及 $_GET 裡的 html tags 全部濾掉。
+預設的 Request 會把瀏覽器傳回來的 `$_POST` 及 `$_GET` 裡的 html tags 全部濾掉。
 
 如果需要原始的 Request Data ，那麼就在第二個參數加上 false 即可。例如：
 
