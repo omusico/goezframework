@@ -12,7 +12,39 @@
 
 == 設定檔格式 ==
 
+在 ini 檔案中， `[xxx]` 稱為區段，它會包含它底下的設定項目，直到下一個 `[yyy]` 出現。
+
+對 !GoEz Framework 來說，每個區段都代表一個執行環境。
+
+一個區段可以繼承一個已經定義過的區段，例如：
+
+{{{
+[yyy : xxx]
+}}}
+
+表示 `[yyy]` 這個區段繼承了 `[xxx]` 這個區段。
+
+== 切換設定檔 ==
+
+我們可以透過編輯 "/goez/.htaccess" 這個檔案，修改 APP_ENV 這個環境變數，來切換我們的執行環境。例如：
+
+{{{
+SetEnv APP_ENV development
+}}}
+
+表示我們會用到 `[development]` 這個區段下的設定。
+
 == 設定檔可設定的項目 ==
+
+|| *可設定項目* || *說明* || *範例或預設值* ||
+|| bootstrap.userNamespace || 設定使用者類別庫的前置字串 (可省略底線) || `My_` (預設) ||
+|| bootstrap.router || 定義 Router 類別 || `GoEz_Router` (預設) ||
+|| bootstrap.request || 定義 Request 類別 || `GoEz_Request` (預設) ||
+|| view.template_dir || 定義 Smarty 樣版取得路徑 || `APP_ROOT_PATH "/tpl"` (預設) ||
+|| view.compile_dir || 定義 Smarty 樣版編譯後的存放路徑 || `APP_ROOT_PATH "/tpl_c"` (預設) ||
+|| view.left_delimiter || 定義 Smarty 的左定界符 || `"<%"` (預設) ||
+|| view.right_delimiter || 定義 Smarty 的右定界符 || `"%>"` (預設) ||
+|| view.plugins_dir[] || 定義開發者的自訂的 Smarty Plugins 路徑 || `APP_LIB_PATH "/My/View/plugin"` (範例) ||
 
 ----
 
