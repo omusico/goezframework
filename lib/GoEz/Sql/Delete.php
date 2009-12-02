@@ -17,8 +17,20 @@
  */
 class GoEz_Sql_Delete extends GoEz_Sql
 {
+    /**
+     * 轉換成 SQL 語法
+     *
+     * @return string
+     */
     public function __toString()
     {
+        $table = $this->quoteIdentifier($this->_part['TABLE']);
 
+        $sql = sprintf("DELETE FROM %s", $table);
+        if ($where = $this->_whereExpr($this->_part['WHERE'])) {
+            $sql .= ' WHERE ' . $where;
+        }
+
+        return $sql;
     }
 }

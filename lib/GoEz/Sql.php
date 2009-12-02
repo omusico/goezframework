@@ -143,7 +143,7 @@ class GoEz_Sql
      */
     public static function delete($table, $where)
     {
-        return self::_create('update', array(
+        return self::_create('delete', array(
             'TABLE' => (string) $table,
             'WHERE' => (array) $where,
         ));
