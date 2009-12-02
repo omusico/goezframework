@@ -67,4 +67,23 @@ class GoEz_SqlTest extends PHPUnit_Framework_TestCase
         ));
         $this->assertEquals("INSERT INTO `users` (`name`, `age`) VALUES ('John', 20)", (string) $sql);
     }
+
+    public function testUpdate()
+    {
+        $sql = GoEz_Sql::update('users', array(
+            'name' => 'John',
+            'age' => 21,
+        ), array(
+            'id = ?' => 1,
+        ));
+        $this->assertEquals("UPDATE `users` SET `name` = 'John', `age` = 21 WHERE (id = 1)", (string) $sql);
+    }
+
+    public function testDelete()
+    {
+        $sql = GoEz_Sql::delete('users', array(
+            'id = ?' => 1,
+        ));
+        $this->assertEquals("DELETE FROM `users` WHERE (id = 1)", (string) $sql);
+    }
 }
