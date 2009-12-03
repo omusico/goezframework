@@ -1,0 +1,56 @@
+#summary 自訂 Bootstrap
+
+[TableOfContents 回目錄]
+
+----
+
+= 自訂 Bootstrap =
+
+假設開發者不想用 GoEz 內建的 Smarty 時，那麼在 0.1.1 版後，他可透過自訂 Bootstrap 來改用其他的 View 核心。
+
+== 設定 ==
+
+0.1.1 版後我們可以在 config.ini 加入以下設定來改變 Bootstrap 的載入類別：
+
+{{{
+bootstrap.class = "My_Bootstrap"
+}}}
+
+這樣一來，我們在執行 `GoEz_Bootstrap::run()` 時，就會改用 My_Bootstrap 類別來初始化執行實體。
+
+== 程式碼 ==
+
+以下就是我們的 My_Bootstrap 類別，檔案路徑為 "/goez/lib/My/Bootstrap.php" 。
+
+{{{
+<?php
+class My_Bootstrap extends GoEz_Bootstrap
+{
+    protected function _initView()
+    {
+        $this->_view = new My_View($this->_config['view']);
+    }
+}
+}}}
+
+當然這邊的 My_View 類別也是要使用者自行建立，例如：
+
+{{{
+<?php
+class My_View extends GoEz_View
+{
+    public function getViewEngine()
+    {
+        // 初始化自己的樣版引擎並回傳
+    }
+    
+    public function fetchTemplate($file)
+    {
+        // 回傳解析 $file 之後的結果
+    }
+}
+}}}
+
+----
+
+[TableOfContents 回目錄]
