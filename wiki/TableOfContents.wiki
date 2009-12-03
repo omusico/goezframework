@@ -11,6 +11,7 @@
  * 開發
   * [EditStartPage 從修改首頁開始]
   * [EditConfig 修改設定檔]
+  * [CustomBootstrap 自訂 Bootstrap]
   * [CustomController 自訂 Controller]
   * [Template 自訂樣版]
   * [UseAjax 使用 Ajax]
