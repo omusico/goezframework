@@ -6,7 +6,7 @@
 
 = 自訂 Bootstrap =
 
-假設開發者不想用 GoEz 內建的 Smarty 時，那麼在 0.1.1 版後，他可透過自訂 Bootstrap 來改用其他的 View 核心。
+假設開發者不想用 !GoEz Framework 內建的 Smarty 時，那麼在 0.1.1 版後，他可透過自訂 Bootstrap 來改用其他的 View 核心。
 
 == 設定 ==
 
