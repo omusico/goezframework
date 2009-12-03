@@ -16,11 +16,11 @@
 bootstrap.class = "My_Bootstrap"
 }}}
 
-這樣一來，我們在執行 `GoEz_Bootstrap::run()` 時，就會改用 My_Bootstrap 類別來初始化執行實體。
+這樣一來，我們在執行 `GoEz_Bootstrap::run()` 時，就會改用 `My_Bootstrap` 類別來初始化執行實體。
 
 == 程式碼 ==
 
-以下就是我們的 My_Bootstrap 類別，檔案路徑為 "/goez/lib/My/Bootstrap.php" 。
+以下就是我們的 `My_Bootstrap` 類別，檔案路徑為 "/goez/lib/My/Bootstrap.php" 。
 
 {{{
 <?php
@@ -33,7 +33,7 @@ class My_Bootstrap extends GoEz_Bootstrap
 }
 }}}
 
-當然這邊的 My_View 類別也是要使用者自行建立，例如：
+當然這邊的 `My_View` 類別也是要使用者自行建立，例如：
 
 {{{
 <?php
