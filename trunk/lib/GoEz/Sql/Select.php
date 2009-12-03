@@ -81,6 +81,20 @@ class GoEz_Sql_Select extends GoEz_Sql
     }
 
     /**
+     * 設定 LIMIT
+     *
+     * @param int $count
+     * @param int $offset
+     * @return GoEz_Sql_Select
+     */
+    public function limit($count = null, $offset = null)
+    {
+        $this->_part['LIMIT_COUNT']  = (int) $count;
+        $this->_part['LIMIT_OFFSET'] = (int) $offset;
+        return $this;
+    }
+
+    /**
      * 轉換成 SQL 語法
      *
      * @return string
@@ -96,7 +110,14 @@ class GoEz_Sql_Select extends GoEz_Sql
         if ((1 === count($this->_part['COLUMN'])) && ('*' === $this->_part['COLUMN'][0])) {
             $columns = $this->_part['COLUMN'];
         } else {
-            $columns = array_map(array($this, 'quoteIdentifier'), $this->_part['COLUMN']);
+            $columns = array();
+            foreach ($this->_part['COLUMN'] as $col => $alias) {
+                if (is_int($col)) {
+                    $columns[] = $this->quoteIdentifier($alias);
+                } else {
+                    $columns[] = $col . ' AS ' . $this->quoteIdentifier($alias);
+                }
+            }
         }
         $sql .= ' ' . join(', ', $columns);
 
@@ -125,6 +146,14 @@ class GoEz_Sql_Select extends GoEz_Sql
             }
             $sql .= join(', ', $orders);
         }
+
+        // LIMIT
+        if (!empty($this->_part['LIMIT_COUNT']) && empty($this->_part['LIMIT_OFFSET'])) {
+            $sql .= ' LIMIT ' . (int) $this->_part['LIMIT_COUNT'];
+        } elseif (!empty($this->_part['LIMIT_COUNT'])) {
+            $sql .= ' LIMIT ' . (int) $this->_part['LIMIT_OFFSET'] . ', ' . (int) $this->_part['LIMIT_COUNT'];
+        }
+
         return $sql;
     }
 }

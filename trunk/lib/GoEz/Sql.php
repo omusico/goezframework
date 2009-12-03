@@ -52,6 +52,8 @@ class GoEz_Sql
         'GROUP' => array(),
         'HAVING' => array(),
         'ORDER' => array(),
+        'LIMIT_COUNT' => null,
+        'LIMIT_OFFSET' => null,
     );
 
     /**
@@ -87,7 +89,37 @@ class GoEz_Sql
     /**
      * Select 語法
      *
-     * @param array $columns
+     * 利用 Fluent interface 來組合 Select 語法，目的是減少開發者手誤與避免 SQL Inject 。
+     *
+     * 用法：
+     *
+     * <code>
+     * $sql = GoEz_Sql::select()
+     *                ->from('users');
+     * // $sql = "SELECT * FROM `users`"
+     *
+     * $sql = GoEz_Sql::select(array('name', 'age'))
+     *                ->from('users');
+     * // $sql = "SELECT `name`, `age` FROM `users`"
+     *
+     * $sql = GoEz_Sql::select(array('name' => 'userName', 'age' => 'userAge'))
+     *                ->from('users');
+     * // $sql = "SELECT name AS `userName`, age AS `userAge` FROM `users`"
+     *
+     * $sql = GoEz_Sql::select()
+     *                ->distinct()
+     *                ->from('users');
+     * // $sql = "SELECT DISTINCT * FROM `users`"
+     *
+     * $sql = GoEz_Sql::select()
+     *                ->from('users')
+     *                ->where('name = ?', 'John')
+     *                ->group('name')
+     *                ->order('age', 'DESC');
+     * // $sql = "SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `age` DESC"
+     * </code>
+     *
+     * @param array $columns 要輸出的欄位，預設是 * (所有欄位)
      * @return GoEz_Sql_Select
      */
     public static function select($columns = '*')
@@ -100,10 +132,24 @@ class GoEz_Sql
     /**
      * Insert 語法
      *
+     * 輸出
+     *
      * @return GoEz_Sql_Insert
      */
     /**
      * Insert 語法
+     *
+     * 主要是為了避免開發者在撰寫 INSERT 語法時，常會出現的欄位與值無法區配的問題。
+     *
+     * 用法：
+     *
+     * <code>
+     * $sql = GoEz_Sql::insert('users', array(
+     *     'name' => 'John',
+     *     'age' => 20,
+     * ));
+     * // $sql = "INSERT INTO `users` (`name`, `age`) VALUES ('John', 20)"
+     * </code>
      *
      * @param string $table
      * @param array $data
@@ -111,7 +157,7 @@ class GoEz_Sql
      */
     public static function insert($table, $data)
     {
-        return self::_create('insert', array(
+        return (string) self::_create('insert', array(
             'TABLE' => (string) $table,
             'DATA' => (array) $data,
         ));
@@ -120,6 +166,23 @@ class GoEz_Sql
     /**
      * Update 語法
      *
+     * 主要是為了避免 SQL Injection 的問題。
+     *
+     * 用法：
+     *
+     * <code>
+     * $sql = GoEz_Sql::update('users', array(
+     *     'name' => 'John',
+     *     'age' => 21,
+     * ), array(
+     *     'id = ?' => 1,
+     *     'age > 0',
+     * ));
+     * // $sql = "UPDATE `users` SET `name` = 'John', `age` = 21 WHERE (id = 1) AND (age > 0)"
+     * </code>
+     *
+     * 特別注意這裡第三個參數的用法，陣列的索引可以是帶有 ? 號的條件式。
+     *
      * @param string $table
      * @param array $data
      * @param array $where
@@ -127,7 +190,7 @@ class GoEz_Sql
      */
     public static function update($table, $data, $where)
     {
-        return self::_create('update', array(
+        return (string) self::_create('update', array(
             'TABLE' => (string) $table,
             'DATA' => (array) $data,
             'WHERE' => (array) $where,
@@ -137,13 +200,27 @@ class GoEz_Sql
     /**
      * Delete 語法
      *
+     * 用法：
+     *
+     * <code>
+     * $sql = GoEz_Sql::delete('users', array(
+     *     'id = ?' => 1,
+     * ));
+     * // $sql = "DELETE FROM `users` WHERE (id = 1)"
+     *
+     * $sql = GoEz_Sql::delete('users', array(
+     *     'age > 20',
+     * ));
+     * // $sql = "DELETE FROM `users` WHERE (age > 20)"
+     * </code>
+     *
      * @param string $table
      * @param array $where
      * @return GoEz_Sql_Delete
      */
     public static function delete($table, $where)
     {
-        return self::_create('delete', array(
+        return (string) self::_create('delete', array(
             'TABLE' => (string) $table,
             'WHERE' => (array) $where,
         ));
@@ -152,7 +229,7 @@ class GoEz_Sql
     /**
      * 將使用者輸入的值適當地加上引號
      *
-     * 如果輸入的是陣列，那麼裡面的項目會在加上引號後，回傳為一個用逗號分隔的字串
+     * 如果輸入的是陣列，那麼裡面的項目會在加上引號後，回傳為一個用逗號分隔的字串。
      *
      * @param mixed $value
      * @return mixed
