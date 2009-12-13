@@ -8,6 +8,8 @@
 
 假設開發者不想用 !GoEz Framework 內建的 Smarty 時，那麼在 0.1.1 版後，他可透過自訂 Bootstrap 來改用其他的 View 核心。
 
+註： 0.1.2 版之後請改用[CustomView 自訂 View] 的方法。
+
 == 設定 ==
 
 0.1.1 版後我們可以在 config.ini 加入以下設定來改變 Bootstrap 的載入類別：
