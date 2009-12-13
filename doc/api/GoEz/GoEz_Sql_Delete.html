@@ -3,13 +3,13 @@
   <html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
 			<!-- template designed by Marco Von Ballmoos -->
-			<title>Docs For Class GoEz_Loader</title>
+			<title>Docs For Class GoEz_Sql_Delete</title>
 			<link rel="stylesheet" href="../media/stylesheet.css" />
 			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
 		</head>
 		<body>
 			<div class="page-body">			
-<h2 class="class-name">Class GoEz_Loader</h2>
+<h2 class="class-name">Class GoEz_Sql_Delete</h2>
 
 <a name="sec-description"></a>
 <div class="info-box">
@@ -21,17 +21,19 @@
 					</div>
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">自動載入類別</p>
+<p class="short-description">Delete</p>
 	<ul class="tags">
 				<li><span class="field">copyright:</span> Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)</li>
 				<li><span class="field">license:</span> New</li>
 			</ul>
 		<p class="notes">
-			Located in <a class="field" href="_Loader.php.html">/Loader.php</a> (line <span class="field">18</span>)
+			Located in <a class="field" href="_Sql---Delete.php.html">/Sql/Delete.php</a> (line <span class="field">18</span>)
 		</p>
 		
 				
-		<pre></pre>
+		<pre>GoEz_Sql
+   |
+   --GoEz_Sql_Delete</pre>
 	
 			</div>
 </div>
@@ -48,16 +50,11 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																				
+												
 												<div class="method-definition">
-											<span class="method-result">void</span>
-										<a href="#autoload" title="details" class="method-name">autoload</a>
+											<span class="method-result">string</span>
+										<a href="#__toString" title="details" class="method-name">__toString</a>
 										()
-									</div>
-																<div class="method-definition">
-											<span class="method-result">void</span>
-										<a href="#loadClass" title="details" class="method-name">loadClass</a>
-											(<span class="var-type">string</span>&nbsp;<span class="var-name">$className</span>)
 									</div>
 								</div>
 		</div>
@@ -75,59 +72,27 @@
 		<div class="info-box-body">
 			<A NAME='method_detail'></A>
 
-<a name="methodautoload" id="autoload"><!-- --></a>
+<a name="method__toString" id="__toString"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">autoload</span> (line <span class="line-number">31</span>)
+		<span class="method-title">__toString</span> (line <span class="line-number">25</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">自動載入</p>
-<p class="description"><p>自動載入類別檔案</p></p>
+<p class="short-description">轉換成 SQL 語法</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
 	
 	<div class="method-signature">
-		<span class="method-result">void</span>
+		<span class="method-result">string</span>
 		<span class="method-name">
-			autoload
+			__toString
 		</span>
 				()
 			</div>
 	
-		
-			
-	</div>
-<a name="methodloadClass" id="loadClass"><!-- --></a>
-<div class="oddrow">
-	
-	<div class="method-header">
-		<span class="method-title">loadClass</span> (line <span class="line-number">45</span>)
-	</div> 
-	
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">載入類別</p>
-<p class="description"><p>將類別名稱 Xx_Yyy_Zzz 轉為 Xx/Yyy/Zzz.php 後載入</p></p>
-	<ul class="tags">
-				<li><span class="field">throws:</span> Excetion</li>
-				<li><span class="field">access:</span> public</li>
-			</ul>
-	
-	<div class="method-signature">
-		<span class="method-result">void</span>
-		<span class="method-name">
-			loadClass
-		</span>
-					(<span class="var-type">string</span>&nbsp;<span class="var-name">$className</span>)
-			</div>
-	
-			<ul class="parameters">
-					<li>
-				<span class="var-type">string</span>
-				<span class="var-name">$className</span>			</li>
-				</ul>
 		
 			
 	</div>
