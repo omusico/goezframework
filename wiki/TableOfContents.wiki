@@ -13,6 +13,7 @@
   * [EditConfig 修改設定檔]
   * [CustomBootstrap 自訂 Bootstrap]
   * [CustomController 自訂 Controller]
+  * [CustomView 自訂 View]
   * [Template 自訂樣版]
   * [UseAjax 使用 Ajax]
  * 範例
