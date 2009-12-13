@@ -46,7 +46,7 @@ class GoEz_Loader
     {
         $fileName = str_replace('_', '/', $className) . '.php';
         @include_once $fileName;
-        if (!class_exists($className, false)) {
+        if (!class_exists($className, false) && !interface_exists($className, true)) {
             eval('class ' . $className . ' {}');
             throw new Exception("類別 \"$className\" 不存在");
         }
