@@ -1,0 +1,70 @@
+#summary 自訂 View
+
+[TableOfContents 回目錄]
+
+----
+
+= 自訂 View =
+
+雖然 !GoEz Framework 是以 !Smarty 為核心，但我們還是可以抽換掉它。
+
+== 設定新引擎 ==
+
+在 0.1.2 版後，我們可以在 "/goez/etc/config.ini" 裡指定自訂的樣版引擎，例如：
+
+{{{
+view.engine = "My_View_Savant2";
+}}}
+
+這樣程式就會改用開發者指定的 `My_View_Savant2` 這個類別。
+
+當然也別忘了設定其他的選項，例如：
+
+{{{
+view.templatePath = APP_ROOT_PATH "/tpl"
+}}}
+
+告知 `My_View_Savant2` 在初始化時，它會得到一個含有 `templatePath` 索引的設定陣列。
+
+== 引擎轉接器寫法 ==
+
+上述的 `My_View_Savant2` 是一個 View 引擎轉接器，它必須實作 `GoEz_View_Engine` 這個介面。
+
+而實作 `GoEz_View_Engine` 介面則需要完成以下兩個方法：
+
+ * assign($name, $value)
+ * fetch($file)
+
+當然也別忘了在建構式裡透過設定來初始化我們的樣板引擎，例如：
+
+{{{
+<?php
+require_once dirname(dirname(dirname(__FILE__))) . '/Savant2/Savant2.php';
+
+class My_View_Savant2 implements GoEz_View_Engine
+{
+    protected $_engine = null;
+
+    public function __construct($config)
+    {
+        $this->_engine = new Savant2();
+        $this->_engine->addPath('template', $config['templatePath']);
+    }
+
+    public function assign($name, $value = null)
+    {
+        $this->_engine->assign($name, $value);
+    }
+
+    public function fetch($file)
+    {
+        return $this->_engine->fetch($file);
+    }
+}
+}}}
+
+這裡我們改用 Savant2 這個樣版引擎來取代原有的 Smarty 。
+
+----
+
+[TableOfContents 回目錄]
