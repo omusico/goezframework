@@ -63,7 +63,7 @@ class My_View_Savant2 implements GoEz_View_Engine
 }
 }}}
 
-這裡我們改用 Savant2 這個樣版引擎來取代原有的 Smarty 。
+這裡我們改用 [http://phpsavant.com/ Savant2] 這個樣版引擎來取代原有的 [http://www.smarty.net Smarty] 。
 
 ----
 
