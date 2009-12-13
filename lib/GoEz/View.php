@@ -124,21 +124,18 @@ class GoEz_View
      *
      * @return Smarty
      */
-    public function getViewEngine()
+    public function getViewEngine($engineType = 'Smarty')
     {
         static $engine = null;
         if (null === $engine) {
-            require_once 'Smarty/Smarty.class.php';
-            $engine = new Smarty();
-            foreach ($this->_config as $attr => $value) {
-            	if (property_exists($engine, $attr)) {
-            	    if (is_string($value)) {
-                        $engine->$attr = $value;
-            	    } elseif (is_array($value)) {
-            	        $engine->$attr = array_merge($engine->$attr, $value);
-            	    }
-            	}
+            $engineType = isset($this->_config['engineType'])
+                        ? $this->_config['engineType']
+                        : $engineType;
+            $engineName = 'GoEz_View_' . ucfirst(strtolower($engineType));
+            if (!class_exists($engineName, true)) {
+                throw new Exception("View Engine \"$engineName\" 不存在。");
             }
+            $engine = new $engineName($this->_config);
         }
         return $engine;
     }
