@@ -51,7 +51,7 @@ class GoEz_View
      * $view->def = 456;
      * </code>
      *
-     * 然後在呼叫 renderTemplate() 方法時，就會自動把這些變數指定給 Smarty
+     * 然後在呼叫 renderTemplate() 方法時，就會自動把這些變數指定給 GoEz_View_Engine
      *
      * @param string $name
      * @param mixed $value
@@ -64,7 +64,7 @@ class GoEz_View
     /**
      * HTML 前端樣版變數
      *
-     * 主要會在呼叫 renderTemplate() 方法時，將這裡的變數傳送給 Smarty 應用
+     * 主要會在呼叫 renderTemplate() 方法時，將這裡的變數傳送給 GoEz_View_Engine 應用
      *
      * @var array
      */
@@ -73,7 +73,7 @@ class GoEz_View
     /**
      * 設定前端樣版變數
      *
-     * 用來指定 Smarty 專用的前端樣版變數
+     * 用來指定 GoEz_View_Engine 專用的前端樣版變數
      *
      * @param string $name
      * @param mixed $value
@@ -120,18 +120,17 @@ class GoEz_View
      * 取得 View Engine
      *
      * 這裡會自動抓取 INI 檔案裡設定的 view config
-     * 然後設定 Smarty Engine 的初始值，然後回傳
+     * 然後設定 GoEz_View_Engine 的初始值，然後回傳
      *
-     * @return Smarty
+     * @return GoEz_View_Engine
      */
-    public function getViewEngine($engineType = 'Smarty')
+    public function getViewEngine()
     {
         static $engine = null;
         if (null === $engine) {
-            $engineType = isset($this->_config['engineType'])
-                        ? $this->_config['engineType']
-                        : $engineType;
-            $engineName = 'GoEz_View_' . ucfirst(strtolower($engineType));
+            $engineName = isset($this->_config['engine'])
+                        ? $this->_config['engine']
+                        : 'GoEz_View_Smarty';
             if (!class_exists($engineName, true)) {
                 throw new Exception("View Engine \"$engineName\" 不存在。");
             }
@@ -143,8 +142,8 @@ class GoEz_View
     /**
      * 取得 Render 結果
      *
-     * 先將一般的樣版變數以及 frontendVars 指定的樣版變數 assign 給 Smarty
-     * 然後回傳 Smarty::fetch() 後的結果
+     * 先將一般的樣版變數以及 frontendVars 指定的樣版變數 assign 給 GoEz_View_Engine
+     * 然後回傳 GoEz_View_Engine::fetch() 後的結果
      *
      * @param string $file
      * @return string
