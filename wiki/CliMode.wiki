@@ -1,0 +1,33 @@
+#summary 使用 CLI 模式
+
+[TableOfContents 回目錄]
+
+----
+
+= 使用 CLI 模式 =
+
+有時我們會需要在 CLI 模式下執行類似排程的工作，在 !GoEz Framework 0.1.3 後也支援這類模式的開發。
+
+== 開發方式 ==
+
+CLI 模式的程式碼也是寫在 Controller 的 Action 中，不過要注意有些超全域變數是不能用在 CLI 模式下的，像是 `$_POST` 或 `$_GET` 等。
+
+詳細的開發方式可以參考官方的 [http://php.net/manual/en/features.commandline.php Using PHP from the command line] 一文。
+
+== 執行方式 ==
+
+在 Windows 下的執行方法如下：
+
+{{{
+> c:\php5\php.exe d:\wwwroot\goez\index.php --controller=controller-name --action=action-name
+}}}
+
+或是：
+
+{{{
+> c:\php5\php.exe d:\wwwroot\goez\index.php -c=controller-name -a=action-name
+}}}
+
+----
+
+[TableOfContents 回目錄]
