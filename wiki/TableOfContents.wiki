@@ -16,6 +16,7 @@
   * [CustomView 自訂 View]
   * [Template 自訂樣版]
   * [UseAjax 使用 Ajax]
+  * [CliMode 使用 CLI 模式]
  * 範例
   * [Guestbook 建立一個留言板]
  * 元件
