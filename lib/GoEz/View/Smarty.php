@@ -42,7 +42,7 @@ class GoEz_View_Smarty implements GoEz_View_Engine
         	    if (is_string($value)) {
                     $this->_engine->$attr = $value;
         	    } elseif (is_array($value)) {
-        	        $this->_engine->$attr = array_merge($engine->$attr, $value);
+        	        $this->_engine->$attr = array_merge($this->_engine->$attr, $value);
         	    }
         	}
         }
