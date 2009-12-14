@@ -151,7 +151,12 @@ class GoEz_Bootstrap
      */
     protected function _initRouter()
     {
-        $routerName = $this->_getClassInConfig('router', 'GoEz_Router_Rewrite');
+        if ('cli' === strtolower(PHP_SAPI)) {
+            $routerName = 'GoEz_Router_Cli';
+        } else {
+            $routerName = $this->_getClassInConfig('router', 'GoEz_Router_Rewrite');
+        }
+
         $this->_router = new $routerName();
     }
 
