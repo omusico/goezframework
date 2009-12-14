@@ -15,6 +15,7 @@
  * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
  * @license    New BSD License
  * @see        http://pwfisher.com/nucleus/index.php?itemid=45
+ * @author     Patrick Fisher <patrick@pwfisher.com>
  */
 class GoEz_Cli
 {
@@ -56,7 +57,7 @@ class GoEz_Cli
      *   ["foo"]   => true
      *   ["bar"]   => "baz"
      *   ["funny"] => "spam=eggs"
-     *   ["also-funny"]=> "spam=eggs"
+     *   ["also-funny"] => "spam=eggs"
      *   [1]       => "plain arg 2"
      *   ["a"]     => true
      *   ["b"]     => true
@@ -66,11 +67,6 @@ class GoEz_Cli
      *   ["s"]     => "overwrite"
      * </code>
      *
-     * @author Patrick Fisher <patrick@pwfisher.com>
-     * @since  August 21, 2009
-     * @see    http://www.php.net/manual/en/features.commandline.php<br />
-     *         #81042 function arguments($argv) by technorati at gmail dot com, 12-Feb-2008<br />
-     *         #78651 function getArgs($args) by B Crawford, 22-Oct-2007
      * @param array $argv
      */
     public static function parseArgs($argv)
