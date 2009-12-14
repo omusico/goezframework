@@ -14,7 +14,7 @@
  * @package    GoEz
  * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
  * @license    New BSD License
- * @see http://pwfisher.com/nucleus/index.php?itemid=45
+ * @see        http://pwfisher.com/nucleus/index.php?itemid=45
  */
 class GoEz_Cli
 {
@@ -32,6 +32,9 @@ class GoEz_Cli
      * of options (switches, flags and arguments) and returns a simple array.
      *
      * 本方法可以將命令列參數轉換為陣列，參考範例如下：
+     *
+     * <code>
+     * $args = GoEz_Cli::parseArgs($_SERVER['argv']);
      *
      * [pfisher ~]$ php test.php --foo --bar=baz
      *   ["foo"]   => true
@@ -61,13 +64,14 @@ class GoEz_Cli
      *   ["k"]     => "value"
      *   [2]       => "plain arg 3"
      *   ["s"]     => "overwrite"
+     * </code>
      *
      * @author Patrick Fisher <patrick@pwfisher.com>
      * @since  August 21, 2009
-     * @see    http://www.php.net/manual/en/features.commandline.php
-     *         #81042 function arguments($argv) by technorati at gmail dot com, 12-Feb-2008
+     * @see    http://www.php.net/manual/en/features.commandline.php<br />
+     *         #81042 function arguments($argv) by technorati at gmail dot com, 12-Feb-2008<br />
      *         #78651 function getArgs($args) by B Crawford, 22-Oct-2007
-     * @usage  $args = GoEz_Cli::parseArgs($_SERVER['argv']);
+     * @param array $argv
      */
     public static function parseArgs($argv)
     {
