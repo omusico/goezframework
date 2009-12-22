@@ -44,5 +44,6 @@ var $frontendVars = <% $frontendVars|@json_encode %>;
 <p>Powered by <a href="http://code.google.com/p/goezframework/" target="_blank">GoEz Framework</a></p>
 </div>
 </div>
+<!--[if lte IE 6]><script src="<% $frontendVars.baseUrl %>/pub/lib/ie6/warning.js?v=<% ''|@time %>"></script><script>window.onload=function(){e($frontendVars.baseUrl + '/pub/lib/ie6/')}</script><![endif]-->
 </body>
 </html>
