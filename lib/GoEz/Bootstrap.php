@@ -117,8 +117,8 @@ class GoEz_Bootstrap
     protected function __construct($config)
     {
         $this->_config = $config;
-        $this->_initRouter();
         $this->_initRequest();
+        $this->_initRouter();
         $this->_initView();
     }
 
@@ -157,7 +157,7 @@ class GoEz_Bootstrap
             $routerName = $this->_getClassInConfig('router', 'GoEz_Router_Rewrite');
         }
 
-        $this->_router = new $routerName();
+        $this->_router = new $routerName($this->_request);
     }
 
     /**

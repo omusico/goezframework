@@ -28,6 +28,7 @@ class GoEz_Router_Cli extends GoEz_Router
     {
         global $argv;
         $parsedArgv = GoEz_Cli::parseArgs($argv);
+
         if (isset($parsedArgv['controller'])) {
             $this->_controller = strtolower($parsedArgv['controller']);
         } elseif (isset($parsedArgv['c'])) {
@@ -37,6 +38,10 @@ class GoEz_Router_Cli extends GoEz_Router
             $this->_action = strtolower($parsedArgv['action']);
         } elseif (isset($parsedArgv['a'])) {
             $this->_action = strtolower($parsedArgv['a']);
+        }
+
+        foreach ($parsedArgv as $key => $value) {
+            $this->_request->setParam($key, $value);
         }
     }
 }
