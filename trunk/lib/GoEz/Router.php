@@ -32,11 +32,23 @@ class GoEz_Router
     protected $_action = 'index';
 
     /**
+     * Request 物件
+     *
+     * @var GoEz_Request
+     */
+    protected $_request = null;
+
+    /**
      * 在建構函式中解析 GET 變數
      *
+     * @param GoEz_Request $request
      */
-    public final function __construct()
+    public final function __construct(GoEz_Request $request = null)
     {
+        if (null == $request) {
+            $request = new GoEz_Request();
+        }
+        $this->_request = $request;
         $this->_parseUrl();
     }
 

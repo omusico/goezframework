@@ -114,4 +114,43 @@ class GoEz_Request
     {
         return isset($_GET[$key]) ? ($stripTags ? strip_tags(trim($_GET[$key])) : trim($_GET[$key])) : null;
     }
+
+    /**
+     * 程式參數
+     *
+     * @var array
+     */
+    protected $_params = array();
+
+    /**
+     * 設定參數
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setParam($key, $value)
+    {
+        $this->_params[$key] = $value;
+    }
+
+    /**
+     * 取得參數
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getParam($key)
+    {
+        return isset($this->_params[$key]) ? $this->_params[$key] : null;
+    }
+
+    /**
+     * 取得所有參數
+     *
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->_params;
+    }
 }

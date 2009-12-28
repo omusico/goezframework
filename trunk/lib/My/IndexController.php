@@ -13,4 +13,13 @@ class My_IndexController extends GoEz_Controller
     {
         $this->_view->renderTemplate('index.tpl.htm');
     }
+
+    /**
+     * Cron
+     *
+     */
+    public function cronAction()
+    {
+        var_dump($this->_request->getParams());
+    }
 }
