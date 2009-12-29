@@ -116,6 +116,18 @@ class GoEz_Request
     }
 
     /**
+     * 取得 COOKIE 值
+     *
+     * @param string $key
+     * @param bool $stripTags 設為 false 時會回傳原始的 POST 值，不會把 html tag 去掉
+     * @return string
+     */
+    public function getCookie($key)
+    {
+        return isset($_COOKIE[$key]) ? trim($_COOKIE[$key]) : null;
+    }
+
+    /**
      * 程式參數
      *
      * @var array
