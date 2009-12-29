@@ -36,7 +36,7 @@ CLI 模式的程式碼也是寫在 Controller 的 Action 中，不過要注意�
 > c:\php5\php.exe d:\wwwroot\goez\index.php -c=controller-name -a=action-name --xxx=yyy
 }}}
 
-那麼我們可以在 Action 中用以下指令來取得 p 這個命令列參數的值：
+那麼我們可以在 Action 中用以下指令來取得 xxx 這個命令列參數的值：
 
 {{{
 echo $this->_request->getParam('xxx');
