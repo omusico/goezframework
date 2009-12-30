@@ -50,11 +50,30 @@ class GoEz_Loader
 
         $fileName = str_replace('_', '/', $className) . '.php';
 
+        $loader = new self();
+
+        set_error_handler(array($loader, 'errorHandler'));
         include_once $fileName;
+        restore_error_handler();
 
         if (!class_exists($className, false) && !interface_exists($className, false)) {
             eval('class ' . $className . ' {}');
             throw new Exception("類別 \"$className\" 不存在");
         }
     }
+
+    /**
+     * 錯誤處理
+     *
+     * @param int $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param int $errline
+     * @param array $errcontext
+     */
+    public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+    {
+        die('程式執行錯誤');
+    }
 }
+
