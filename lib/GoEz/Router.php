@@ -50,6 +50,7 @@ class GoEz_Router
         }
         $this->_request = $request;
         $this->_parseUrl();
+        $this->_checkName();
     }
 
     /**
@@ -63,6 +64,21 @@ class GoEz_Router
     {
         $this->_controller = $this->_getQuery('controller', 'index');
         $this->_action = $this->_getQuery('action', 'index');
+    }
+
+    /**
+     * 檢查 Controller 及 Action 名稱
+     *
+     */
+    protected function _checkName()
+    {
+        if (!preg_match('/[a-z][\-_a-z0-9\.]+/', $this->_controller)) {
+            $this->_controller = 'index';
+        }
+
+        if (!preg_match('/[a-z][\-a-z0-9]+/', $this->_action)) {
+            $this->_action = 'index';
+        }
     }
 
     /**
