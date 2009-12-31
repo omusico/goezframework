@@ -73,7 +73,6 @@ class GoEz_Loader
      */
     public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
     {
-        die('程式執行錯誤');
     }
 }
 
