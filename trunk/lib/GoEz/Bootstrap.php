@@ -17,6 +17,8 @@
  */
 class GoEz_Bootstrap
 {
+    protected static $_debug = false;
+
     /**
      * 設定
      *
@@ -64,6 +66,7 @@ class GoEz_Bootstrap
     public final function run($configFile, $env = null)
     {
         $config = self::_loadConfig($configFile, $env);
+        self::$_debug = (isset($config['bootstrap']['debug'])) ? (bool) $config['bootstrap']['debug'] : false;
         $bootstrapClass = 'GoEz_Bootstrap';
         if (isset($config['bootstrap']['class'])) {
             $tempClass = trim($config['bootstrap']['class']);
@@ -281,9 +284,18 @@ class GoEz_Bootstrap
     public static function displayException(Exception $e)
     {
         header('Content-Type: text/html; charset=utf-8');
-        echo '<h1>程式發生錯誤</h1>';
-        echo '<p>', $e->getMessage(), '</p>';
-        echo self::displayTrace($e->getTrace());
+        echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+        '<html xmlns="http://www.w3.org/1999/xhtml">',
+        '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
+        '<title>程式發生錯誤</title></head><body>',
+        '<h1>程式發生錯誤</h1>';
+        if (self::$_debug) {
+            echo '<p>', $e->getMessage(), '</p>';
+            echo self::displayTrace($e->getTrace());
+        } else {
+            echo '<p>您提供的網址或是您的操作造成了系統無法正確回應。</p>';
+        }
+        echo '</body></html>';
     }
 
     /**
