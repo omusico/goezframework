@@ -11,13 +11,7 @@ class My_IndexController extends GoEz_Controller
      */
     public function indexAction()
     {
-        $test = new Test();
         $this->_view->renderTemplate('index.tpl.htm');
-    }
-
-    public function testAction()
-    {
-        echo 'test';
     }
 
     /**
