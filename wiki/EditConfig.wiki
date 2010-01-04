@@ -38,8 +38,10 @@ SetEnv APP_ENV development
 
 || *可設定項目* || *說明* || *範例或預設值* ||
 || `bootstrap.userNamespace` || 設定使用者類別庫的前置字串 (可省略底線) || `My_` (預設) ||
-|| `bootstrap.router` || 定義 Router 類別 || `GoEz_Router` (預設) ||
-|| `bootstrap.request` || 定義 Request 類別 || `GoEz_Request` (預設) ||
+|| `bootstrap.class` || 自訂 Bootstrap 類別 || `GoEz_Bootstrap` (預設) ||
+|| `bootstrap.router` || 自訂 Router 類別 || `GoEz_Router` (預設) ||
+|| `bootstrap.request` || 自訂 Request 類別 || `GoEz_Request` (預設) ||
+|| `bootstrap.debug` || 是否要顯示除錯資訊 || on (預設) / off ||
 || `view.template_dir` || 定義 Smarty 樣版取得路徑 || `APP_ROOT_PATH "/tpl"` (預設) ||
 || `view.compile_dir` || 定義 Smarty 樣版編譯後的存放路徑 || `APP_ROOT_PATH "/tpl_c"` (預設) ||
 || `view.left_delimiter` || 定義 Smarty 的左定界符 || `"<%"` (預設) ||
