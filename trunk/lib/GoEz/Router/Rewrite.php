@@ -31,6 +31,10 @@ class GoEz_Router_Rewrite extends GoEz_Router
     {
         $baseDir = basename(APP_ROOT_PATH);
         $currDir = str_replace('index.php', '', $_SERVER['REQUEST_URI']);
+        if (false !== strpos($currDir, '?')) {
+            $currDir = str_replace(substr($currDir, strpos($currDir, '?')), '', $currDir);
+        }
+
         $pattern = '/^\/' . preg_quote($baseDir, '/') . '\/*(.*)$/';
         preg_match($pattern, $currDir, $matches);
         if (empty($matches)) { // 如果是根目錄
