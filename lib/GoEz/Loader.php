@@ -28,7 +28,7 @@ class GoEz_Loader
      *
      * 自動載入類別檔案
      */
-    public function autoload()
+    public static function autoload()
     {
         $loader = new self();
         spl_autoload_register(array($loader, 'loadClass'));
