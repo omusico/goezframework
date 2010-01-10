@@ -63,7 +63,7 @@ class GoEz_Bootstrap
      * @param $configFile 外部 INI 檔案路徑
      * @param $env 應用程式執行環境
      */
-    public final function run($configFile, $env = null)
+    public static final function run($configFile, $env = null)
     {
         $config = self::_loadConfig($configFile, $env);
         self::$_debug = (isset($config['bootstrap']['debug'])) ? (bool) $config['bootstrap']['debug'] : false;
