@@ -26,8 +26,4 @@ GoEz_Loader::autoload();
  * 執行
  *
  */
-try {
-    GoEz_Bootstrap::run(APP_ETC_PATH . '/config.ini', APP_ENV);
-} catch (Exception $e) {
-    GoEz_Bootstrap::displayException($e);
-}
+GoEz_Bootstrap::run(APP_ETC_PATH . '/config.ini', APP_ENV);
