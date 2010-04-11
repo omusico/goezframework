@@ -65,19 +65,23 @@ class GoEz_Bootstrap
      */
     public static final function run($configFile, $env = null)
     {
-        $config = self::_loadConfig($configFile, $env);
-        self::$_debug = (isset($config['bootstrap']['debug'])) ? (bool) $config['bootstrap']['debug'] : false;
-        $bootstrapClass = 'GoEz_Bootstrap';
-        if (isset($config['bootstrap']['class'])) {
-            $tempClass = trim($config['bootstrap']['class']);
-            $classExists = class_exists($tempClass, true);
-            $isSubClass = is_subclass_of($tempClass, $bootstrapClass);
-            if ($classExists && $isSubClass) {
-                $bootstrapClass = $tempClass;
+        try {
+            $config = self::_loadConfig($configFile, $env);
+            self::$_debug = (isset($config['bootstrap']['debug'])) ? (bool) $config['bootstrap']['debug'] : false;
+            $bootstrapClass = 'GoEz_Bootstrap';
+            if (isset($config['bootstrap']['class'])) {
+                $tempClass = trim($config['bootstrap']['class']);
+                $classExists = class_exists($tempClass, true);
+                $isSubClass = is_subclass_of($tempClass, $bootstrapClass);
+                if ($classExists && $isSubClass) {
+                    $bootstrapClass = $tempClass;
+                }
             }
+            $bootstrap = new $bootstrapClass($config);
+            $bootstrap->_dispatch();
+        } catch (Exception $e) {
+            self::displayException($e);
         }
-        $bootstrap = new $bootstrapClass($config);
-        $bootstrap->_dispatch();
     }
 
     /**
@@ -126,6 +130,17 @@ class GoEz_Bootstrap
     }
 
     /**
+     * 初始化 Request
+     *
+     * 預設為 GoEz_Request
+     */
+    protected function _initRequest()
+    {
+        $requestName = $this->_getClassInConfig('request', 'GoEz_Request');
+        $this->_request = new $requestName();
+    }
+
+    /**
      * 初始化 Router
      *
      * 預設用 GoEz_Router_Rewrite 來解析網址，格式為：
@@ -161,17 +176,6 @@ class GoEz_Bootstrap
         }
 
         $this->_router = new $routerName($this->_request);
-    }
-
-    /**
-     * 初始化 Request
-     *
-     * 預設為 GoEz_Request
-     */
-    protected function _initRequest()
-    {
-        $requestName = $this->_getClassInConfig('request', 'GoEz_Request');
-        $this->_request = new $requestName();
     }
 
     /**

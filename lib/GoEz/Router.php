@@ -112,5 +112,4 @@ class GoEz_Router
     {
         return $this->_action;
     }
-
 }

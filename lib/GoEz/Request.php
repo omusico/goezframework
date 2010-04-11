@@ -71,6 +71,60 @@ class GoEz_Request
     }
 
     /**
+     * Controller
+     *
+     * @var string
+     */
+    protected $_controller = 'index';
+
+    /**
+     * 設定 Controller
+     *
+     * @param string $controller
+     */
+    public function setController($controller)
+    {
+        $this->_controller = $controller;
+    }
+
+    /**
+     * 取得 Controller
+     *
+     * @return string 回傳解析後的 controller
+     */
+    public function getController()
+    {
+        return $this->_controller;
+    }
+
+    /**
+     * Action
+     *
+     * @var string
+     */
+    protected $_action = 'index';
+
+    /**
+     * 設定 Controller
+     *
+     * @param string $controller
+     */
+    public function setAction($action)
+    {
+        $this->_action = $action;
+    }
+
+    /**
+     * 取得解析後的 Action 名稱
+     *
+     * @return string 回傳解析後的 action
+     */
+    public function getAction()
+    {
+        return $this->_action;
+    }
+
+    /**
      * 是否為 POST 要求
      *
      * @return bool
