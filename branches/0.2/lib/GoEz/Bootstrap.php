@@ -17,6 +17,11 @@
  */
 class GoEz_Bootstrap
 {
+    /**
+     * 是否 Debug
+     *
+     * @var bool
+     */
     protected static $_debug = false;
 
     /**
@@ -27,6 +32,15 @@ class GoEz_Bootstrap
      * @var array
      */
     protected $_config = array();
+
+    /**
+     * Dispatcher
+     *
+     * 派送需求
+     *
+     * @var GoEz_Dispatcher
+     */
+    protected $_dispatcher = null;
 
     /**
      * Router
@@ -47,9 +61,18 @@ class GoEz_Bootstrap
     protected $_request = null;
 
     /**
+     * Response
+     *
+     * 用來處理輸出
+     *
+     * @var GoEz_Response
+     */
+    protected $_response = null;
+
+    /**
      * View
      *
-     * 用來輸出 Template 或是 JSON
+     * 用來產生 Template 或是 JSON
      *
      * @var GoEz_View
      */
@@ -125,6 +148,8 @@ class GoEz_Bootstrap
     {
         $this->_config = $config;
         $this->_initRequest();
+        $this->_initResponse();
+        $this->_initDispatcher();
         $this->_initRouter();
         $this->_initView();
     }
@@ -138,6 +163,26 @@ class GoEz_Bootstrap
     {
         $requestName = $this->_getClassInConfig('request', 'GoEz_Request');
         $this->_request = new $requestName();
+    }
+
+    /**
+     * 初始化 Response
+     *
+     * 預設為 GoEz_Response
+     */
+    protected function _initResponse()
+    {
+        $responseName = $this->_getClassInConfig('response', 'GoEz_Response');
+        $this->_response = new $responseName();
+    }
+
+    /**
+     * 初始化 Dispatcher
+     */
+    protected function _initDispatcher()
+    {
+        $dispatcherName = $this->_getClassInConfig('dispatcher', 'GoEz_Dispatcher');
+        $this->_dispatcher = new $dispatcherName();
     }
 
     /**
@@ -213,6 +258,11 @@ class GoEz_Bootstrap
      */
     protected function _dispatch()
     {
+        try {
+            $this->_dispatcher->dispatch($this->_request, $this->_response);
+        } catch (Exception $e) {
+            $this->_response->setException($e);
+        }
         $this->_userController = $this->_getUserController();
         $this->_userController->setConfig($this->_config);
         $this->_userController->setRequest($this->_request);
