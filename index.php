@@ -19,11 +19,11 @@ set_include_path(join(PATH_SEPARATOR, $includePath));
  * 自動載入類別
  *
  */
-require_once 'GoEz/Loader.php';
-GoEz_Loader::autoload();
+require_once 'Goez/Loader.php';
+Goez_Loader::autoload();
 
 /**
  * 執行
  *
  */
-GoEz_Bootstrap::run(APP_ETC_PATH . '/config.ini', APP_ENV);
+Goez_Bootstrap::run(APP_ETC_PATH . '/config.ini', APP_ENV);
