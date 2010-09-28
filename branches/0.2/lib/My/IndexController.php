@@ -3,7 +3,7 @@
  * 自訂程式
  *
  */
-class My_IndexController extends GoEz_Controller
+class My_IndexController extends Goez_Controller
 {
     /**
      * 預設動作
