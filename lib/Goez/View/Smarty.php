@@ -11,7 +11,7 @@
 /**
  * @see Smarty
  */
-require_once dirname(dirname(dirname(__FILE__))) . '/Smarty/Smarty.class.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/Smarty3/Smarty.class.php';
 
 /**
  * View Engine - Smarty
@@ -37,6 +37,7 @@ class Goez_View_Smarty implements Goez_View_Engine
     public function __construct($config)
     {
         $this->_engine = new Smarty();
+        $this->_engine->auto_literal = false;
         foreach ($config as $attr => $value) {
         	if (property_exists($this->_engine, $attr)) {
         	    if (is_string($value)) {
