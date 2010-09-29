@@ -15,8 +15,23 @@
  * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
  * @license    New BSD License
  */
-class Goez_Db_Sql
+class Goez_Db
 {
+    /**
+     * @var PDO
+     */
+    protected $_connection = null;
+
+    /**
+     * @var string
+     */
+    protected $_pdoType = 'mysql';
+
+    /**
+     * @var array
+     */
+    protected $_config = array();
+
     /**
      * 識別符
      *
@@ -25,12 +40,179 @@ class Goez_Db_Sql
     protected $_identifier = '`';
 
     /**
+     * 工廠方法
+     *
+     * 用法：
+     *
+     * <code>
+     * $db = Goez_Db::factory('mysql', array(
+     *     'username' => 'webuser',
+     *     'password' => 'xxxxxxxx',
+     *     'dbname' => 'test',
+     *     'driver_options' => array(...),
+     * ));
+     * </code>
+     *
+     * 或是：
+     * 
+     * <code>
+     * $db = Goez_Db::factory(array(
+     *     'driver' => 'mysql',
+     *     'params' => array(
+     *         'username' => 'webuser',
+     *         'password' => 'xxxxxxxx',
+     *         'dbname' => 'test',
+     *         'driver_options' => array(),
+     * )));
+     * </code>
+     *
+     * @param mixed $pdoType
+     * @param array $config
+     * @return Goez_Db
+     */
+    public static function factory($pdoType, $config = array())
+    {
+        // 處理第一個參數為陣列的狀況
+        if (is_array($pdoType)) {
+            if (isset($pdoType['params'])) {
+                $config = $pdoType['params'];
+            }
+            if (isset($pdoType['driver'])) {
+                $pdoType = (string) $pdoType['driver'];
+            } else {
+                $pdoType = null;
+            }
+        }
+
+        if (!is_array($config)) {
+            throw new Exception('Parameters must be in an array.');
+        }
+
+        if (!is_string($pdoType) || empty($pdoType)) {
+            throw new Exception('Driver name must be specified in a string.');
+        }
+
+        $db = new self($config);
+
+        /*
+         * Verify that the object created is a descendent of the abstract driver type.
+         */
+        if (!$db instanceof Goez_Db) {
+            throw new Exception("Driver '$pdoType' does not exist.");
+        }
+
+        return $db;
+    }
+
+    /**
      * 建構式
      *
      * @param array $options
      */
-    public function __construct($options)
+    public function __construct($pdoType, array $config)
     {
+        $this->_pdoType = $pdoType;
+        $this->_config = $config;
+    }
+
+    /**
+     * 連接資料庫
+     */
+    protected function _connect()
+    {
+        if ($this->_connection) {
+            return;
+        }
+
+        $dsn = $this->_dsn();
+
+        try {
+            $this->_connection = new PDO(
+                $dsn,
+                $this->_config['username'],
+                $this->_config['password'],
+                $this->_config['driver_options']
+            );
+            $this->_connection->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
+            $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 建立 DSN
+     *
+     * @return string
+     */
+    protected function _dsn()
+    {
+        // baseline of DSN parts
+        $dsn = $this->_config;
+
+        // don't pass the username, password, charset, persistent and driver_options in the DSN
+        unset($dsn['username']);
+        unset($dsn['password']);
+        unset($dsn['options']);
+        unset($dsn['charset']);
+        unset($dsn['persistent']);
+        unset($dsn['driver_options']);
+
+        // use all remaining parts in the DSN
+        foreach ($dsn as $key => $val) {
+            $dsn[$key] = "$key=$val";
+        }
+
+        return $this->_pdoType . ':' . implode(';', $dsn);
+    }
+
+    /**
+     * 取得最後的自動編號
+     *
+     * @param string $tableName
+     * @return int
+     */
+    public function lastInsertId($tableName = null)
+    {
+        $this->_connect();
+        return $this->_connection->lastInsertId();
+    }
+
+    /**
+     * Special handling for PDO query().
+     * All bind parameter names must begin with ':'
+     *
+     * @param string|Zend_Db_Select $sql The SQL statement with placeholders.
+     * @param array $bind An array of data to bind to the placeholders.
+     * @return Zend_Db_Statement_Pdo
+     * @throws Zend_Db_driver_Exception To re-throw PDOException.
+     */
+    public function query($sql, $bind = array())
+    {
+        if (is_array($bind)) {
+            foreach ($bind as $name => $value) {
+                if (!is_int($name) && !preg_match('/^:/', $name)) {
+                    $newName = ":$name";
+                    unset($bind[$name]);
+                    $bind[$newName] = $value;
+                }
+            }
+        }
+
+        try {
+            $this->_connect();
+
+            if (!is_array($bind)) {
+                $bind = array($bind);
+            }
+
+            $stmt = $this->prepare($sql);
+            $stmt->execute($bind);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            return $stmt;
+        } catch (PDOException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -71,18 +253,11 @@ class Goez_Db_Sql
      */
     public static function select($columns = '*')
     {
-        return self::_create('select', array(
+        return new Goez_Db_Query(array(
             'COLUMN' => (array) $columns,
         ));
     }
 
-    /**
-     * Insert 語法
-     *
-     * 輸出
-     *
-     * @return Goez_Sql_Insert
-     */
     /**
      * Insert 語法
      *
@@ -105,9 +280,9 @@ class Goez_Db_Sql
     public static function insert($table, $data)
     {
         $sql = 'INSERT INTO %s (%s) VALUES (%s)';
-        $table = $this->quoteIdentifier($this->_part['TABLE']);
-        $columns = join(', ', array_map(array($this, 'quoteIdentifier'), array_keys($this->_part['DATA'])));
-        $values = join(', ', array_map(array($this, 'quote'), array_values($this->_part['DATA'])));
+        $table = $this->quoteIdentifier($table);
+        $columns = join(', ', array_map(array($this, 'quoteIdentifier'), array_keys($data)));
+        $values = join(', ', array_map(array($this, 'quote'), array_values($data)));
         return sprintf($sql, $table, $columns, $values);
     }
 
@@ -273,10 +448,7 @@ class Goez_Db_Sql
             $where = array($where);
         }
         foreach ($where as $cond => &$term) {
-            // is $cond an int? (i.e. Not a condition)
             if (!is_int($cond)) {
-                // $cond is the condition with placeholder,
-                // and $term is quoted into the condition
                 $term = $this->quoteInto($cond, $term);
             }
             $term = '(' . $term . ')';
