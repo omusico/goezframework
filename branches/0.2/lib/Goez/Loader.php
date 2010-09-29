@@ -45,7 +45,7 @@ class Goez_Loader
     public function loadClass($className)
     {
         if (class_exists($className, false) || interface_exists($className, false)) {
-            return;
+            return true;
         }
 
         $fileName = str_replace('_', '/', $className) . '.php';
@@ -57,9 +57,10 @@ class Goez_Loader
         restore_error_handler();
 
         if (!class_exists($className, false) && !interface_exists($className, false)) {
-            eval('class ' . $className . ' {}');
-            throw new Exception("類別 \"$className\" 不存在");
+            return false;
         }
+
+        return true;
     }
 
     /**
