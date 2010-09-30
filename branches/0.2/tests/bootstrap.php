@@ -13,7 +13,11 @@ set_include_path(implode(PATH_SEPARATOR, array(
 function autoload($className)
 {
     $className = str_replace('_', '/', $className);
-    require_once "$className.php";
+    @include_once "$className.php";
+    if (!class_exists($className, false) && !interface_exists($className, false)) {
+        return false;
+    }
+    return true;
 }
 
 spl_autoload_register('autoload');

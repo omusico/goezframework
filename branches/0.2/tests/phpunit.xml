@@ -5,6 +5,9 @@
     <filter>
         <whitelist>
             <directory suffix=".php">../lib</directory>
+            <exclude>
+                <directory suffix=".php">../lib/Smarty3</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>

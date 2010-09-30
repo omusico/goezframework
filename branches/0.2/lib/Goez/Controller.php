@@ -18,15 +18,11 @@
 abstract class Goez_Controller
 {
     /**
-     * Config
-     *
      * @var array
      */
     protected $_config = array();
 
     /**
-     * 指定 Config
-     *
      * @param array $config
      */
     public function setConfig($config)
@@ -35,8 +31,6 @@ abstract class Goez_Controller
     }
 
     /**
-     * 取得 Config
-     *
      * @return array
      */
     public function getConfig()
@@ -45,15 +39,11 @@ abstract class Goez_Controller
     }
 
     /**
-     * Request
-     *
      * @var Goez_Request
      */
     protected $_request = null;
 
     /**
-     * 指定 Request
-     *
      * @param Goez_Request $request
      */
     public function setRequest(Goez_Request $request)
@@ -62,13 +52,53 @@ abstract class Goez_Controller
     }
 
     /**
-     * 取得 Request
-     *
      * @return Goez_Request
      */
     public function getRequest()
     {
         return $this->_request;
+    }
+
+    /**
+     * @var Goez_Response
+     */
+    protected $_response = null;
+
+    /**
+     * @param Goez_Response $response
+     */
+    public function setResponse(Goez_Response $response)
+    {
+        $this->_response = $response;
+    }
+
+    /**
+     * @return Goez_Response
+     */
+    public function getResponse()
+    {
+        return $this->_response;
+    }
+
+    /**
+     * @var Goez_Db
+     */
+    protected $_db = null;
+
+    /**
+     * @param Goez_Db $db
+     */
+    public function setDb(Goez_Db $db)
+    {
+        $this->_db = $db;
+    }
+
+    /**
+     * @return Goez_Db
+     */
+    public function getDb()
+    {
+        return $this->_db;
     }
 
     /**
@@ -79,8 +109,6 @@ abstract class Goez_Controller
     protected $_view = null;
 
     /**
-     * 指定 View
-     *
      * @param Goez_View $view
      */
     public function setView(Goez_View $view)
@@ -89,8 +117,6 @@ abstract class Goez_Controller
     }
 
     /**
-     * 取得 View
-     *
      * @return Goez_View
      */
     public function getView()

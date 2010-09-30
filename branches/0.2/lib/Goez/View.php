@@ -111,7 +111,7 @@ class Goez_View
      * @param string $name
      * @return mixed
      */
-    private function __get($name)
+    public function __get($name)
     {
         return isset($this->_vars[$name]) ? $this->_vars[$name] : null;
     }
