@@ -79,6 +79,15 @@ class Goez_Bootstrap
     protected $_view = null;
 
     /**
+     * Db
+     * 
+     * 資料庫連線物件
+     *
+     * @var Goez_Db
+     */
+    protected $_db = null;
+
+    /**
      * 執行動作
      *
      * 派送 Action 至使用者定義的 Controller
@@ -88,23 +97,65 @@ class Goez_Bootstrap
      */
     public static final function run($configFile, $env = null)
     {
+        $config = self::_loadConfig($configFile, $env);
+        self::_setDebugMode($config);
+        $bootstrapClass = self::_getBootstrapClass($config);
+        set_error_handler(array($bootstrapClass, 'exceptionErrorHandler'));
+
         try {
-            $config = self::_loadConfig($configFile, $env);
-            self::$_debug = (isset($config['bootstrap']['debug'])) ? (bool) $config['bootstrap']['debug'] : false;
-            $bootstrapClass = 'Goez_Bootstrap';
-            if (isset($config['bootstrap']['class'])) {
-                $tempClass = trim($config['bootstrap']['class']);
-                $classExists = class_exists($tempClass, true);
-                $isSubClass = is_subclass_of($tempClass, $bootstrapClass);
-                if ($classExists && $isSubClass) {
-                    $bootstrapClass = $tempClass;
-                }
-            }
             $bootstrap = new $bootstrapClass($config);
             $bootstrap->_dispatch();
         } catch (Exception $e) {
             self::displayException($e);
         }
+
+        // 回復錯誤處理
+        restore_error_handler();
+    }
+
+    /**
+     * 取得 Bootstrap 類別
+     *
+     * @param array $config
+     * @return string
+     */
+    protected static function _getBootstrapClass($config)
+    {
+        $bootstrapClass = 'Goez_Bootstrap';
+        if (isset($config['bootstrap']['class'])) {
+            $tempClass = trim($config['bootstrap']['class']);
+            $classExists = class_exists($tempClass, true);
+            $isSubClass = is_subclass_of($tempClass, $bootstrapClass);
+            if ($classExists && $isSubClass) {
+                $bootstrapClass = $tempClass;
+            }
+        }
+        return $bootstrapClass;
+    }
+
+    /**
+     * 設定 Debug 模式
+     *
+     * @param array $config
+     */
+    protected static function _setDebugMode($config)
+    {
+        self::$_debug = (isset($config['bootstrap']['debug'])) 
+                      ? (bool) $config['bootstrap']['debug']
+                      : false;
+    }
+
+    /**
+     * 錯誤處理函式
+     *
+     * @param int $errNo
+     * @param string $errMsg
+     * @param string $errFile
+     * @param string $errLine
+     */
+    public static function exceptionErrorHandler($errNo, $errMsg, $errFile, $errLine )
+    {
+        throw new ErrorException($errMsg, 0, $errNo, $errFile, $errLine);
     }
 
     /**
@@ -152,6 +203,7 @@ class Goez_Bootstrap
         $this->_initDispatcher();
         $this->_initRouter();
         $this->_initView();
+        $this->_initDb();
     }
 
     /**
@@ -182,7 +234,7 @@ class Goez_Bootstrap
     protected function _initDispatcher()
     {
         $dispatcherName = $this->_getClassInConfig('dispatcher', 'Goez_Dispatcher');
-        $this->_dispatcher = new $dispatcherName();
+        $this->_dispatcher = new $dispatcherName($this->_config);
     }
 
     /**
@@ -226,13 +278,24 @@ class Goez_Bootstrap
     /**
      * 初始化 View
      *
-     * Goez_View 採用 Smarty 2.6 當做 Render engine ，
+     * Goez_View 採用 Smarty 3 當做 Render engine ，
      * 在這裡初始化時，會預先把 baseUrl 放在 $frontendVars 這個樣版陣列變數裡
      */
     protected function _initView()
     {
         $this->_view = new Goez_View($this->_config['view']);
         $this->_view->setFrontendVars('baseUrl', $this->_request->getBaseUrl());
+    }
+
+    /**
+     * 初始化資料庫
+     *
+     */
+    protected function _initDb()
+    {
+        if (isset($this->_config['db'])) {
+            $this->_db = Goez_Db::factory($this->_config['db']);
+        }
     }
 
     /**
@@ -267,6 +330,7 @@ class Goez_Bootstrap
         $this->_userController->setConfig($this->_config);
         $this->_userController->setRequest($this->_request);
         $this->_userController->setView($this->_view);
+        $this->_userController->setDb($this->_db);
         $this->_userController->init();
         $this->_userController->beforeDispatch();
         $this->_userController->{$this->_getUserAction()}();
@@ -342,9 +406,10 @@ class Goez_Bootstrap
         '<html xmlns="http://www.w3.org/1999/xhtml">',
         '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
         '<title>程式發生錯誤</title></head><body>',
-        '<h1>程式發生錯誤</h1>';
+        '<h1 style="color:#f33;">程式發生錯誤</h1>';
         if (self::$_debug) {
-            echo '<p>', $e->getMessage(), '</p>';
+            echo '<p><strong>狀況： ', $e->getMessage(), '</strong></p>';
+            echo '<p><strong>追蹤資訊：</strong></p>';
             echo self::displayTrace($e->getTrace());
         } else {
             echo '<p>您提供的網址或是您的操作造成了系統無法正確回應。</p>';
@@ -360,13 +425,14 @@ class Goez_Bootstrap
      */
     protected static function displayTrace($traceList)
     {
-        $result = '<hr />';
+        $result = '';
         foreach ($traceList as $trace) {
+            $result .= '<pre style="border:1px solid #eee; background: #ffc; margin-left: 10px; padding: 5px; font-size: 12px;">';
             foreach ($trace as $col => $value) {
                 $result .= '<strong>' . $col . '</strong>: ' . htmlspecialchars(print_r($value, true)) . "\n";
             }
-            $result .= '<hr />';
+            $result .= '</pre>';
         }
-        return '<pre>' . $result . '</pre>';
+        return $result;
     }
 }

@@ -18,6 +18,11 @@
 class Goez_Response
 {
     /**
+     * @var array
+     */
+    protected $_header = array();
+
+    /**
      * 異常列表
      *
      * @var array

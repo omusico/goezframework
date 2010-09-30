@@ -82,8 +82,8 @@ class Goez_Db
             if (isset($pdoType['params'])) {
                 $config = $pdoType['params'];
             }
-            if (isset($pdoType['driver'])) {
-                $pdoType = (string) $pdoType['driver'];
+            if (isset($pdoType['type'])) {
+                $pdoType = (string) $pdoType['type'];
             } else {
                 $pdoType = null;
             }
@@ -97,7 +97,7 @@ class Goez_Db
             throw new Exception('Driver name must be specified in a string.');
         }
 
-        $db = new self($config);
+        $db = new self($pdoType, $config);
 
         /*
          * Verify that the object created is a descendent of the abstract driver type.
@@ -117,7 +117,9 @@ class Goez_Db
     public function __construct($pdoType, array $config)
     {
         $this->_pdoType = $pdoType;
-        $this->_config = $config;
+        $this->_config = array_merge(array(
+            'driver_options' => array(),
+        ), $config);
     }
 
     /**
@@ -182,6 +184,14 @@ class Goez_Db
         return $this->_connection->lastInsertId();
     }
 
+    public function prepare($sql)
+    {
+        $this->_connect();
+        $stmt = new PDOStatement();
+        $stmt->setFetchMode($this->_fetchMode);
+        return $stmt;
+    }
+
     /**
      * 建立 SQL 查詢
      *
@@ -208,13 +218,31 @@ class Goez_Db
                 $bind = array($bind);
             }
 
-            $stmt = $this->prepare($sql);
+            $stmt = $this->_connection->prepare($sql);
             $stmt->execute($bind);
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             return $stmt;
         } catch (PDOException $e) {
             throw $e;
         }
+    }
+
+    /**
+     * 取得所有記錄
+     *
+     * @param string $sql
+     * @param array $bind
+     * @param int $fetchMode
+     * @return array
+     */
+    public function fetchAll($sql, $bind = array(), $fetchMode = null)
+    {
+        if ($fetchMode === null) {
+            $fetchMode = $this->_fetchMode;
+        }
+        $stmt = $this->query($sql, $bind);
+        $result = $stmt->fetchAll($fetchMode);
+        return $result;
     }
 
     /**
