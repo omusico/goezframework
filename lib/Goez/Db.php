@@ -85,28 +85,15 @@ class Goez_Db
             if (isset($pdoType['type'])) {
                 $pdoType = (string) $pdoType['type'];
             } else {
-                $pdoType = null;
+                $pdoType = 'mysql';
             }
-        }
-
-        if (!is_array($config)) {
-            throw new Exception('Parameters must be in an array.');
         }
 
         if (!is_string($pdoType) || empty($pdoType)) {
             throw new Exception('Driver name must be specified in a string.');
         }
 
-        $db = new self($pdoType, $config);
-
-        /*
-         * Verify that the object created is a descendent of the abstract driver type.
-         */
-        if (!$db instanceof Goez_Db) {
-            throw new Exception("Driver '$pdoType' does not exist.");
-        }
-
-        return $db;
+        return new self($pdoType, $config);
     }
 
     /**
@@ -184,12 +171,14 @@ class Goez_Db
         return $this->_connection->lastInsertId();
     }
 
+    /**
+     * @param string $sql
+     * @return PDOStatement
+     */
     public function prepare($sql)
     {
         $this->_connect();
-        $stmt = new PDOStatement();
-        $stmt->setFetchMode($this->_fetchMode);
-        return $stmt;
+        return $this->_connection->prepare($sql);
     }
 
     /**
@@ -218,7 +207,7 @@ class Goez_Db
                 $bind = array($bind);
             }
 
-            $stmt = $this->_connection->prepare($sql);
+            $stmt = $this->prepare($sql);
             $stmt->execute($bind);
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             return $stmt;
@@ -242,6 +231,24 @@ class Goez_Db
         }
         $stmt = $this->query($sql, $bind);
         $result = $stmt->fetchAll($fetchMode);
+        return $result;
+    }
+
+    /**
+     * 取得一筆資料
+     *
+     * @param string $sql
+     * @param array $bind
+     * @param int $fetchMode
+     * @return array
+     */
+    public function fetchRow($sql, $bind = array(), $fetchMode = null)
+    {
+        if ($fetchMode === null) {
+            $fetchMode = $this->_fetchMode;
+        }
+        $stmt = $this->query($sql, $bind);
+        $result = $stmt->fetch($fetchMode);
         return $result;
     }
 
@@ -376,6 +383,123 @@ class Goez_Db
     }
 
     /**
+     * 新增紀錄
+     *
+     * 用法：
+     *
+     * <code>
+     * $db->insert('users', array(
+     *     'name' => 'John',
+     *     'age' => 20,
+     * ));
+     * </code>
+     *
+     * @param string $table 資料表名稱
+     * @param array $bind 欲新增的資料
+     * @return int 新增筆數
+     */
+    public function insert($table, array $bind)
+    {
+        // 轉換欲新增的資料
+        $cols = array();
+        $vals = array();
+        foreach ($bind as $col => $val) {
+            $cols[] = $this->quoteIdentifier($col, true);
+            $vals[] = '?';
+        }
+
+        // 建立 INSERT 語法
+        $sql = "INSERT INTO "
+             . $this->quoteIdentifier($table, true)
+             . ' (' . implode(', ', $cols) . ') '
+             . 'VALUES (' . implode(', ', $vals) . ')';
+
+        // 執行 SQL 語法並回傳影響筆數
+        $stmt = $this->query($sql, array_values($bind));
+        $result = $stmt->rowCount();
+        return $result;
+    }
+
+    /**
+     * 更新紀錄
+     *
+     * 用法：
+     *
+     * <code>
+     * $db->update('users', array(
+     *     'name' => 'John',
+     *     'age' => 21,
+     * ), array(
+     *     'id = ?' => 1,
+     *     'age > 0',
+     * ));
+     * </code>
+     *
+     * 特別注意這裡第三個參數的用法，陣列的索引可以是帶有 ? 號的條件式。
+     *
+     * @param string $table 資料表名稱
+     * @param array $bind 更新資料
+     * @param array $where 條件式陣列，陣列的索引可以是帶有 ? 號的條件式。
+     * @return int 更新筆數
+     */
+    public function update($table, $bind, $where)
+    {
+        // 轉換欲新增的資料
+        $set = array();
+        $i = 0;
+        foreach ($bind as $col => $val) {
+            unset($bind[$col]);
+            $bind[':' . $col . $i] = $val;
+            $val = ':' . $col . $i;
+            $i ++;
+            $set[] = $this->quoteIdentifier($col, true) . ' = ' . $val;
+        }
+
+        $where = $this->_whereExpr($where);
+
+        // 建立 UPDATE 語法
+        $sql = "UPDATE "
+             . $this->quoteIdentifier($table, true)
+             . ' SET ' . implode(', ', $set)
+             . (($where) ? " WHERE $where" : '');
+
+        // 執行 SQL 語法並回傳影響筆數
+        $stmt = $this->query($sql, $bind);
+        $result = $stmt->rowCount();
+        return $result;
+    }
+
+    /**
+     * 刪除紀錄
+     *
+     * 用法：
+     *
+     * <code>
+     * $db->delete('users', array(
+     *     'id = ?' => 1,
+     * ));
+     * </code>
+     *
+     * @param string $table 資料表名稱
+     * @param array $where 條件式陣列，陣列的索引可以是帶有 ? 號的條件式。
+     * @return int 更新筆數
+     */
+    public function delete($table, $where)
+    {
+        $where = $this->_whereExpr($where);
+
+        // 建立 DELETE 語法
+        $sql = "DELETE FROM "
+             . $this->quoteIdentifier($table)
+             . (($where) ? " WHERE $where" : '');
+
+        // 執行 SQL 語法並回傳影響筆數
+        $stmt = $this->query($sql);
+        $result = $stmt->rowCount();
+        return $result;
+    }
+
+    /**
      * @return Goez_Db
      */
     public function beginTransaction()
@@ -405,153 +529,45 @@ class Goez_Db
         return $this;
     }
 
-//    /**
-//     * Select 語法
-//     *
-//     * 利用 Fluent interface 來組合 Select 語法，目的是減少開發者手誤與避免 SQL Inject 。
-//     *
-//     * 用法：
-//     *
-//     * <code>
-//     * $sql = Goez_Sql::select()
-//     *                ->from('users');
-//     * // $sql = "SELECT * FROM `users`"
-//     *
-//     * $sql = Goez_Sql::select(array('name', 'age'))
-//     *                ->from('users');
-//     * // $sql = "SELECT `name`, `age` FROM `users`"
-//     *
-//     * $sql = Goez_Sql::select(array('name' => 'userName', 'age' => 'userAge'))
-//     *                ->from('users');
-//     * // $sql = "SELECT name AS `userName`, age AS `userAge` FROM `users`"
-//     *
-//     * $sql = Goez_Sql::select()
-//     *                ->distinct()
-//     *                ->from('users');
-//     * // $sql = "SELECT DISTINCT * FROM `users`"
-//     *
-//     * $sql = Goez_Sql::select()
-//     *                ->from('users')
-//     *                ->where('name = ?', 'John')
-//     *                ->group('name')
-//     *                ->order('age', 'DESC');
-//     * // $sql = "SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `age` DESC"
-//     * </code>
-//     *
-//     * @param array $columns 要輸出的欄位，預設是 * (所有欄位)
-//     * @return Goez_Sql_Select
-//     */
-//    public static function select($columns = '*')
-//    {
-//        return new Goez_Db_Query(array(
-//            'COLUMN' => (array) $columns,
-//        ));
-//    }
-//
-//    /**
-//     * Insert 語法
-//     *
-//     * 主要是為了避免開發者在撰寫 INSERT 語法時，常會出現的欄位與值無法區配的問題。
-//     *
-//     * 用法：
-//     *
-//     * <code>
-//     * $sql = Goez_Sql::insert('users', array(
-//     *     'name' => 'John',
-//     *     'age' => 20,
-//     * ));
-//     * // $sql = "INSERT INTO `users` (`name`, `age`) VALUES ('John', 20)"
-//     * </code>
-//     *
-//     * @param string $table
-//     * @param array $data
-//     * @return Goez_Sql_Insert
-//     */
-//    public static function insert($table, $data)
-//    {
-//        $sql = 'INSERT INTO %s (%s) VALUES (%s)';
-//        $table = $this->quoteIdentifier($table);
-//        $columns = join(', ', array_map(array($this, 'quoteIdentifier'), array_keys($data)));
-//        $values = join(', ', array_map(array($this, 'quote'), array_values($data)));
-//        return sprintf($sql, $table, $columns, $values);
-//    }
-//
-//    /**
-//     * Update 語法
-//     *
-//     * 主要是為了避免 SQL Injection 的問題。
-//     *
-//     * 用法：
-//     *
-//     * <code>
-//     * $sql = Goez_Sql::update('users', array(
-//     *     'name' => 'John',
-//     *     'age' => 21,
-//     * ), array(
-//     *     'id = ?' => 1,
-//     *     'age > 0',
-//     * ));
-//     * // $sql = "UPDATE `users` SET `name` = 'John', `age` = 21 WHERE (id = 1) AND (age > 0)"
-//     * </code>
-//     *
-//     * 特別注意這裡第三個參數的用法，陣列的索引可以是帶有 ? 號的條件式。
-//     *
-//     * @param string $table
-//     * @param array $data
-//     * @param array $where
-//     * @return Goez_Sql_Update
-//     */
-//    public static function update($table, $data, $where)
-//    {
-//        $table = $this->quoteIdentifier($table);
-//        $set = array();
-//        foreach ($data as $col => $value) {
-//            $set[] = $this->quoteIdentifier($col) . ' = ' . $this->quote($value);
-//        }
-//        $set = join(', ', $set);
-//
-//        $sql = sprintf("UPDATE %s SET %s", $table, $set);
-//        $where = $this->_whereExpr($where);
-//        if (!empty($where)) {
-//            $sql .= ' WHERE ' . $where;
-//        }
-//
-//        return $sql;
-//    }
-//
-//    /**
-//     * Delete 語法
-//     *
-//     * 用法：
-//     *
-//     * <code>
-//     * $sql = Goez_Sql::delete('users', array(
-//     *     'id = ?' => 1,
-//     * ));
-//     * // $sql = "DELETE FROM `users` WHERE (id = 1)"
-//     *
-//     * $sql = Goez_Sql::delete('users', array(
-//     *     'age > 20',
-//     * ));
-//     * // $sql = "DELETE FROM `users` WHERE (age > 20)"
-//     * </code>
-//     *
-//     * @param string $table
-//     * @param array $where
-//     * @return Goez_Sql_Delete
-//     */
-//    public static function delete($table, $where)
-//    {
-//        $table = $this->quoteIdentifier($table);
-//
-//        $sql = sprintf("DELETE FROM %s", $table);
-//        $where = $this->_whereExpr($where);
-//        if (!empty($where)) {
-//            $sql .= ' WHERE ' . $where;
-//        }
-//
-//        return $sql;
-//    }
+    /**
+     * 是否已經連接資料庫
+     *
+     * @return bool
+     */
+    public function isConnected()
+    {
+        return ((bool) ($this->_connection instanceof PDO));
+    }
 
+    /**
+     * 強制關閉資料庫連線
+     *
+     * @return void
+     */
+    public function closeConnection()
+    {
+        $this->_connection = null;
+    }
 
+    /**
+     * 取得資料庫版本
+     *
+     * @return string
+     */
+    public function getServerVersion()
+    {
+        $this->_connect();
+        try {
+            $version = $this->_connection->getAttribute(PDO::ATTR_SERVER_VERSION);
+        } catch (PDOException $e) {
+            // In case of the driver doesn't support getting attributes
+            return null;
+        }
+        $matches = null;
+        if (preg_match('/((?:[0-9]{1,2}\.){1,3}[0-9]{1,2})/', $version, $matches)) {
+            return $matches[1];
+        } else {
+            return null;
+        }
+    }
 }
