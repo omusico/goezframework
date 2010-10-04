@@ -199,8 +199,6 @@ class Goez_Bootstrap
     {
         $this->_config = $config;
         $this->_initRequest();
-        $this->_initResponse();
-        $this->_initDispatcher();
         $this->_initRouter();
         $this->_initView();
         $this->_initDb();
@@ -215,26 +213,6 @@ class Goez_Bootstrap
     {
         $requestName = $this->_getClassInConfig('request', 'Goez_Request');
         $this->_request = new $requestName();
-    }
-
-    /**
-     * 初始化 Response
-     *
-     * 預設為 Goez_Response
-     */
-    protected function _initResponse()
-    {
-        $responseName = $this->_getClassInConfig('response', 'Goez_Response');
-        $this->_response = new $responseName();
-    }
-
-    /**
-     * 初始化 Dispatcher
-     */
-    protected function _initDispatcher()
-    {
-        $dispatcherName = $this->_getClassInConfig('dispatcher', 'Goez_Dispatcher');
-        $this->_dispatcher = new $dispatcherName($this->_config);
     }
 
     /**
@@ -321,11 +299,6 @@ class Goez_Bootstrap
      */
     protected function _dispatch()
     {
-        try {
-            $this->_dispatcher->dispatch($this->_request, $this->_response);
-        } catch (Exception $e) {
-            $this->_response->setException($e);
-        }
         $this->_userController = $this->_getUserController();
         $this->_userController->setConfig($this->_config);
         $this->_userController->setRequest($this->_request);
