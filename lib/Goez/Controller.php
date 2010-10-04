@@ -60,27 +60,6 @@ abstract class Goez_Controller
     }
 
     /**
-     * @var Goez_Response
-     */
-    protected $_response = null;
-
-    /**
-     * @param Goez_Response $response
-     */
-    public function setResponse(Goez_Response $response)
-    {
-        $this->_response = $response;
-    }
-
-    /**
-     * @return Goez_Response
-     */
-    public function getResponse()
-    {
-        return $this->_response;
-    }
-
-    /**
      * @var Goez_Db
      */
     protected $_db = null;
