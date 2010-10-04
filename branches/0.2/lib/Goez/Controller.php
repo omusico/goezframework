@@ -88,7 +88,7 @@ abstract class Goez_Controller
     /**
      * @param Goez_Db $db
      */
-    public function setDb(Goez_Db $db)
+    public function setDb(Goez_Db $db = null)
     {
         $this->_db = $db;
     }
