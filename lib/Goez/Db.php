@@ -245,6 +245,7 @@ class Goez_Db
         if ($fetchMode === null) {
             $fetchMode = $this->_fetchMode;
         }
+
         $stmt = $this->query($sql, $bind);
         $result = $stmt->fetchAll($fetchMode);
         return $result;
