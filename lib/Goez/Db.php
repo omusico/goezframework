@@ -217,15 +217,31 @@ class Goez_Db
     }
 
     /**
+     * 建立 SELECT 語法
+     *
+     * @param array $cols
+     * @return Goez_Db_Select
+     */
+    public function select($cols = null)
+    {
+        $select = new Goez_Db_Select($this);
+        return $select->colnum($cols);
+    }
+
+    /**
      * 取得所有記錄
      *
-     * @param string $sql
+     * @param string|Goez_Db_Select $sql
      * @param array $bind
      * @param int $fetchMode
      * @return array
      */
     public function fetchAll($sql, $bind = array(), $fetchMode = null)
     {
+        if ($sql instanceof Goez_Db_Select) {
+            $sql = $sql->__toString();
+        }
+
         if ($fetchMode === null) {
             $fetchMode = $this->_fetchMode;
         }
@@ -237,16 +253,21 @@ class Goez_Db
     /**
      * 取得一筆資料
      *
-     * @param string $sql
+     * @param string|Goez_Db_Select $sql
      * @param array $bind
      * @param int $fetchMode
      * @return array
      */
     public function fetchRow($sql, $bind = array(), $fetchMode = null)
     {
+        if ($sql instanceof Goez_Db_Select) {
+            $sql = $sql->__toString();
+        }
+
         if ($fetchMode === null) {
             $fetchMode = $this->_fetchMode;
         }
+
         $stmt = $this->query($sql, $bind);
         $result = $stmt->fetch($fetchMode);
         return $result;
