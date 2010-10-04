@@ -34,15 +34,6 @@ class Goez_Bootstrap
     protected $_config = array();
 
     /**
-     * Dispatcher
-     *
-     * 派送需求
-     *
-     * @var Goez_Dispatcher
-     */
-    protected $_dispatcher = null;
-
-    /**
      * Router
      *
      * 存放解析網址後的 Controller 與 Action
@@ -59,15 +50,6 @@ class Goez_Bootstrap
      * @var Goez_Request
      */
     protected $_request = null;
-
-    /**
-     * Response
-     *
-     * 用來處理輸出
-     *
-     * @var Goez_Response
-     */
-    protected $_response = null;
 
     /**
      * View
