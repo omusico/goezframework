@@ -1,6 +1,6 @@
 <?php
 
-class Goez_Db_QueryTest extends PHPUnit_Framework_TestCase
+class Goez_Db_SelectTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -29,29 +29,29 @@ class Goez_Db_QueryTest extends PHPUnit_Framework_TestCase
                           ->from('users');
         $this->assertEquals('SELECT `name` FROM `users`', (string) $sql);
 
-        $sql = $this->_db->select(array('name', 'age'))
+        $sql = $this->_db->select(array('name', 'birthYear'))
                        ->from('users');
-        $this->assertEquals('SELECT `name`, `age` FROM `users`', (string) $sql);
+        $this->assertEquals('SELECT `name`, `birthYear` FROM `users`', (string) $sql);
 
-        $sql = $this->_db->select(array('name' => 'userName', 'age' => 'userAge'))
+        $sql = $this->_db->select(array('name' => 'userName', 'birthYear' => 'userBirthYear'))
                        ->from('users');
-        $this->assertEquals('SELECT name AS `userName`, age AS `userAge` FROM `users`', (string) $sql);
+        $this->assertEquals('SELECT name AS `userName`, birthYear AS `userBirthYear` FROM `users`', (string) $sql);
 
         $sql = $this->_db->select()
                        ->distinct()
                        ->from('users');
         $this->assertEquals('SELECT DISTINCT * FROM `users`', (string) $sql);
 
-        $sql = $this->_db->select(array('name', 'age'))
+        $sql = $this->_db->select(array('name', 'birthYear'))
                        ->distinct()
                        ->from('users');
-        $this->assertEquals('SELECT DISTINCT `name`, `age` FROM `users`', (string) $sql);
+        $this->assertEquals('SELECT DISTINCT `name`, `birthYear` FROM `users`', (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
-                       ->where('age = ?', 20);
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') AND (age = 20)", (string) $sql);
+                       ->where('birthYear = ?', 20);
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') AND (birthYear = 20)", (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
@@ -66,71 +66,71 @@ class Goez_Db_QueryTest extends PHPUnit_Framework_TestCase
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
-                       ->where('age = ?', 20)
+                       ->where('birthYear = ?', 20)
                        ->group('name');
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') AND (age = 20) GROUP BY `name`", (string) $sql);
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') AND (birthYear = 20) GROUP BY `name`", (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
-                       ->orWhere('age = ?', 20)
+                       ->orWhere('birthYear = ?', 20)
                        ->group('name');
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') OR (age = 20) GROUP BY `name`", (string) $sql);
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') OR (birthYear = 20) GROUP BY `name`", (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
                        ->group('name')
-                       ->order('age');
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `age` ASC", (string) $sql);
+                       ->order('birthYear');
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `birthYear` ASC", (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
                        ->group('name')
-                       ->order('age', 'DESC');
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `age` DESC", (string) $sql);
+                       ->order('birthYear', 'DESC');
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `birthYear` DESC", (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
-                       ->having('MAX(age) < ?', 10)
+                       ->having('MAX(birthYear) < ?', 1980)
                        ->group('name')
-                       ->order('age', 'DESC');
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` HAVING (MAX(age) < 10) ORDER BY `age` DESC", (string) $sql);
+                       ->order('birthYear', 'DESC');
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` HAVING (MAX(birthYear) < 1980) ORDER BY `birthYear` DESC", (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
-                       ->having('MIN(age) < ?', 10)
-                       ->having('? < MAX(age)', 10)
+                       ->having('MIN(birthYear) < ?', 1980)
+                       ->having('? < MAX(birthYear)', 1980)
                        ->group('name')
-                       ->order('age', 'DESC');
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` HAVING (MIN(age) < 10) AND (10 < MAX(age)) ORDER BY `age` DESC", (string) $sql);
+                       ->order('birthYear', 'DESC');
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` HAVING (MIN(birthYear) < 1980) AND (1980 < MAX(birthYear)) ORDER BY `birthYear` DESC", (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
-                       ->having('MIN(age) < ?', 10)
-                       ->orHaving('? < MAX(age)', 10)
+                       ->having('MIN(birthYear) < ?', 1980)
+                       ->orHaving('? < MAX(birthYear)', 1980)
                        ->group('name')
-                       ->order('age', 'DESC');
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` HAVING (MIN(age) < 10) OR (10 < MAX(age)) ORDER BY `age` DESC", (string) $sql);
+                       ->order('birthYear', 'DESC');
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` HAVING (MIN(birthYear) < 1980) OR (1980 < MAX(birthYear)) ORDER BY `birthYear` DESC", (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
                        ->group('name')
-                       ->order('age', 'DESC')
+                       ->order('birthYear', 'DESC')
                        ->limit(3);
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `age` DESC LIMIT 3", (string) $sql);
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `birthYear` DESC LIMIT 3", (string) $sql);
 
         $sql = $this->_db->select()
                        ->from('users')
                        ->where('name = ?', 'John')
                        ->group('name')
-                       ->order('age', 'DESC')
+                       ->order('birthYear', 'DESC')
                        ->limit(3, 2);
-        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `age` DESC LIMIT 2, 3", (string) $sql);
+        $this->assertEquals("SELECT * FROM `users` WHERE (name = 'John') GROUP BY `name` ORDER BY `birthYear` DESC LIMIT 2, 3", (string) $sql);
     }
 }
