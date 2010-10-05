@@ -33,9 +33,14 @@ abstract class Goez_Controller
     /**
      * @return array
      */
-    public function getConfig()
+    public function getConfig($name = null)
     {
-        return $this->_config;
+        if (null === $name) {
+            return $this->_config;
+        } elseif (isset($this->_config[$name])) {
+            return $this->_config[$name];
+        }
+        return array();
     }
 
     /**
@@ -57,27 +62,6 @@ abstract class Goez_Controller
     public function getRequest()
     {
         return $this->_request;
-    }
-
-    /**
-     * @var Goez_Db
-     */
-    protected $_db = null;
-
-    /**
-     * @param Goez_Db $db
-     */
-    public function setDb(Goez_Db $db = null)
-    {
-        $this->_db = $db;
-    }
-
-    /**
-     * @return Goez_Db
-     */
-    public function getDb()
-    {
-        return $this->_db;
     }
 
     /**

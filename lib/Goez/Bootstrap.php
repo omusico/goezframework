@@ -61,15 +61,6 @@ class Goez_Bootstrap
     protected $_view = null;
 
     /**
-     * Db
-     * 
-     * 資料庫連線物件
-     *
-     * @var Goez_Db
-     */
-    protected $_db = null;
-
-    /**
      * 執行動作
      *
      * 派送 Action 至使用者定義的 Controller
@@ -254,7 +245,8 @@ class Goez_Bootstrap
     protected function _initDb()
     {
         if (isset($this->_config['db'])) {
-            $this->_db = Goez_Db::factory($this->_config['db']);
+            $db = Goez_Db::factory($this->_config['db']);
+            Goez_Model::setDefaultAdapter($db);
         }
     }
 
@@ -285,7 +277,6 @@ class Goez_Bootstrap
         $this->_userController->setConfig($this->_config);
         $this->_userController->setRequest($this->_request);
         $this->_userController->setView($this->_view);
-        $this->_userController->setDb($this->_db);
         $this->_userController->init();
         $this->_userController->beforeDispatch();
         $this->_userController->{$this->_getUserAction()}();

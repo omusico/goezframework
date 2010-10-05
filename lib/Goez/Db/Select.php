@@ -9,7 +9,7 @@
  */
 
 /**
- * Select
+ * Select 語法產生器
  *
  * @package    Goez
  * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
