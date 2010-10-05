@@ -152,9 +152,14 @@ class Goez_Request
      * @param bool $stripTags 設為 false 時會回傳原始的 POST 值，不會把 html tag 去掉
      * @return string
      */
-    public function getPost($key, $stripTags = true)
+    public function getPost($key = null, $stripTags = true)
     {
-        return isset($_POST[$key]) ? ($stripTags ? strip_tags(trim($_POST[$key])) : trim($_POST[$key])) : null;
+        if (null === $key) {
+            return $_POST;
+        }
+        return isset($_POST[$key]) 
+             ? ($stripTags ? strip_tags(trim($_POST[$key])) : trim($_POST[$key]))
+             : null;
     }
 
     /**
@@ -164,9 +169,14 @@ class Goez_Request
      * @param bool $stripTags 設為 false 時會回傳原始的 POST 值，不會把 html tag 去掉
      * @return string
      */
-    public function getQuery($key, $stripTags = true)
+    public function getQuery($key = null, $stripTags = true)
     {
-        return isset($_GET[$key]) ? ($stripTags ? strip_tags(trim($_GET[$key])) : trim($_GET[$key])) : null;
+        if (null === $key) {
+            return $_GET;
+        }
+        return isset($_GET[$key]) 
+             ? ($stripTags ? strip_tags(trim($_GET[$key])) : trim($_GET[$key]))
+             : null;
     }
 
     /**
@@ -176,8 +186,11 @@ class Goez_Request
      * @param bool $stripTags 設為 false 時會回傳原始的 POST 值，不會把 html tag 去掉
      * @return string
      */
-    public function getCookie($key)
+    public function getCookie($key = null)
     {
+        if (null === $key) {
+            return $_COOKIE;
+        }
         return isset($_COOKIE[$key]) ? trim($_COOKIE[$key]) : null;
     }
 
