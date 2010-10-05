@@ -239,7 +239,7 @@ class Goez_Bootstrap
      * 初始化 View
      *
      * Goez_View 採用 Smarty 3 當做 Render engine ，
-     * 在這裡初始化時，會預先把 baseUrl 放在 $frontendVars 這個樣版陣列變數裡
+     * 在這裡初始化時，會預先把 baseUrl 放在 $fvars 這個樣版陣列變數裡
      */
     protected function _initView()
     {
