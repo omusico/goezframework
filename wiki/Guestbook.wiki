@@ -204,10 +204,10 @@ class My_Guestbook
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>我的留言板</title>
-<link rel="stylesheet" type="text/css" href="<% $frontendVars.baseUrl %>/pub/css/style.css" media="all" />
-<link rel="stylesheet" type="text/css" href="<% $frontendVars.baseUrl %>/pub/css/guestbook.css" media="all" />
+<link rel="stylesheet" type="text/css" href="<% $fvars.baseUrl %>/pub/css/style.css" media="all" />
+<link rel="stylesheet" type="text/css" href="<% $fvars.baseUrl %>/pub/css/guestbook.css" media="all" />
 <script type="text/javascript">
-var $frontendVars = <% $frontendVars|@json_encode %>;
+var $fvars = <% $fvars|@json_encode %>;
 </script>
 </head>
 
@@ -218,7 +218,7 @@ var $frontendVars = <% $frontendVars|@json_encode %>;
 </div>
 <div id="functions">
 <ul>
-<li><a href="<% $frontendVars.baseUrl %>/sample/add">新增留言</a></li>
+<li><a href="<% $fvars.baseUrl %>/sample/add">新增留言</a></li>
 </ul>
 </div>
 <div id="content">
@@ -250,15 +250,15 @@ var $frontendVars = <% $frontendVars|@json_encode %>;
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>我的留言板</title>
-<link rel="stylesheet" type="text/css" href="<% $frontendVars.baseUrl %>/pub/css/style.css" media="all" />
-<link rel="stylesheet" type="text/css" href="<% $frontendVars.baseUrl %>/pub/css/guestbook.css" media="all" />
+<link rel="stylesheet" type="text/css" href="<% $fvars.baseUrl %>/pub/css/style.css" media="all" />
+<link rel="stylesheet" type="text/css" href="<% $fvars.baseUrl %>/pub/css/guestbook.css" media="all" />
 <script type="text/javascript">
-var $frontendVars = <% $frontendVars|@json_encode %>;
+var $fvars = <% $fvars|@json_encode %>;
 </script>
-<script type="text/javascript" src="<% $frontendVars.baseUrl %>/pub/lib/jquery/latest.js"></script>
-<script type="text/javascript" src="<% $frontendVars.baseUrl %>/pub/lib/jquery/form.js"></script>
-<script type="text/javascript" src="<% $frontendVars.baseUrl %>/pub/lib/jquery/blockUI.js"></script>
-<script type="text/javascript" src="<% $frontendVars.baseUrl %>/pub/js/guestbook.js"></script>
+<script type="text/javascript" src="<% $fvars.baseUrl %>/pub/lib/jquery/latest.js"></script>
+<script type="text/javascript" src="<% $fvars.baseUrl %>/pub/lib/jquery/form.js"></script>
+<script type="text/javascript" src="<% $fvars.baseUrl %>/pub/lib/jquery/blockUI.js"></script>
+<script type="text/javascript" src="<% $fvars.baseUrl %>/pub/js/guestbook.js"></script>
 </head>
 
 <body>
@@ -268,12 +268,12 @@ var $frontendVars = <% $frontendVars|@json_encode %>;
 </div>
 <div id="functions">
 <ul>
-<li><a href="<% $frontendVars.baseUrl %>/sample">首頁</a></li>
+<li><a href="<% $fvars.baseUrl %>/sample">首頁</a></li>
 </ul>
 </div>
 <div id="content">
 <% if $error %><p class="error"><% $message %></p><% /if %>
-<form name="addForm" id="addForm" method="post" action="<% $frontendVars.baseUrl %>/sample/add">
+<form name="addForm" id="addForm" method="post" action="<% $fvars.baseUrl %>/sample/add">
 <h2>新增留言</h2>
 <p>
 <label for="title">標題</label>
@@ -337,7 +337,7 @@ $(function () {
                     if (json.error) {
                         showMessage(json.message);
                     } else {
-                        location.href = $frontendVars.baseUrl + '/sample';
+                        location.href = $fvars.baseUrl + '/sample';
                     }
                 },
                 dataType: 'json'
