@@ -66,7 +66,7 @@ class Goez_Model
      */
     public function __construct(array $config = array())
     {
-        $this->_setConfig($config);
+        $this->setConfig($config);
         $this->_setup();
         $this->init();
     }
