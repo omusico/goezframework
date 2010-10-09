@@ -2,6 +2,10 @@
 
 class Goez_Db_SelectTest extends PHPUnit_Framework_TestCase
 {
+    protected $_db;
+
+    protected $_insertName;
+
     public function setUp()
     {
         $options = array(

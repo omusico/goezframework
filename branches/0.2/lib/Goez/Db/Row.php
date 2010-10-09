@@ -9,13 +9,14 @@
  */
 
 /**
- * Model
+ * Row
  *
  * @package    Goez
+ * @subpackage Goez_Db
  * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
  * @license    New BSD License
  */
-class Goez_Db_Row
+class Goez_Db_Row extends Goez_Db_Common
 {
     /**
      * 資料表名稱
