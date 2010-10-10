@@ -65,6 +65,14 @@ abstract class Goez_Controller
     }
 
     /**
+     * @param Goez_Response $response
+     */
+    public function setResponse(Goez_Response $response)
+    {
+        $this->_response = $response;
+    }
+
+    /**
      * View
      *
      * @var Goez_View

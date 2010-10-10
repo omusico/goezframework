@@ -52,6 +52,15 @@ class Goez_Bootstrap
     protected $_request = null;
 
     /**
+     * Request
+     *
+     * 用來處理 Header 與 Output
+     *
+     * @var Goez_Response
+     */
+    protected $_response = null;
+
+    /**
      * View
      *
      * 用來產生 Template 或是 JSON
@@ -75,12 +84,9 @@ class Goez_Bootstrap
         $bootstrapClass = self::_getBootstrapClass($config);
         set_error_handler(array($bootstrapClass, 'exceptionErrorHandler'));
 
-        try {
-            $bootstrap = new $bootstrapClass($config);
-            $bootstrap->_dispatch();
-        } catch (Exception $e) {
-            self::displayException($e);
-        }
+        $bootstrap = new $bootstrapClass($config);
+        $response = $bootstrap->_dispatch();
+        
 
         // 回復錯誤處理
         restore_error_handler();
@@ -172,6 +178,7 @@ class Goez_Bootstrap
     {
         $this->_config = $config;
         $this->_initRequest();
+        $this->_initResponse();
         $this->_initRouter();
         $this->_initView();
         $this->_initDb();
@@ -186,6 +193,17 @@ class Goez_Bootstrap
     {
         $requestName = $this->_getClassInConfig('request', 'Goez_Request');
         $this->_request = new $requestName();
+    }
+
+    /**
+     * 初始化 Response
+     *
+     * 預設為 Goez_Response
+     */
+    protected function _initResponse()
+    {
+        $responseName = $this->_getClassInConfig('response', 'Goez_Response');
+        $this->_response = new $responseName();
     }
 
     /**
@@ -273,14 +291,19 @@ class Goez_Bootstrap
      */
     protected function _dispatch()
     {
-        $this->_userController = $this->_getUserController();
-        $this->_userController->setConfig($this->_config);
-        $this->_userController->setRequest($this->_request);
-        $this->_userController->setView($this->_view);
-        $this->_userController->init();
-        $this->_userController->beforeDispatch();
-        $this->_userController->{$this->_getUserAction()}();
-        $this->_userController->afterDispatch();
+        try {
+            $this->_userController = $this->_getUserController();
+            $this->_userController->setConfig($this->_config);
+            $this->_userController->setRequest($this->_request);
+            $this->_userController->setResponse($this->_response);
+            $this->_userController->setView($this->_view);
+            $this->_userController->init();
+            $this->_userController->beforeDispatch();
+            $this->_userController->{$this->_getUserAction()}();
+            $this->_userController->afterDispatch();
+        } catch (Exception $e) {
+            $this->_response->setException($e);
+        }
     }
 
     /**
