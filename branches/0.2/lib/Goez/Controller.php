@@ -65,11 +65,24 @@ abstract class Goez_Controller
     }
 
     /**
+     * @var Goez_Response
+     */
+    protected $_response = null;
+
+    /**
      * @param Goez_Response $response
      */
     public function setResponse(Goez_Response $response)
     {
         $this->_response = $response;
+    }
+
+    /**
+     * @return Goez_Response
+     */
+    public function getResponse()
+    {
+        return $this->_response;
     }
 
     /**
@@ -133,8 +146,7 @@ abstract class Goez_Controller
             if (!preg_match('/^[a-z]+?:\/\//i', $url)) {
                 $url = $this->_request->getBaseUrl() . '/' . ltrim($url, '/');
             }
-            header('Location: ' . $url);
-            exit;
+            $this->_response->setHeader('Location', $url);
         }
     }
 
@@ -146,14 +158,16 @@ abstract class Goez_Controller
      */
     public function setDownloadHeader($fileName = 'unnamed', $fileSize = null)
     {
-        header('Pragma: public');
-        header('Expires: 0');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i ') . ' GMT');
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Cache-Control: private', false);
-        header('Content-Type: application/octet-stream');
-        if ($fileSize) { header('Content-Length: ' . $fileSize); }
-        header('Content-Disposition: attachment; filename="' . $fileName . '";');
-        header('Content-Transfer-Encoding: binary');
+        $this->_response->setHeader('Pragma', 'public')
+                        ->setHeader('Expires', 0)
+                        ->setHeader('Last-Modified', gmdate('D, d M Y H:i ') . ' GMT')
+                        ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+                        ->setHeader('Cache-Control', 'private', false)
+                        ->setHeader('Content-Type', 'application/octet-stream')
+                        ->setHeader('Content-Disposition', 'attachment; filename="' . $fileName . '";')
+                        ->setHeader('Content-Transfer-Encoding', 'binary');
+        if ($fileSize) {
+            $this->_response->setHeader('Content-Length', $fileSize);
+        }
     }
 }

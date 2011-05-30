@@ -178,13 +178,10 @@ class Goez_Response
     {
         $this->sendHeaders();
         if ($this->isException() && $this->renderExceptions()) {
-            $exception = '';
-            foreach ($this->getExceptions() as $e) {
-                $exception .= $e->getMessage() . "\n";
-            }
-            echo $exception;
+            $this->displayException();
+        } else {
+            $this->outputBody();
         }
-        $this->outputBody();
     }
 
     /**

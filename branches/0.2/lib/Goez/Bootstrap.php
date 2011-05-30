@@ -264,7 +264,7 @@ class Goez_Bootstrap
     {
         if (isset($this->_config['db'])) {
             $db = Goez_Db::factory($this->_config['db']);
-            Goez_Model::setDefaultAdapter($db);
+            Goez_Db_Common::setDefaultAdapter($db);
         }
     }
 
@@ -304,6 +304,7 @@ class Goez_Bootstrap
         } catch (Exception $e) {
             $this->_response->setException($e);
         }
+        $this->_response->sendResponse();
     }
 
     /**
