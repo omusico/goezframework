@@ -17,8 +17,21 @@
  */
 class Goez_Response
 {
+    /**
+     * 標頭
+     *
+     * @var array
+     */
     protected $_headers = array();
 
+    /**
+     * 設定標頭
+     *
+     * @param string $name
+     * @param string $value
+     * @param bool $replace
+     * @return Goez_Response
+     */
     public function setHeader($name, $value, $replace = false)
     {
         $this->canSendHeaders(true);
@@ -42,6 +55,11 @@ class Goez_Response
         return $this;
     }
 
+    /**
+     * 傳送標頭
+     *
+     * @return Goez_Response
+     */
     public function sendHeaders()
     {
         if (count($this->_headers) || (200 != $this->_httpResponseCode)) {
@@ -69,15 +87,36 @@ class Goez_Response
         return $this;
     }
 
+    /**
+     * 是否為轉址
+     *
+     * @var bool
+     */
     protected $_isRedirect = false;
 
+    /**
+     * 是否為轉址
+     *
+     * @return bool
+     */
     public function isRedirect()
     {
         return $this->_isRedirect;
     }
 
-    protected $_httpResponseCode = '200';
+    /**
+     * HTTP 狀態回應碼
+     *
+     * @var int
+     */
+    protected $_httpResponseCode = 200;
 
+    /**
+     * HTTP 狀態回應碼
+     *
+     * @param int $code
+     * @return Goez_Response
+     */
     public function setHttpResponseCode($code)
     {
         if (!is_int($code) || (100 > $code) || (599 < $code)) {
@@ -94,11 +133,20 @@ class Goez_Response
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getHttpResponseCode()
     {
         return $this->_httpResponseCode;
     }
 
+    /**
+     * 是否可以傳送標頭
+     *
+     * @param bool $throw
+     * @return bool
+     */
     public function canSendHeaders($throw = false)
     {
         $ok = headers_sent($file, $line);
@@ -109,8 +157,20 @@ class Goez_Response
         return !$ok;
     }
 
+    /**
+     * 內容
+     *
+     * @var array
+     */
     protected $_body = array();
 
+    /**
+     * 設定內容
+     *
+     * @param string $content
+     * @param string $name
+     * @return Goez_Response
+     */
     public function setBody($content, $name = null)
     {
         if ((null === $name) || !is_string($name)) {
@@ -122,6 +182,13 @@ class Goez_Response
         return $this;
     }
 
+    /**
+     * 新增內容
+     *
+     * @param string $content
+     * @param string $name
+     * @return Goez_Response
+     */
     public function appendBody($content, $name = null)
     {
         if ((null === $name) || !is_string($name)) {
@@ -140,31 +207,50 @@ class Goez_Response
         return $this;
     }
 
+    /**
+     * 輸出內容
+     */
     public function outputBody()
     {
         $body = implode('', $this->_body);
         echo $body;
     }
 
+    /**
+     * @var array
+     */
     private $_exceptions = array();
-
-    private $_renderExceptions = false;
 
     public function setException(Exception $e)
     {
         $this->_exceptions[] = $e;
     }
 
+    /**
+     * @return array
+     */
     public function getExceptions()
     {
         return $this->_exceptions;
     }
 
+    /**
+     * @return bool
+     */
     public function isException()
     {
         return !empty($this->_exceptions);
     }
 
+    /**
+     * @var bool
+     */
+    private $_renderExceptions = true;
+
+    /**
+     * @param bool $flag
+     * @return bool
+     */
     public function renderExceptions($flag = null)
     {
         if (null !== $flag) {
@@ -174,14 +260,17 @@ class Goez_Response
         return $this->_renderExceptions;
     }
 
+    /**
+     * 輸出回應內容
+     *
+     */
     public function sendResponse()
     {
         $this->sendHeaders();
         if ($this->isException() && $this->renderExceptions()) {
-            $this->displayException();
-        } else {
-            $this->outputBody();
+            $this->_setExceptionContent();
         }
+        $this->outputBody();
     }
 
     /**
@@ -189,7 +278,7 @@ class Goez_Response
      *
      * @param bool $debug
      */
-    public function displayException($debug = false)
+    protected function _setExceptionContent($debug = false)
     {
         $this->setHeader('Content-Type', 'text/html; charset=utf-8');
         $body  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ';
@@ -202,7 +291,7 @@ class Goez_Response
             foreach ($this->getExceptions() as $e) {
                 $body .= '<p><strong>狀況： ' . $e->getMessage() . '</strong></p>';
                 $body .= '<p><strong>追蹤資訊：</strong></p>';
-                $body .= self::displayTrace($e->getTrace());
+                $body .= self::_displayTrace($e->getTrace());
             }
         } else {
             $body .= '<p>您提供的網址或是您的操作造成了系統無法正確回應。</p>';
@@ -217,7 +306,7 @@ class Goez_Response
      * @param array $traceList
      * @return string
      */
-    protected static function displayTrace($traceList)
+    protected static function _displayTrace($traceList)
     {
         $result = '';
         foreach ($traceList as $trace) {

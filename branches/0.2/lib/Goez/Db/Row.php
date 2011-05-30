@@ -9,7 +9,7 @@
  */
 
 /**
- * Row
+ * Database Table Row
  *
  * @package    Goez
  * @subpackage Goez_Db

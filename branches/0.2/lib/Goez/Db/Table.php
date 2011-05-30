@@ -9,13 +9,13 @@
  */
 
 /**
- * Model
+ * Database Table
  *
  * @package    Goez
  * @copyright  Copyright (c) 2008-2012 Wabow Information Inc. (http://www.wabow.com)
  * @license    New BSD License
  */
-class Goez_Model
+class Goez_Db_Table extends Goez_Db_Common
 {
     /**
      * @var Goez_Db
@@ -95,7 +95,7 @@ class Goez_Model
 
     /**
      * 初始化 (Hook)
-     * 
+     *
      */
     public function init()
     {
