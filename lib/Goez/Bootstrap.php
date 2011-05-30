@@ -52,7 +52,7 @@ class Goez_Bootstrap
     protected $_request = null;
 
     /**
-     * Request
+     * Response
      *
      * 用來處理 Header 與 Output
      *
@@ -85,8 +85,7 @@ class Goez_Bootstrap
         set_error_handler(array($bootstrapClass, 'exceptionErrorHandler'));
 
         $bootstrap = new $bootstrapClass($config);
-        $response = $bootstrap->_dispatch();
-        
+        $bootstrap->_dispatch();
 
         // 回復錯誤處理
         restore_error_handler();
@@ -119,7 +118,7 @@ class Goez_Bootstrap
      */
     protected static function _setDebugMode($config)
     {
-        self::$_debug = (isset($config['bootstrap']['debug'])) 
+        self::$_debug = (isset($config['bootstrap']['debug']))
                       ? (bool) $config['bootstrap']['debug']
                       : false;
     }
@@ -364,45 +363,4 @@ class Goez_Bootstrap
         return $className;
     }
 
-    /**
-     * 顯示異常
-     *
-     * @param Exception $e
-     */
-    public static function displayException(Exception $e)
-    {
-        header('Content-Type: text/html; charset=utf-8');
-        echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
-        '<html xmlns="http://www.w3.org/1999/xhtml">',
-        '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
-        '<title>程式發生錯誤</title></head><body>',
-        '<h1 style="color:#f33;">程式發生錯誤</h1>';
-        if (self::$_debug) {
-            echo '<p><strong>狀況： ', $e->getMessage(), '</strong></p>';
-            echo '<p><strong>追蹤資訊：</strong></p>';
-            echo self::displayTrace($e->getTrace());
-        } else {
-            echo '<p>您提供的網址或是您的操作造成了系統無法正確回應。</p>';
-        }
-        echo '</body></html>';
-    }
-
-    /**
-     * 顯示錯誤流程
-     *
-     * @param array $traceList
-     * @return string
-     */
-    protected static function displayTrace($traceList)
-    {
-        $result = '';
-        foreach ($traceList as $trace) {
-            $result .= '<pre style="border:1px solid #eee; background: #ffc; margin-left: 10px; padding: 5px; font-size: 12px;">';
-            foreach ($trace as $col => $value) {
-                $result .= '<strong>' . $col . '</strong>: ' . htmlspecialchars(print_r($value, true)) . "\n";
-            }
-            $result .= '</pre>';
-        }
-        return $result;
-    }
 }

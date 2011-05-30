@@ -11,6 +11,7 @@ class My_IndexController extends Goez_Controller
      */
     public function indexAction()
     {
+        trigger_error('test');
         $this->_view->renderTemplate('index.tpl.htm');
     }
 
