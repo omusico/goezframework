@@ -68,7 +68,7 @@ abstract class Goez_Db_Common
     {
         $this->setConfig($config);
         $this->_setup();
-        $this->init();
+        $this->_init();
     }
 
     /**
@@ -79,7 +79,10 @@ abstract class Goez_Db_Common
     /**
      * @param array $config
      */
-    abstract public function setConfig(array $config = array());
+    public function setConfig(array $config = array())
+    {
+        $this->_config = $config;
+    }
 
     /**
      * 設定資料庫連線
@@ -92,9 +95,9 @@ abstract class Goez_Db_Common
 
     /**
      * 初始化 (Hook)
-     * 
+     *
      */
-    public function init()
+    protected function _init()
     {
     }
 }

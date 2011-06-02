@@ -59,7 +59,7 @@ class Goez_Db
      * </code>
      *
      * 或是：
-     * 
+     *
      * <code>
      * $db = Goez_Db::factory(array(
      *     'driver' => 'mysql',
