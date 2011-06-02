@@ -24,6 +24,7 @@ class Goez_Router_Rewrite extends Goez_Router
      *
      * <code>
      * http://xxxxx/basedir/controller/action
+     * http://xxxxx/basedir/controller/action/param1/value1/param2/value2...
      * </code>
      *
      */
@@ -43,5 +44,13 @@ class Goez_Router_Rewrite extends Goez_Router
         $tickets = isset($matches[1]) ? explode('/', $matches[1]) : array ('', '');
         $this->_controller = ($tickets[0]) ? strtolower($tickets[0]) : 'index';
         $this->_action = (isset($tickets[1]) && $tickets[1]) ? strtolower($tickets[1]) : 'index';
+
+        unset($tickets[0]);
+        unset($tickets[1]);
+        $tickets = array_values($tickets);
+
+        for ($i = 0; $i < count($tickets); $i += 2) {
+            $this->_request->setParam($tickets[$i], $tickets[$i + 1]);
+        }
     }
 }
