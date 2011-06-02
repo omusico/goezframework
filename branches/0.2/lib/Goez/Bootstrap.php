@@ -203,6 +203,7 @@ class Goez_Bootstrap
     {
         $responseName = $this->_getClassInConfig('response', 'Goez_Response');
         $this->_response = new $responseName();
+        $this->_response->renderExceptions(self::$_debug);
     }
 
     /**
