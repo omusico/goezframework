@@ -2,7 +2,7 @@
 
 = 目錄 =
 
- * !Goez Framework 簡介
+ * Goez Framework 簡介
   * [Overview 概觀]
   * [Installation 下載與安裝]
  * 架構

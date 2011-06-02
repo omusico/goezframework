@@ -4,7 +4,7 @@
 
 ----
 
-= !Goez_Request HTTP 要求處理類別 =
+= Goez_Request HTTP 要求處理類別 =
 
 Request 類別主要把 Http Request 包裝起來，讓開發者能安心使用 `$_POST` 或是 `$_GET` 。
 
@@ -29,7 +29,7 @@ $html = $this->_request->getPost('html', false); // 取得 $_POST 原始資料
 
 使用 Request 要注意以下幾點：
 
- # !Goez Framework 預設是把 magic_quotes_gpc 關閉的，所以要小心 SQL Injection 的問題。
+ # Goez Framework 預設是把 magic_quotes_gpc 關閉的，所以要小心 SQL Injection 的問題。
  # Request 自動過濾是使用 PHP 原生的 strip_tags 。
 
 == 使用自訂的 Request ==

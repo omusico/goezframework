@@ -6,7 +6,7 @@
 
 = 自訂 View =
 
-雖然 !Goez Framework 是以 !Smarty 為核心，但我們還是可以抽換掉它。
+雖然 Goez Framework 是以 !Smarty 為核心，但我們還是可以抽換掉它。
 
 == 設定新引擎 ==
 

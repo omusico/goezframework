@@ -4,7 +4,7 @@
 
 ----
 
-= !Goez_Bootstrap 啟動器 =
+= Goez_Bootstrap 啟動器 =
 
 Bootstrap 主要的用途是初始化相關資源，並將要求派送給 Controller 。
 
@@ -30,7 +30,7 @@ Bootstrap 在載入設定檔後，會利用 Goez_Config 轉換成陣列；然後
 
 == 初始化 Router ==
 
-預設用 !Goez_Router_Rewrite 來解析網址，我們也可以在 "/goez/etc/config.ini" 中用以下設定來改變它：
+預設用 Goez_Router_Rewrite 來解析網址，我們也可以在 "/goez/etc/config.ini" 中用以下設定來改變它：
 
 {{{
 bootstrap.router = "Goez_Router"
