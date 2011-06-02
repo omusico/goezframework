@@ -6,7 +6,7 @@
 
 = 自訂 Bootstrap =
 
-假設開發者不想用 !GoEz Framework 內建的 Smarty 時，那麼在 0.1.1 版後，他可透過自訂 Bootstrap 來改用其他的 View 核心。
+假設開發者不想用 !Goez Framework 內建的 Smarty 時，那麼在 0.1.1 版後，他可透過自訂 Bootstrap 來改用其他的 View 核心。
 
 註： 0.1.2 版之後請改用[CustomView 自訂 View] 的方法。
 
@@ -18,7 +18,7 @@
 bootstrap.class = "My_Bootstrap"
 }}}
 
-這樣一來，我們在執行 `GoEz_Bootstrap::run()` 時，就會改用 `My_Bootstrap` 類別來初始化執行實體。
+這樣一來，我們在執行 `Goez_Bootstrap::run()` 時，就會改用 `My_Bootstrap` 類別來初始化執行實體。
 
 == 程式碼 ==
 
@@ -26,7 +26,7 @@ bootstrap.class = "My_Bootstrap"
 
 {{{
 <?php
-class My_Bootstrap extends GoEz_Bootstrap
+class My_Bootstrap extends Goez_Bootstrap
 {
     protected function _initView()
     {
@@ -39,7 +39,7 @@ class My_Bootstrap extends GoEz_Bootstrap
 
 {{{
 <?php
-class My_View extends GoEz_View
+class My_View extends Goez_View
 {
     public function getViewEngine()
     {

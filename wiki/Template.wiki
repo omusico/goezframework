@@ -6,7 +6,7 @@
 
 = 自訂樣版 =
 
-!GoEz Framework 是以 Smarty 為核心呈現引擎，主要的考量是因為 Smarty 在實際 Web 開發上有它一定的便利性。
+!Goez Framework 是以 Smarty 為核心呈現引擎，主要的考量是因為 Smarty 在實際 Web 開發上有它一定的便利性。
 
 == 樣版引擎設定 ==
 
@@ -47,11 +47,11 @@ $this->_view->renderTemplate('layout.tpl.htm'); // 直接輸出套用結果
 
 == 樣版語法 ==
 
-Smarty 所有樣版語法，都可以在 !GoEz Framework 的樣版裡使用。
+Smarty 所有樣版語法，都可以在 !Goez Framework 的樣版裡使用。
 
 因此，開發者可以直接參考 [http://www.smarty.net/manual/en/smarty.for.designers.php Smarty 語法]來開發自己的樣版。
 
-*要特別注意的是 !GoEz Framework 預設的 delimiter 分別是 '<%' 及 '%>' 。*
+*要特別注意的是 !Goez Framework 預設的 delimiter 分別是 '<%' 及 '%>' 。*
 
 ----
 

@@ -1,10 +1,10 @@
-#summary GoEz_Router 網址轉換類別
+#summary Goez_Router 網址轉換類別
 
 [TableOfContents 回目錄]
 
 ----
 
-= !GoEz_Router 網址轉換類別 =
+= !Goez_Router 網址轉換類別 =
 
 Router 主要目的是取得目前網址上的 controller 和 action 。
 
@@ -16,7 +16,7 @@ Router 主要目的是取得目前網址上的 controller 和 action 。
 http://server-name/base-url/?controller=controller-name&action=action-name
 }}}
 
-== !GoEz_Router_Rewrite ==
+== !Goez_Router_Rewrite ==
 
 這是預設的 Router ，它可以解析的網址格式為：
 
@@ -26,11 +26,11 @@ http://server-name/base-url/controller-name/action-name
 
 == 自訂 Router ==
 
-如果 !GoEz Framework 提供的 Router 都不是開發者想要的，那麼開發者也可以透過繼承 GoEz_Router ，並覆寫 _parseUrl() 方法來達成目的。例如：
+如果 !Goez Framework 提供的 Router 都不是開發者想要的，那麼開發者也可以透過繼承 Goez_Router ，並覆寫 _parseUrl() 方法來達成目的。例如：
 
 {{{
 <?php
-class My_Router extends GoEz_Router
+class My_Router extends Goez_Router
 {
     protected function _parseUrl()
     {

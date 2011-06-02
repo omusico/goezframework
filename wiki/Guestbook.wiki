@@ -6,7 +6,7 @@
 
 = 建立一個留言板 =
 
-接下來，我們用一個簡易留言板來展示 !GoEz Framework 的基本功能。
+接下來，我們用一個簡易留言板來展示 !Goez Framework 的基本功能。
 
 == 資料表 ==
 
@@ -49,7 +49,7 @@ db.pass = "123456"
  * 留言板
  *
  */
-class My_SampleController extends GoEz_Controller
+class My_SampleController extends Goez_Controller
 {
     /**
      * 留言板物件
@@ -235,7 +235,7 @@ var $fvars = <% $fvars|@json_encode %>;
 <% /if %>
 </div>
 <div id="footer">
-<p>Powered by <a href="http://code.google.com/p/goezframework/" target="_blank">GoEz Framework</a></p>
+<p>Powered by <a href="http://code.google.com/p/goezframework/" target="_blank">Goez Framework</a></p>
 </div>
 </div>
 </body>
@@ -291,7 +291,7 @@ var $fvars = <% $fvars|@json_encode %>;
 </form>
 </div>
 <div id="footer">
-<p>Powered by <a href="http://code.google.com/p/goezframework/" target="_blank">GoEz Framework</a></p>
+<p>Powered by <a href="http://code.google.com/p/goezframework/" target="_blank">Goez Framework</a></p>
 </div>
 </div>
 </body>

@@ -1,17 +1,17 @@
-#summary GoEz_Bootstrap 啟動器
+#summary Goez_Bootstrap 啟動器
 
 [TableOfContents 回目錄]
 
 ----
 
-= !GoEz_Bootstrap 啟動器 =
+= !Goez_Bootstrap 啟動器 =
 
 Bootstrap 主要的用途是初始化相關資源，並將要求派送給 Controller 。
 
 Bootstrap 的 run 方法提供了兩個參數：
 
 {{{
-GoEz_Bootstrap::run("INI 設定檔絕對路徑", "執行環境");
+Goez_Bootstrap::run("INI 設定檔絕對路徑", "執行環境");
 }}}
 
 其中 INI 設定檔預設為 "/goez/etc/config.ini"
@@ -26,23 +26,23 @@ SetEnv APP_ENV development
 
 == 載入設定檔 ==
 
-Bootstrap 在載入設定檔後，會利用 GoEz_Config 轉換成陣列；然後會依照開發者代入的 APP_ENV ，來選擇要使用的環境設定。
+Bootstrap 在載入設定檔後，會利用 Goez_Config 轉換成陣列；然後會依照開發者代入的 APP_ENV ，來選擇要使用的環境設定。
 
 == 初始化 Router ==
 
-預設用 !GoEz_Router_Rewrite 來解析網址，我們也可以在 "/goez/etc/config.ini" 中用以下設定來改變它：
+預設用 !Goez_Router_Rewrite 來解析網址，我們也可以在 "/goez/etc/config.ini" 中用以下設定來改變它：
 
 {{{
-bootstrap.router = "GoEz_Router"
+bootstrap.router = "Goez_Router"
 }}}
 
 == 初始化 Request ==
 
-預設用 GoEz_Request 來包裝 Http Request 。
+預設用 Goez_Request 來包裝 Http Request 。
 
 == 初始化 View ==
 
-GoEz_View 採用 Smarty 2.6 當做 Render engine 。
+Goez_View 採用 Smarty 2.6 當做 Render engine 。
 
 在這裡初始化時，會預先把 baseUrl 放在 $fvars 這個樣版陣列變數裡
 

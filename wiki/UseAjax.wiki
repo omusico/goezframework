@@ -6,7 +6,7 @@
 
 = 使用 Ajax =
 
-雖然 !GoEz Framework 沒有提供 Ajax 自動化的機制，但它還是儘可能將幾個可以處理 Ajax 方式整合了進來。
+雖然 !Goez Framework 沒有提供 Ajax 自動化的機制，但它還是儘可能將幾個可以處理 Ajax 方式整合了進來。
 
 == 判斷 request 是不是 Ajax ==
 
@@ -91,7 +91,7 @@ var $fvars = <% $fvars|@json_encode %>;
 
 這樣一來，開發者自訂的 !JavaScript 就可以使用 $fvars.abc 及 $fvars.def 兩個變數了。
 
-*而 $fvars.baseUrl 是 !GoEz Framework 預設提供的，不能更改。*
+*而 $fvars.baseUrl 是 !Goez Framework 預設提供的，不能更改。*
 
 ----
 

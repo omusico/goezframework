@@ -2,7 +2,7 @@
 
 = 目錄 =
 
- * !GoEz Framework 簡介
+ * !Goez Framework 簡介
   * [Overview 概觀]
   * [Installation 下載與安裝]
  * 架構
@@ -20,9 +20,9 @@
  * 範例
   * [Guestbook 建立一個留言板]
  * 元件
-  * [GoEz_Bootstrap GoEz_Bootstrap]
-  * [GoEz_Config GoEz_Config]
-  * [GoEz_Router GoEz_Router]
-  * [GoEz_Request GoEz_Request]
-  * [GoEz_View GoEz_View]
-  * [GoEz_Controller GoEz_Controller]
+  * [Goez_Bootstrap Goez_Bootstrap]
+  * [Goez_Config Goez_Config]
+  * [Goez_Router Goez_Router]
+  * [Goez_Request Goez_Request]
+  * [Goez_View Goez_View]
+  * [Goez_Controller Goez_Controller]

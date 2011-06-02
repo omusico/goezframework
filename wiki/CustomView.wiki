@@ -6,7 +6,7 @@
 
 = 自訂 View =
 
-雖然 !GoEz Framework 是以 !Smarty 為核心，但我們還是可以抽換掉它。
+雖然 !Goez Framework 是以 !Smarty 為核心，但我們還是可以抽換掉它。
 
 == 設定新引擎 ==
 
@@ -28,9 +28,9 @@ view.templatePath = APP_ROOT_PATH "/tpl"
 
 == 引擎轉接器寫法 ==
 
-上述的 `My_View_Savant2` 是一個 View 引擎轉接器，它必須實作 `GoEz_View_Engine` 這個介面。
+上述的 `My_View_Savant2` 是一個 View 引擎轉接器，它必須實作 `Goez_View_Engine` 這個介面。
 
-而實作 `GoEz_View_Engine` 介面則需要完成以下兩個方法：
+而實作 `Goez_View_Engine` 介面則需要完成以下兩個方法：
 
  * assign($name, $value)
  * fetch($file)
@@ -41,7 +41,7 @@ view.templatePath = APP_ROOT_PATH "/tpl"
 <?php
 require_once dirname(dirname(dirname(__FILE__))) . '/Savant2/Savant2.php';
 
-class My_View_Savant2 implements GoEz_View_Engine
+class My_View_Savant2 implements Goez_View_Engine
 {
     protected $_engine = null;
 

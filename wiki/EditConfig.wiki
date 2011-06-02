@@ -6,7 +6,7 @@
 
 = 修改設定檔 =
 
-!GoEz Framework 是以 INI 格式做為設定檔，主要是考量 PHP 有內建 parse_ini_file 這個相當方便的函式。
+!Goez Framework 是以 INI 格式做為設定檔，主要是考量 PHP 有內建 parse_ini_file 這個相當方便的函式。
 
 *註：*當然也可以直接使用陣列來當做設定，不過我個人偏好 INI 的寫法。
 
@@ -14,7 +14,7 @@
 
 在 ini 檔案中， `[xxx]` 稱為區段，它會包含它底下的設定項目，直到下一個 `[yyy]` 出現。
 
-對 !GoEz Framework 來說，每個區段都代表一個執行環境。
+對 !Goez Framework 來說，每個區段都代表一個執行環境。
 
 一個區段可以繼承一個已經定義過的區段，例如：
 
@@ -38,9 +38,9 @@ SetEnv APP_ENV development
 
 || *可設定項目* || *說明* || *範例或預設值* ||
 || `bootstrap.userNamespace` || 設定使用者類別庫的前置字串 (可省略底線) || `My_` (預設) ||
-|| `bootstrap.class` || 自訂 Bootstrap 類別 || `GoEz_Bootstrap` (預設) ||
-|| `bootstrap.router` || 自訂 Router 類別 || `GoEz_Router` (預設) ||
-|| `bootstrap.request` || 自訂 Request 類別 || `GoEz_Request` (預設) ||
+|| `bootstrap.class` || 自訂 Bootstrap 類別 || `Goez_Bootstrap` (預設) ||
+|| `bootstrap.router` || 自訂 Router 類別 || `Goez_Router` (預設) ||
+|| `bootstrap.request` || 自訂 Request 類別 || `Goez_Request` (預設) ||
 || `bootstrap.debug` || 是否要顯示除錯資訊 || on (預設) / off ||
 || `view.template_dir` || 定義 Smarty 樣版取得路徑 || `APP_ROOT_PATH "/tpl"` (預設) ||
 || `view.compile_dir` || 定義 Smarty 樣版編譯後的存放路徑 || `APP_ROOT_PATH "/tpl_c"` (預設) ||
