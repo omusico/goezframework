@@ -267,7 +267,7 @@ class Goez_Response
     public function sendResponse()
     {
         $this->sendHeaders();
-        if ($this->isException() && $this->renderExceptions()) {
+        if ($this->isException()) {
             $this->_setExceptionContent();
         }
         $this->outputBody();
@@ -278,7 +278,7 @@ class Goez_Response
      *
      * @param bool $debug
      */
-    protected function _setExceptionContent($debug = false)
+    protected function _setExceptionContent()
     {
         $this->setHeader('Content-Type', 'text/html; charset=utf-8');
         $body  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ';
@@ -287,7 +287,7 @@ class Goez_Response
         $body .= '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         $body .= '<title>程式發生錯誤</title></head><body>';
         $body .= '<h1 style="color:#f33;">程式發生錯誤</h1>';
-        if ($debug) {
+        if ($this->renderExceptions()) {
             foreach ($this->getExceptions() as $e) {
                 $body .= '<p><strong>狀況： ' . $e->getMessage() . '</strong></p>';
                 $body .= '<p><strong>追蹤資訊：</strong></p>';
