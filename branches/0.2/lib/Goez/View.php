@@ -153,7 +153,16 @@ class Goez_View
         $engine = $this->getViewEngine();
         $engine->assign($this->_vars);
         $engine->assign('fvars', $this->_fvars);
+        $oldErrorHandler = set_error_handler(array($this, 'emptyErrorHandler'));
         return $engine->fetch($file);
+        restore_error_handler();
+    }
+
+    /**
+     *
+     */
+    public function emptyErrorHandler()
+    {
     }
 
     /**
