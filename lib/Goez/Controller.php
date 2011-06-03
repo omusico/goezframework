@@ -133,6 +133,15 @@ abstract class Goez_Controller
     public function indexAction() {}
 
     /**
+     *
+     *
+     */
+    public function autoRender()
+    {
+
+    }
+
+    /**
      * 頁面重導向
      *
      * 如果代入的 url 不是一般的 http:// 網址，
@@ -146,7 +155,7 @@ abstract class Goez_Controller
             if (!preg_match('/^[a-z]+?:\/\//i', $url)) {
                 $url = $this->_request->getBaseUrl() . '/' . ltrim($url, '/');
             }
-            $this->_response->setHeader('Location', $url);
+            $this->_response->setRedirect($url);
         }
     }
 

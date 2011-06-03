@@ -88,6 +88,21 @@ class Goez_Response
     }
 
     /**
+     * 設定轉址
+     *
+     * @param string $url
+     * @param int $code
+     * @return Goez_Response
+     */
+    public function setRedirect($url, $code = 302)
+    {
+        $this->canSendHeaders(true);
+        $this->setHeader('Location', $url, true)
+             ->setHttpResponseCode($code);
+        return $this;
+    }
+
+    /**
      * 是否為轉址
      *
      * @var bool
@@ -266,10 +281,15 @@ class Goez_Response
      */
     public function sendResponse()
     {
-        $this->sendHeaders();
         if ($this->isException()) {
             $this->_setExceptionContent();
         }
+
+        $this->sendHeaders();
+        if ($this->isRedirect()) {
+            exit;
+        }
+
         $this->outputBody();
     }
 

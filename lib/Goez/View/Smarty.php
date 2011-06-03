@@ -68,6 +68,16 @@ class Goez_View_Smarty implements Goez_View_Engine
      */
     public function fetch($file)
     {
-        return $this->_engine->fetch($file);
+        $oldErrorHandler = set_error_handler(array($this, 'emptyErrorHandler'));
+        $result = $this->_engine->fetch($file);
+        restore_error_handler();
+        return $result;
+    }
+
+    /**
+     *
+     */
+    public function emptyErrorHandler()
+    {
     }
 }
