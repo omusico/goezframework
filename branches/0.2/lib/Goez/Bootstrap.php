@@ -301,6 +301,7 @@ class Goez_Bootstrap
             $this->_userController->beforeDispatch();
             $this->_userController->{$this->_getUserAction()}();
             $this->_userController->afterDispatch();
+            $this->_userController->autoRender();
         } catch (Exception $e) {
             $this->_response->setException($e);
         }

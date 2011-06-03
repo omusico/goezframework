@@ -50,7 +50,8 @@ class Goez_Router_Rewrite extends Goez_Router
         $tickets = array_values($tickets);
 
         for ($i = 0; $i < count($tickets); $i += 2) {
-            $this->_request->setParam($tickets[$i], $tickets[$i + 1]);
+            $value = isset($tickets[$i + 1]) ? $tickets[$i + 1] : null;
+            $this->_request->setParam($tickets[$i], $value);
         }
     }
 }

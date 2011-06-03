@@ -149,49 +149,51 @@ class Goez_Request
      * 取得 POST 值
      *
      * @param string $key
+     * @param string $default 預設值
      * @param bool $stripTags 設為 false 時會回傳原始的 POST 值，不會把 html tag 去掉
      * @return string
      */
-    public function getPost($key = null, $stripTags = true)
+    public function getPost($key = null, $default = null, $stripTags = true)
     {
         if (null === $key) {
             return $_POST;
         }
-        return isset($_POST[$key]) 
+        return isset($_POST[$key])
              ? ($stripTags ? strip_tags(trim($_POST[$key])) : trim($_POST[$key]))
-             : null;
+             : $default;
     }
 
     /**
      * 取得 GET 值
      *
      * @param string $key
+     * @param string $default 預設值
      * @param bool $stripTags 設為 false 時會回傳原始的 POST 值，不會把 html tag 去掉
      * @return string
      */
-    public function getQuery($key = null, $stripTags = true)
+    public function getQuery($key = null, $default = null, $stripTags = true)
     {
         if (null === $key) {
             return $_GET;
         }
-        return isset($_GET[$key]) 
+        return isset($_GET[$key])
              ? ($stripTags ? strip_tags(trim($_GET[$key])) : trim($_GET[$key]))
-             : null;
+             : $default;
     }
 
     /**
      * 取得 COOKIE 值
      *
      * @param string $key
-     * @param bool $stripTags 設為 false 時會回傳原始的 POST 值，不會把 html tag 去掉
+     * @param string $default 預設值
      * @return string
      */
-    public function getCookie($key = null)
+    public function getCookie($key = null, $default = null)
     {
         if (null === $key) {
             return $_COOKIE;
         }
-        return isset($_COOKIE[$key]) ? trim($_COOKIE[$key]) : null;
+        return isset($_COOKIE[$key]) ? trim($_COOKIE[$key]) : $default;
     }
 
     /**
@@ -218,9 +220,9 @@ class Goez_Request
      * @param string $key
      * @return mixed
      */
-    public function getParam($key)
+    public function getParam($key, $default = null)
     {
-        return isset($this->_params[$key]) ? $this->_params[$key] : null;
+        return isset($this->_params[$key]) ? $this->_params[$key] : $default;
     }
 
     /**

@@ -233,6 +233,22 @@ class Goez_Db_Select
     }
 
     /**
+     * 設定分頁
+     *
+     * @param int $page
+     * @param int $count
+     * @return Goez_Db_Select
+     */
+    public function limitPage($page, $count)
+    {
+        $page = ($page > 0) ? $page : 1;
+        $count = ($count > 0) ? $count : 1;
+        $this->_parts['LIMIT_COUNT']  = (int) $count;
+        $this->_parts['LIMIT_OFFSET'] = (int) $count * ($page - 1);
+        return $this;
+    }
+
+    /**
      * 轉換成 SQL 語法
      *
      * @return string
